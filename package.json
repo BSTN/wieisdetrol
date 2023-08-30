@@ -1,5 +1,6 @@
 {
   "private": true,
+  "name": "wieisdetrol",
   "version": "1.0.0",
   "scripts": {
     "build": "nuxt build",
