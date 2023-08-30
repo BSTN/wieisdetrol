@@ -105,7 +105,7 @@ export const useUserStore = defineStore('userStore', {
         console.log('Add User!', data)
       })
 
-      Socket.on('loadGroupData', (data: ) => {
+      Socket.on('loadGroupData', (data) => {
         this.started = data.started
         
         // todo: fix this
