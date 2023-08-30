@@ -1,8 +1,11 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { io } from "socket.io-client";
 import { UserState } from '~/types/userStore.d'
 import { identicon } from "minidenticons";
 import order from '~/content/order.yml'
+
+import type {userData} from '@/types/userStore.d.ts'
+
+const Socket = useSocket()
 
 function asyncEmit(func: string, data?:Object) {
   const Socket = useSocket()
@@ -26,7 +29,7 @@ export const useUserStore = defineStore('userStore', {
     creating: false,
     users: [],
     answers: [],
-    finished: [],
+    finished: {},
     started: []
   }),
   getters: {
@@ -72,16 +75,13 @@ export const useUserStore = defineStore('userStore', {
       }
       // TODO:
       if (route.query.id && user.groupid !== route.query.id) {
-        this.groupid = route.query.id || ''
+        this.groupid = String(route.query.id) || ''
         this.userid = ''
         this.name = ''
         this.answers = []
         this.position = 0
         this.saveToLocalStorage()
       }
-      // open socket
-      const Socket = useSocket()
-
       // connection status
       Socket.on('connect', function () {
         console.log('%c Socket connected.', 'color:yellow;')
@@ -97,7 +97,7 @@ export const useUserStore = defineStore('userStore', {
       });
       Socket.on('disconnect', function () { self.connected = false });
 
-      Socket.on('groupUserData', (data) => {
+      Socket.on('groupUserData', (data: Array<userData>) => {
         this.users = data
       })
 
@@ -105,8 +105,10 @@ export const useUserStore = defineStore('userStore', {
         console.log('Add User!', data)
       })
 
-      Socket.on('loadGroupData', (data) => {
+      Socket.on('loadGroupData', (data: ) => {
         this.started = data.started
+        
+        // todo: fix this
         for (let i in data.finished) {
           if (data.finished[i].includes(this.userid)) {
             if (!self.finished.includes(i)) { self.finished.push(i) }
@@ -149,14 +151,20 @@ export const useUserStore = defineStore('userStore', {
       })
 
       Socket.on('setFinished', ({ userid, name, groupid }) => {
-        if (!self.finished.includes(name)) {
-          self.finished.push(name)
+        if (!(name in self.finished)) {
+          self.finished[name] = []
+        }
+        if (!self.finished[name].includes(userid)) {
+          self.finished[name].push(userid)
         }
       })
 
       Socket.on('setUnFinished', ({ userid, name, groupid }) => {
-        if (self.finished.includes(name)) {
-          self.finished.splice(self.finished.indexOf(name), 1)
+        if (!(name in self.finished)) {
+          self.finished[name] = []
+        }
+        if (self.finished[name].includes(userid)) {
+          self.finished[name].splice(self.finished[name].indexOf(userid), 1)
         }
       })
       
@@ -179,14 +187,17 @@ export const useUserStore = defineStore('userStore', {
       const Socket = useSocket()
       Socket.emit('test')
     },
-    finish(name: String) {
-      if (!this.finished.includes(name)) {
+    finish(name: string) {
+      if (!(name in this.finished)) {
+        this.finished[name] = []
+      }
+      if (!this.finished[name].includes(this.userid)) {
         // add to finished
-        this.finished.push(name)
+        this.finished[name].push(this.userid)
       }
       // send to server
       const Socket = useSocket()
-      Socket.emit('finish', {userid: this.userid, groupid: this.groupid, name: name})
+      Socket.emit('finish', { userid: this.userid, groupid: this.groupid, name: name })
     },
     unFinish(name: String) {
       if (this.finished.includes(name)) {

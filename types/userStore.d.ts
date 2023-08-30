@@ -1,31 +1,35 @@
 import { Socket } from "socket.io-client";
 
 interface userData {
-  userid: String,
-  name: String,
+  userid: string,
+  name: string,
   answers: Array<Answers>
 }
 
 interface answer {
-  chapter: String,
+  chapter: string,
   k: Number,
   answer: any[]
+}
+
+interface finished {
+  [chapter: string]: Array<string>
 }
 
 export interface UserState {
   mounted: Boolean,
   loading: Boolean,
-  groupid?: String,
-  userid: String,
+  groupid?: string,
+  userid: string,
   position: Number,
-  name?: String,
+  name?: string,
   connected: Boolean,
   socket?: Socket<ServerToClientEvents, ClientToServerEvents>,
   creating: Boolean,
   users: Array<userData>
   answers: Array<answer>,
-  finished: Array<String>,
-  started: Array<String>
+  finished: finished,
+  started: Array<string>
 }
 
 interface ServerToClientEvents {

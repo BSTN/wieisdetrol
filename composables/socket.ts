@@ -1,10 +1,7 @@
-import { io } from "socket.io-client";
-let started = false
+import { io, Socket } from "socket.io-client";
+const config = useRuntimeConfig()
+const started: Socket<ServerToClientEvents, ClientToServerEvents> = io(config.public.URL + config.public.BASE)
 
 export const useSocket = () => {
-  const config = useRuntimeConfig()
-  if (!started) {
-    started = io(config.public.URL + config.public.BASE)
-  }
   return started
 }
