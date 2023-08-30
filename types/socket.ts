@@ -2,7 +2,7 @@ import type { userData } from './userStore.d.ts'
 
 interface ServerToClientEvents {
   groupUserData: (data:Array<userData>) => void;
-  loadGroupData: (data:) => void;
+  loadGroupData: (data) => void;
 }
 
 interface ClientToServerEvents {
