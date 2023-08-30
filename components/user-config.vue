@@ -30,7 +30,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { useUserStore } from "@/stores/userstore";
 import order from "@/content/order.yml";
 const user = useUserStore();
 const status = ref("");
