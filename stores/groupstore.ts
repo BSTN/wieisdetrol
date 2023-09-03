@@ -1,13 +1,18 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { GroupState } from '~/types/groupStore.d'
+import { GroupState } from '~/types/types'
 import { v4 as uuid } from "uuid";
+import { io, Socket } from "socket.io-client";
+import type { ServerToClientEvents, ClientToServerEvents } from "types/types";
+
 import order from '~/content/order.yml'
+
+let SOCK: Socket<ServerToClientEvents, ClientToServerEvents> = io('/', {autoConnect: false})
 
 export const useGroupStore = defineStore('groupStore', {
   state: (): GroupState => ({
     loading: true,
     connected: false,
-    groupid: undefined,
+    groupid: '[undefined]',
     position: 0,
     users: [],
     mounted: false,
@@ -16,7 +21,6 @@ export const useGroupStore = defineStore('groupStore', {
   }),
   actions: {
     async init() {
-      console.log('init group store')
       this.mounted = true
       // composable injection
       const { choose } = useNotify()
@@ -28,7 +32,7 @@ export const useGroupStore = defineStore('groupStore', {
       // load localstorage and check if group already exists
       const group = JSON.parse(localStorage.getItem('widt-group') || '{}')
       // TODO: group is valid for one day?
-      if (group && group.groupid && group.timestamp && group.timestamp > Date.now() - (24 * 60 * 60 * 1000)) {
+      // if (group && group.groupid && group.timestamp && group.timestamp > Date.now() - (24 * 60 * 60 * 1000)) {
         const choice = await choose(
           "Je bent op deze computer al eerder een groep begonnen. Wil je met deze groep doorgaan of een nieuwe groep starten?", { choices: ["nieuwe start", "doorgaan"] }
         );
@@ -45,94 +49,99 @@ export const useGroupStore = defineStore('groupStore', {
           const router = useRouter()
           router.push('/')
         }
-      } else {
-        // start over
-        this.position = 0;
-        this.users = []
-        this.finished = {}
-        this.started = []
-        // create group id
-        this.groupid = uuid();
-      }
+      // } else {
+      //   // start over
+      //   this.position = 0;
+      //   this.users = []
+      //   this.finished = {}
+      //   this.started = []
+      //   // create group id
+      //   this.groupid = uuid();
+      // }
 
-      const Socket = useSocket()
+      const config = useRuntimeConfig()
+      SOCK = io(config.public.URL + config.public.BASE)
 
       // connection status
-      Socket.on('connect', function() { 
+      SOCK.on('connect', function () { 
         self.connected = true 
         // always join room on connect
-        Socket.emit('joinRoom', { groupid: self.groupid })
+        SOCK.emit('joinRoom', { groupid: self.groupid })
         // retrieve all user data
-        Socket.emit('getAllUserData', { groupid: self.groupid })
+        SOCK.emit('getAllUserData', { groupid: self.groupid })
         // retrieve all user data
-        Socket.emit('getGroupData', { groupid: self.groupid })
+        SOCK.emit('getGroupData', { groupid: self.groupid })
       });
       // notifications:
-      Socket.on('error', function () {
+      SOCK.on('error', function () {
         console.warn('ERROR!')
       })
-      Socket.on('ping', function () {
+      SOCK.on('ping', function () {
         console.warn('ping!')
       })
-      Socket.on('reconnect', function () {
+      SOCK.on('reconnect', function () {
         console.warn('reconnect!')
       })
-      Socket.on('reconnect_attempt', function () {
+      SOCK.on('reconnect_attempt', function () {
         console.warn('reconnect_attempt!')
       })
-      Socket.on('reconnect_error', function () {
+      SOCK.on('reconnect_error', function () {
         console.warn('reconnect_error!')
       })
-      Socket.on('reconnect_failed', function () {
+      SOCK.on('reconnect_failed', function () {
         console.warn('reconnect failed!')
       })
-      // goto url
-      Socket.on('goto', (position) => {
+
+      // custom events
+      SOCK.on('goto', (position) => {
         const router = useRouter()
         if (order[position].group !== null) {
           router.push('/groep/' + order[position].group)
           self.position = position
         }
       })
-
-      // addUser
-      Socket.on('addUser', ({ userid, name }) => {
+      SOCK.on('addUser', ({ userid, groupid, name }) => {
         // check if user exists
-        this.users.push({userid, name, answers: []})
+        this.users.push({userid, groupid, name, answers: {}})
       })
-      // receive groupUserData
-      Socket.on('groupUserData', (data) => {
+      SOCK.on('groupUserData', (data) => {
         this.users = data
       })
-      // receive groupData
-      Socket.on('loadGroupData', (data) => {
+      SOCK.on('loadGroupData', (data) => {
         if (data.finished) { this.finished = data.finished }
         if (data.started) { this.started = data.started }
       })
-
-      Socket.on('setStartChapter', ({ userid, name, groupid }) => {
+      SOCK.on('setStartChapter', ({ userid, name, groupid }) => {
         if (!self.started.includes(name)) {
           self.started.push(name)
         }
       })
-
-      Socket.on('setUnStartChapter', ({ userid, name, groupid }) => {
+      SOCK.on('setUnStartChapter', ({ userid, name, groupid }) => {
         if (self.started.includes(name)) {
           self.started.splice(self.started.indexOf(name), 1)
         }
       })
-
-      Socket.on('setFinished', ({ userid, name, groupid }) => {
+      SOCK.on('setFinished', ({ userid, name, groupid }) => {
         if (!(name in self.finished)) { self.finished[name] = [userid] }
         if (!self.finished[name].includes(userid)) { self.finished[name].push(userid) }
       })
-
-      Socket.on('setUnFinished', ({ userid, name, groupid }) => {
+      SOCK.on('setUnFinished', ({ userid, name, groupid }) => {
         if (!(name in self.finished)) { self.finished[name] = [] }
         if (self.finished[name].includes(userid)) { self.finished[name].splice(self.finished[name].indexOf(userid), 1) }
       })
-
-      Socket.on('updateAnswer', ({ userid, chapter, k, answer }) => {
+      SOCK.on('setDone', ({ userid, chapter, groupid }) => {
+        const user = this.users.find(x => x.userid === userid)
+        if (user && user.done.includes(chapter)) {
+          user.done.push(chapter)
+        }
+      })
+      SOCK.on('setUnDone', ({ userid, chapter, groupid }) => {
+        const user = this.users.find(x => x.userid === userid)
+        if (user && user.done.includes(chapter)) {
+          user.done.splice(user.done.indexOf(chapter), 1)
+        }
+      })
+      SOCK.on('updateAnswer', ({ userid, chapter, k, answer }) => {
         const user = self.users.find(x => x.userid === userid)
         if (user) {
           if (!user.answers) { user.answers = {} }
@@ -140,44 +149,33 @@ export const useGroupStore = defineStore('groupStore', {
           user.answers[chapter][k] = answer
         }
       })
-
-      Socket.on('grouptest', (data) => {
-        console.log('grouptest', data)
-      })
       
       // do something?
-      Socket.on('disconnect', function() { self.connected = false });
+      SOCK.on('disconnect', function() { self.connected = false });
       
       this.loading = false
 
       this.saveToLocalStorage()
       
     },
-    startChapter (name: String) {
-      const Socket = useSocket()
-      Socket.emit('startChapter', {groupid: this.groupid, name})
+    startChapter (name: string) {
+      SOCK.emit('startChapter', {groupid: this.groupid, name})
     },
-    unStartChapter (name: String) {
-      const Socket = useSocket()
-      Socket.emit('unStartChapter', {groupid: this.groupid, name})
+    unStartChapter (name: string) {
+      SOCK.emit('unStartChapter', {groupid: this.groupid, name})
     },
     reset() {
       this.groupid = uuid();
       this.saveToLocalStorage()
     },
     prev() {
-      const Socket = useSocket()
-      Socket.emit('prev', { groupid: this.groupid})
+      SOCK.emit('prev', { groupid: this.groupid})
     },
-    next(position?:Number) {
-      const Socket = useSocket()
-      Socket.emit('next', { groupid: this.groupid, position }, () => {
-        // console.log('callback!')
-      })
+    next(position?:number) {
+      SOCK.emit('next', { groupid: this.groupid, position })
     },
     test () {
-      const Socket = useSocket()
-      Socket.emit('test', {data: 'testdata'})
+      SOCK.emit('test', {data: 'testdata'})
     },
     saveToLocalStorage() {
       if (this.groupid) {

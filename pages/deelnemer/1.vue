@@ -1,7 +1,7 @@
 <template>
   <div class="user-chapter1" v-if="!user.loading">
-    <userPause v-if="!started || finished"></userPause>
-    <div v-if="started && !finished" class="comments">
+    <userPause v-if="!started || done"></userPause>
+    <div v-if="started && !done" class="comments">
       <div
         v-for="(comment, k) in questions.chapter1"
         class="comment"
@@ -28,8 +28,8 @@
         </div>
       </div>
     </div>
-    <div class="done" v-if="!finished">
-      <button class="contrast" @click="user.finish('chapter1')">
+    <div class="done" v-if="!done">
+      <button class="contrast" @click="user.setDone('chapter1')">
         Klik hier als je klaar bent!
       </button>
       <!-- <button class="contrast" @click="user.unFinish('chapter1')">
@@ -48,8 +48,8 @@ const { getAnswer, getChapterPosition } = storeToRefs(user);
 const started = computed(() =>
   user.started ? user.started.includes("chapter1") : false
 );
-const finished = computed(() =>
-  user.finished ? user.finished.includes("chapter1") : false
+const done = computed(() =>
+  user.done ? user.done.includes("chapter1") : false
 );
 </script>
 <style lang="less" scoped>

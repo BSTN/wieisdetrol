@@ -1,16 +1,15 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { UserState } from '~/types/userStore.d'
+import { UserState } from '~/types/types'
 import { identicon } from "minidenticons";
+import { io, Socket } from "socket.io-client";
+import type { ServerToClientEvents, ClientToServerEvents, USER, Answer } from "types/types";
 import order from '~/content/order.yml'
 
-import type {userData} from '@/types/userStore.d.ts'
+let SOCK: Socket<ServerToClientEvents, ClientToServerEvents> = io('/', {autoConnect: false})
 
-const Socket = useSocket()
-
-function asyncEmit(func: string, data?:Object) {
-  const Socket = useSocket()
+function asyncEmit(func: keyof ClientToServerEvents, data?:any) {
   return new Promise((resolve) => {
-    Socket.emit(func, data, (returnData?:[Object,Boolean,string]) => {
+    SOCK.emit(func, data, (returnData?:[object,boolean,string]) => {
       resolve(returnData)
     })
   })
@@ -21,19 +20,19 @@ export const useUserStore = defineStore('userStore', {
     mounted: false,
     loading: true,
     connected: false,
-    groupid: '',
+    groupid: '[undefined]',
     userid: '',
     name: '',
     position: 0,
-    socket: undefined,
     creating: false,
     users: [],
-    answers: [],
-    finished: {},
+    answers: {},
+    done: [],
+    finished: [],
     started: []
   }),
   getters: {
-    icon(state): String {
+    icon(state): string {
       return state.userid ? identicon(state.userid, 50, 50) : '';
     },
     user(state) {
@@ -43,17 +42,13 @@ export const useUserStore = defineStore('userStore', {
       }
     },
     getAnswer(state) {
-      return ({ chapter, k }:{chapter:String, k: Number}) => {
-        const found = state.answers.find(x => x.chapter === chapter && x.k === k)
-        if (found === undefined) { return null }
-        return found.answer
+      return ({ chapter, k }:{chapter:string, k: number}) => {
+        return state.answers[chapter][k]
       }
     },
     getChapterPosition(state) {
-      return (chapter: String) => {
-        const index = state.answers.findLastIndex(x => x.chapter === chapter) 
-        if (index === -1) return 0
-        return index + 1
+      return (chapter: string) => {
+        return state.answers[chapter] ? state.answers[chapter].length - 1 : 0
       }
     }
   },
@@ -75,49 +70,53 @@ export const useUserStore = defineStore('userStore', {
       }
       // TODO:
       if (route.query.id && user.groupid !== route.query.id) {
-        this.groupid = String(route.query.id) || ''
+        this.groupid = String(route.query.id) || '[undefined]'
         this.userid = ''
         this.name = ''
-        this.answers = []
+        this.answers = {}
         this.position = 0
         this.saveToLocalStorage()
       }
+      // init socket
+      const config = useRuntimeConfig()
+      SOCK = io(config.public.URL + config.public.BASE)
+      
       // connection status
-      Socket.on('connect', function () {
+      SOCK.on('connect', function () {
         console.log('%c Socket connected.', 'color:yellow;')
         // join the room
-        if (self.groupid !== '' && self.userid !== '') {
-          Socket.emit('joinRoom', {
+        if (self.groupid !== '[undefined]' && self.userid !== '') {
+          SOCK.emit('joinRoom', {
             groupid: self.groupid,
             userid: self.userid
           })
         }
-        Socket.emit('getGroupData', {groupid: self.groupid})
+        SOCK.emit('getGroupData', {groupid: self.groupid})
         self.connected = true
       });
-      Socket.on('disconnect', function () { self.connected = false });
+      SOCK.on('disconnect', function () { self.connected = false });
 
-      Socket.on('groupUserData', (data: Array<userData>) => {
+      SOCK.on('groupUserData', (data: Array<USER>) => {
         this.users = data
       })
 
-      Socket.on('addUser', (data) => {
+      SOCK.on('addUser', (data) => {
         console.log('Add User!', data)
       })
 
-      Socket.on('loadGroupData', (data) => {
+      SOCK.on('loadGroupData', (data) => {
         this.started = data.started
         
         // todo: fix this
-        for (let i in data.finished) {
-          if (data.finished[i].includes(this.userid)) {
-            if (!self.finished.includes(i)) { self.finished.push(i) }
-          }
-        }
+        // for (let i in data.finished) {
+        //   if (data.finished[i].includes(this.userid)) {
+        //     if (!self.finished.includes(i)) { self.finished.push(i) }
+        //   }
+        // }
       })
 
       // message from socketmaster
-      Socket.on("goto", (position) => {
+      SOCK.on("goto", (position) => {
         // console.log('goto', position, order[position].user)
         console.log('goto', position)
         const router = useRouter()
@@ -126,50 +125,28 @@ export const useUserStore = defineStore('userStore', {
         // navigateTo(order[position].user)
       });
 
-      Socket.on('alert', (message) => {
-        const { alert } = useNotify()
-        alert(message)
-      })
-
-      Socket.on('userCreated', ({userid,name}) => {
-        self.creating = false
-        self.userid = userid
-        self.name = name
-        self.saveToLocalStorage()
-      })
-
-      Socket.on('setStartChapter', ({ userid, name, groupid }) => {
+      SOCK.on('setStartChapter', ({ name, groupid }) => {
         if (!self.started.includes(name)) {
           self.started.push(name)
         }
       })
 
-      Socket.on('setUnStartChapter', ({ userid, name, groupid }) => {
+      SOCK.on('setUnStartChapter', ({ name, groupid }) => {
         if (self.started.includes(name)) {
           self.started.splice(self.started.indexOf(name), 1)
         }
       })
 
-      Socket.on('setFinished', ({ userid, name, groupid }) => {
-        if (!(name in self.finished)) {
-          self.finished[name] = []
-        }
-        if (!self.finished[name].includes(userid)) {
-          self.finished[name].push(userid)
+      SOCK.on('setFinished', ({ userid, name, groupid }) => {
+        if (!self.finished.includes(name)) {
+          self.finished.push(name)
         }
       })
 
-      Socket.on('setUnFinished', ({ userid, name, groupid }) => {
-        if (!(name in self.finished)) {
-          self.finished[name] = []
+      SOCK.on('setUnFinished', ({ userid, name, groupid }) => {
+        if (self.finished.includes(name)) {
+          self.finished.splice(self.finished.indexOf(name), 1)
         }
-        if (self.finished[name].includes(userid)) {
-          self.finished[name].splice(self.finished[name].indexOf(userid), 1)
-        }
-      })
-      
-      Socket.on('grouptest', (data) => {
-        console.log('grouptest', data)
       })
 
       this.loading = false
@@ -177,45 +154,41 @@ export const useUserStore = defineStore('userStore', {
       this.saveToLocalStorage()
       
     },
-    tempIcon(id: String) {
+    tempIcon(id: string) {
       return id ? identicon(id, 50, 50) : '';
     },
-    setGroupid(id: String) {
+    setGroupid(id: string) {
       this.groupid = id
     },
     test() {
-      const Socket = useSocket()
-      Socket.emit('test')
+      SOCK.emit('test')
     },
-    finish(name: string) {
-      if (!(name in this.finished)) {
-        this.finished[name] = []
-      }
-      if (!this.finished[name].includes(this.userid)) {
-        // add to finished
-        this.finished[name].push(this.userid)
-      }
-      // send to server
-      const Socket = useSocket()
-      Socket.emit('finish', { userid: this.userid, groupid: this.groupid, name: name })
+    async setDone(chapter: string) {
+      if (!this.done.includes(chapter)) { this.done.push(chapter) }
+      SOCK.emit('setDone', { groupid: this.groupid, userid: this.userid, chapter})
     },
-    unFinish(name: String) {
-      if (this.finished.includes(name)) {
-        this.finished.splice(this.finished.indexOf(name), 1)  
+    async setUnDone(chapter: string) {
+      if (this.done.includes(chapter)) {
+        this.done.splice(this.done.indexOf(chapter), 1)
       }
-      const Socket = useSocket()
-      Socket.emit('unFinish', { userid: this.userid, groupid: this.groupid, name: name })
+      SOCK.emit('setUnDone', { groupid: this.groupid, userid: this.userid, chapter})
     },
-    async setAnswer({ chapter, k, answer }:{chapter:String, k:Number, answer:any}) {
-      const key = this.answers.findIndex(x => x.chapter === chapter && x.k === k)
-      if (key === -1) {
-        this.answers.push({chapter, k, answer})
-      } else {
-        this.answers[key] = { chapter, k, answer }
-      }
+    async setAnswer({ chapter, k, answer }: { chapter: string, k: number, answer: Answer }) {
+      // create array if not exist
+      if (!(chapter in this.answers)) { this.answers[chapter] = [] }
+      // set answer locally
+      this.answers[chapter][k] = answer
+      // store locally
       this.saveToLocalStorage()
-      const Socket = useSocket()
-      await Socket.emit('setAnswer', {groupid: this.groupid, userid: this.userid, chapter, k, answer, name: this.name})
+      // write to server
+      SOCK.emit('setAnswer', {
+        groupid: this.groupid,
+        userid: this.userid,
+        name: this.name,
+        chapter,
+        k,
+        answer
+      })
     },
     async reset() {
       // sure ?
@@ -227,7 +200,7 @@ export const useUserStore = defineStore('userStore', {
         if (done) {
           this.userid = '';
           this.name = '';
-          this.answers = [];
+          this.answers = {}
           this.saveToLocalStorage()
           const router = useRouter()
           router.push('/') // to landing page?
@@ -236,10 +209,16 @@ export const useUserStore = defineStore('userStore', {
     },
     saveToLocalStorage() {
       if (this.groupid) {
-        localStorage.setItem('widt-user', JSON.stringify({ groupid: this.groupid, userid: this.userid, name: this.name, answers: this.answers, timestamp: Date.now() }))
+        localStorage.setItem('widt-user', JSON.stringify({
+          groupid: this.groupid,
+          userid: this.userid,
+          name: this.name,
+          answers: this.answers,
+          timestamp: Date.now()
+        }))
       }
     },
-    async createUser({ name, userid }:{ name: String, userid: String }) {
+    async createUser({ name, userid }:{ name: string, userid: string }) {
       const self = this
       if (!name || name.trim() === '') {
         const { alert } = useNotify()

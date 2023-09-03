@@ -1,14 +1,14 @@
 <template>
   <div class="user-chapter-5">
-    <userPause v-if="!started || finished"></userPause>
-    <div class="questions" v-if="!finished">
+    <userPause v-if="!started || done"></userPause>
+    <div class="questions" v-if="!done">
       <div class="q" v-for="(q, k) in questions.chapter5">
         <div class="commentbox">{{ q.text }}</div>
         <botSlider :number="k" chapter="chapter5" @change="update"></botSlider>
       </div>
     </div>
-    <div class="done" v-if="!finished">
-      <button class="contrast" @click="user.finish('chapter5')">
+    <div class="done" v-if="!done">
+      <button class="contrast" @click="user.setDone('chapter5')">
         Klik hier als je klaar bent!
       </button>
     </div>
@@ -21,14 +21,14 @@ const user = useUserStore();
 const value = 0;
 const { getAnswer } = storeToRefs(user);
 
-function update({ data, k }) {
+function update({ data, k }: { data: any; k: number }) {
   user.setAnswer({ chapter: "chapter5", k, answer: data });
 }
 const started = computed(() =>
   user.started ? user.started.includes("chapter5") : false
 );
-const finished = computed(() =>
-  user.finished ? user.finished.includes("chapter5") : false
+const done = computed(() =>
+  user.done ? user.done.includes("chapter5") : false
 );
 </script>
 <style lang="less" scoped>

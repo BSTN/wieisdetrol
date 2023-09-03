@@ -1,7 +1,7 @@
 <template>
   <div class="user-chapter-2">
-    <userPause v-if="!started || finished"></userPause>
-    <div class="questions" v-if="started && !finished">
+    <userPause v-if="!started || done"></userPause>
+    <div class="questions" v-if="started && !done">
       <div class="item" v-for="(q, k) in questions.chapter2">
         <div class="name"><icon icon="user"></icon>{{ q.name }}</div>
         <div class="comments">
@@ -28,8 +28,8 @@
           </button>
         </div>
       </div>
-      <div class="done" v-if="!finished">
-        <button class="contrast" @click="user.finish('chapter2')">
+      <div class="done" v-if="!done">
+        <button class="contrast" @click="user.setDone('chapter2')">
           Klik hier als je klaar bent!
         </button>
       </div>
@@ -44,8 +44,8 @@ const { getAnswer } = storeToRefs(user);
 const started = computed(() =>
   user.started ? user.started.includes("chapter2") : false
 );
-const finished = computed(() =>
-  user.finished ? user.finished.includes("chapter2") : false
+const done = computed(() =>
+  user.done ? user.done.includes("chapter2") : false
 );
 </script>
 <style lang="less" scoped>
