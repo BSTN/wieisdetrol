@@ -124,7 +124,6 @@ export const useGroupStore = defineStore('groupStore', {
       SOCK.on('setFinished', ({ userid, chapter, groupid }) => {
         // if (!(chapter in self.finished)) { self.finished[chapter] = [userid] }
         // if (!self.finished[chapter].includes(userid)) { self.finished[chapter].push(userid) }
-        // actually some changes?
       })
       SOCK.on('setUnFinished', ({ userid, name, groupid }) => {
         if (!(name in self.finished)) { self.finished[name] = [] }
