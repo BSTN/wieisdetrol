@@ -111,19 +111,19 @@ export const useGroupStore = defineStore('groupStore', {
         if (data.finished) { this.finished = data.finished }
         if (data.started) { this.started = data.started }
       })
-      SOCK.on('setStartChapter', ({ userid, name, groupid }) => {
-        if (!self.started.includes(name)) {
-          self.started.push(name)
+      SOCK.on('setStartChapter', ({ chapter, groupid }) => {
+        if (!self.started.includes(chapter)) {
+          self.started.push(chapter)
         }
       })
-      SOCK.on('setUnStartChapter', ({ userid, name, groupid }) => {
-        if (self.started.includes(name)) {
-          self.started.splice(self.started.indexOf(name), 1)
+      SOCK.on('setUnStartChapter', ({ chapter, groupid }) => {
+        if (self.started.includes(chapter)) {
+          self.started.splice(self.started.indexOf(chapter), 1)
         }
       })
-      SOCK.on('setFinished', ({ userid, name, groupid }) => {
-        if (!(name in self.finished)) { self.finished[name] = [userid] }
-        if (!self.finished[name].includes(userid)) { self.finished[name].push(userid) }
+      SOCK.on('setFinished', ({ userid, chapter, groupid }) => {
+        // if (!(chapter in self.finished)) { self.finished[chapter] = [userid] }
+        // if (!self.finished[chapter].includes(userid)) { self.finished[chapter].push(userid) }
       })
       SOCK.on('setUnFinished', ({ userid, name, groupid }) => {
         if (!(name in self.finished)) { self.finished[name] = [] }
