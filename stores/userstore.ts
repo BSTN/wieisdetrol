@@ -29,7 +29,8 @@ export const useUserStore = defineStore('userStore', {
     answers: {},
     done: [],
     finished: [],
-    started: []
+    started: [],
+    showResults: []
   }),
   getters: {
     icon(state): string {
@@ -119,6 +120,7 @@ export const useUserStore = defineStore('userStore', {
         
         self.finished = data.finished
         self.started = data.started
+        self.showResults = data.showResults
         
         for (let i in data.users) {
           if (data.users[i].userid === self.userid) {
@@ -167,6 +169,13 @@ export const useUserStore = defineStore('userStore', {
         if (self.finished.includes(chapter)) {
           self.finished.splice(self.finished.indexOf(chapter), 1)
         }
+      })
+
+      SOCK.on('setShowResults', ({ groupid, chapter }) => {
+        if (!self.showResults.includes(chapter)) { self.showResults.push(chapter)}
+      })
+      SOCK.on('setUnShowResults', ({ groupid, chapter }) => {
+        if (self.showResults.includes(chapter)) { self.showResults.splice(self.showResults.indexOf(chapter), 1)}
       })
 
       SOCK.on('setDone', ({ chapter, userid }) => {

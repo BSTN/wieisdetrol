@@ -15,8 +15,12 @@
     <div class="results" v-if="results">
       Hier komen alle reacties, gesorteerd op score.
     </div>
-    <button @click="results = true" v-if="!results">
+    {{ group.showResults }}
+    <button @click="group.setShowResults('chapter6')">
       vergelijk resultaten
+    </button>
+    <button @click="group.setShowResults('chapter6')">
+      unsetShowResults resultaten
     </button>
     <div class="next" v-if="results">
       <button @click="group.next()">naar het einde</button>

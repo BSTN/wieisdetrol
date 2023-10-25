@@ -17,13 +17,15 @@
     ></videoPlayer>
 
     <!-- PROGRESS -->
-    <ChapterProgress chapter="chapter1" v-if="!results"></ChapterProgress>
-    <button @click="results = true" v-if="!results">
+    <ChapterProgress chapter="chapter1" v-if="!group.showResults.includes('chapter1')"></ChapterProgress>
+    <button @click="group.setShowResults('chapter1')" v-if="!group.showResults.includes('chapter1')">
       vergelijk resultaten
     </button>
-
+    <button @click="group.setUnShowResults('chapter1')" v-if="group.showResults.includes('chapter1')">
+      verberg resultaten
+    </button>
     <!-- RESULTS -->
-    <div class="results" v-if="results">
+    <div class="results" v-if="group.showResults.includes('chapter1')">
       <div class="qcontainer">
         <div class="q" v-for="(q, k) in list" :key="q.key">
           <div class="splitbox">
@@ -37,7 +39,7 @@
           <div class="text commentbox">{{ q.comment }}</div>
         </div>
       </div>
-      <div class="next">
+      <div class="next" v-if="group.showResults.includes('chapter1')">
         <button @click="group.next()">volgende hoofdstuk</button>
       </div>
     </div>

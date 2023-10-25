@@ -32,7 +32,7 @@
         </div>
 
         <!-- ANSWERS -->
-        <div class="answers">
+        <div class="answers" v-if="user.showResults.includes('chapter1')">
           jouw antwoord: {{ getAnswer({chapter: 'chapter1', k}) ? 'verwijderen' : 'toelaten'}}
         </div>
       </div>
