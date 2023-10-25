@@ -16,8 +16,9 @@ export const useGroupStore = defineStore('groupStore', {
     position: 0,
     users: [],
     mounted: false,
-    finished: {},
-    started: []
+    finished: [],
+    started: [],
+    showResults: []
   }),
   actions: {
     async init() {
@@ -130,6 +131,12 @@ export const useGroupStore = defineStore('groupStore', {
         if (!(name in self.finished)) { self.finished[name] = [] }
         if (self.finished[name].includes(userid)) { self.finished[name].splice(self.finished[name].indexOf(userid), 1) }
       })
+      SOCK.on('setShowResults', ({ groupid, chapter }) => {
+        if (!self.showResults.includes(chapter)) { self.showResults.push(chapter)}
+      })
+      SOCK.on('setUnShowResults', ({ groupid, chapter }) => {
+        if (self.showResults.includes(chapter)) { self.showResults.splice(self.showResults.indexOf(chapter), 1)}
+      })
       SOCK.on('setDone', ({ userid, chapter, groupid }) => {
         console.log('setDONE', userid, groupid, chapter)
         const user = this.users.find(x => x.userid === userid)
@@ -165,6 +172,12 @@ export const useGroupStore = defineStore('groupStore', {
     },
     unStartChapter (name: string) {
       SOCK.emit('unStartChapter', {groupid: this.groupid, chapter: name})
+    },
+    setShowResults (chapter: string) {
+      SOCK.emit('setShowResults', {groupid: this.groupid, chapter})
+    },
+    setUnShowResults (chapter: string) {
+      SOCK.emit('setUnShowResults', {groupid: this.groupid, chapter})
     },
     reset() {
       this.groupid = uuid();
