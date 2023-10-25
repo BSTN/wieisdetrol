@@ -1,7 +1,10 @@
 <template>
   <div class="user-chapter-3">
-    <userPause v-if="!started || done"></userPause>
-    <div class="questions" v-if="!done">
+     <!-- PAUSE -->
+    <userPause v-if="!started"></userPause>
+
+    <!-- VRAGEN -->
+    <div class="questions">
       <div class="question">
         Welk label vind je het beste van toepassing bij de volgende reacties?
       </div>
@@ -9,7 +12,7 @@
         <div class="commentbox">
           {{ q.text }}
         </div>
-        <div class="options">
+        <div class="options" v-if="!done">
           <button
             v-for="label in questions['chapter3-labels']"
             @click="user.setAnswer({ chapter: 'chapter3', k, answer: label })"
@@ -20,8 +23,15 @@
             {{ label }}
           </button>
         </div>
+        <div class="allanswers" v-if="done">
+          <button v-for="label in questions['chapter3-labels']" :class="{active: getAnswer({ chapter: 'chapter3', k }) === label}">
+            <span>{{ count(label,k) }}</span> {{ label }} 
+          </button>
+        </div>
       </div>
     </div>
+
+    <!-- DONE -->
     <div class="done" v-if="!done">
       <button class="contrast" @click="user.setDone('chapter3')">
         Klik hier als je klaar bent!
@@ -40,9 +50,19 @@ const started = computed(() =>
 const done = computed(() =>
   user.done ? user.done.includes("chapter3") : false
 );
+function count(label:string,k:number) { 
+  let count = 0
+  user.users.map(userx => {
+    if (user.userid !== userx.userid && userx.answers['chapter3'] && k in userx.answers['chapter3']) {
+      if (userx.answers['chapter3'][k] === label) { count++ }
+    }
+  })
+  return count
+}
 </script>
 <style lang="less" scoped>
 .user-chapter-3 {
+  background: var(--testbg);
 }
 
 .questions {
@@ -77,6 +97,19 @@ button.active {
   border-color: var(--gbg);
   &:hover {
     color: var(--bg);
+  }
+}
+.allanswers {
+  button {
+    &:hover {
+      background: var(--bg);
+      color: var(--fg2);
+    }
+    span {
+      // opacity: 0.5;
+      font-weight: bold;
+      margin-right: 0.25em;
+    }
   }
 }
 </style>

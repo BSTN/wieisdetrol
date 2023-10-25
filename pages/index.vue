@@ -15,7 +15,7 @@
           Doe mee door de camera van je telefoon op het plaatje te richten en
           klik vervolgens op de link op je scherm.
         </p>
-        <p>Tip: Je kan de link ook direct delen via bijvoorbeeld Whatsapp.</p>
+        <p>Tip: Je kan de link ook direct delen via bijvoorbeeld een groep app.</p>
       </div>
     </div>
     <allUsers type="small"></allUsers>
@@ -35,7 +35,7 @@ onMounted(() => {
 </script>
 <style lang="less" scoped>
 .group-start {
-  padding: 1rem 1rem;
+  padding: 1rem 1rem 12rem;
   background: var(--testbg);
   min-height: 100vh;
 }

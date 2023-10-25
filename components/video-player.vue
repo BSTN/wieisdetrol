@@ -1,52 +1,55 @@
 <template>
-  <div class="video" :class="{ started }">
-    <div class="videoframe">
-      <button
-        @click="
-          stop();
-          $emit('next');
-        "
-      >
-        <icon icon="cross" alt="close"></icon>
-      </button>
-      <video noloop ref="video">
-        <source :src="file" type="video/mp4" />
-      </video>
-    </div>
-    <div @click="$emit('restart')" class="restart"></div>
-    <div class="control" :class="{ show: showController }" @mouseenter="enter">
-      <div class="timeline">
-        <Slider
-          class="theslider"
-          v-model="val"
-          :min="0"
-          :max="1"
-          :step="0.001"
-          :tooltips="false"
-          tooltipPosition="top"
-          :lazy="false"
-          @start="startDragging()"
-          @change="whileDragging()"
-          @end="stopDragging()"
-        ></Slider>
+  <div class="video-player" :class="{ started }">
+    <button class="again" @click="$emit('restart')">Speel video opnieuw</button>
+    <div class="fullscreen-frame">
+      <div class="videoframe">
+        <button
+          @click="
+            stop();
+            $emit('next');
+          "
+        >
+          <icon icon="cross" alt="close"></icon>
+        </button>
+        <video noloop ref="video">
+          <source :src="file" type="video/mp4" />
+        </video>
       </div>
-      <div class="subcontrol">
-        <div class="start" @click="startPlay()">Begin opnieuw</div>
-        <div class="timecode">
-          <span>{{ timecode }}</span>
-          <span>{{ duration }}</span>
+      <div class="restart"></div>
+      <div class="control" :class="{ show: showController }" @mouseenter="enter">
+        <div class="timeline">
+          <Slider
+            class="theslider"
+            v-model="val"
+            :min="0"
+            :max="1"
+            :step="0.001"
+            :tooltips="false"
+            tooltipPosition="top"
+            :lazy="false"
+            @start="startDragging()"
+            @change="whileDragging()"
+            @end="stopDragging()"
+          ></Slider>
         </div>
+        <div class="subcontrol">
+          <div class="start" @click="startPlay()">Begin opnieuw</div>
+          <div class="timecode">
+            <span>{{ timecode }}</span>
+            <span>{{ duration }}</span>
+          </div>
+        </div>
+        <!-- <button @click="startPlay()" class="contrast">
+          <icon icon="rewind"></icon>
+        </button> -->
+        <button @click="togglePlay()" class="contrast">
+          <icon :icon="playing ? 'pause' : 'play'"></icon>
+        </button>
+        <!-- <button @click="toggleMute()" class="contrast">
+          <icon :icon="muted ? 'muted' : 'unmuted'"></icon>
+        </button> -->
+        <!-- <button @click="$emit('next')">volgende</button> -->
       </div>
-      <!-- <button @click="startPlay()" class="contrast">
-        <icon icon="rewind"></icon>
-      </button> -->
-      <button @click="togglePlay()" class="contrast">
-        <icon :icon="playing ? 'pause' : 'play'"></icon>
-      </button>
-      <!-- <button @click="toggleMute()" class="contrast">
-        <icon :icon="muted ? 'muted' : 'unmuted'"></icon>
-      </button> -->
-      <!-- <button @click="$emit('next')">volgende</button> -->
     </div>
   </div>
 </template>
@@ -204,23 +207,43 @@ function stopDragging() {
 .restart {
   display: none;
 }
-.video {
+.again {
+  background: var(--fg);
+  color: var(--bg2);
+  font-size: 0.6rem;
+  position:fixed;
+  top:0;
+  left:0;
+  margin: 1rem;
+  &:hover {
+    color: var(--bg);
+  }
+}
+.fullscreen-frame {
   padding: 4rem 1rem;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   min-height: 100vh;
-  transition: all 0.5s;
+  transition: all 0.35s;
   background: var(--bg);
   border-radius: 0.25rem;
-  z-index: 9;
+  z-index: 2;
+  opacity: 1;
+  pointer-events: auto;
   .videoframe {
     position: relative;
     width: 60rem;
     max-width: 100%;
     // height: auto;
     margin: 0 auto;
+    background: var(--bg2);
+    font-size: 0;
+    line-height: 0;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid var(--bg);
     button {
       position: absolute;
       right: 0;
@@ -242,16 +265,21 @@ function stopDragging() {
     }
   }
   video {
-    background: #222;
-    position: relative;
-    border-radius: 1rem;
+    position: relative;   
     width: 100%;
+    clip-path: polygon(2px 2px, calc(100% - 2px) 2px, calc(100% - 2px) calc(100% - 2px), 2px calc(100% - 2px));
   }
-  &.started {
-    width: 8rem;
-    min-height: auto;
-    padding: 0.25rem;
-    margin: 0.5rem;
+  .started & {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: block;
+    pointer-events: none;
     .restart {
       position: absolute;
       top: 0;

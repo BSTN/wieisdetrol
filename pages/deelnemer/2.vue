@@ -1,7 +1,6 @@
 <template>
   <div class="user-chapter-2">
-    <userPause v-if="!started || done"></userPause>
-    <div class="questions" v-if="started && !done">
+    <div class="questions" v-if="started">
       <div class="item" v-for="(q, k) in questions.chapter2">
         <div class="name"><icon icon="user"></icon>{{ q.name }}</div>
         <div class="comments">
@@ -16,7 +15,7 @@
               active: getAnswer({ chapter: 'chapter2', k }) === true,
             }"
           >
-            Trol
+            😈 Trol
           </button>
           <button
             @click="user.setAnswer({ chapter: 'chapter2', k, answer: false })"
@@ -24,7 +23,7 @@
               active: getAnswer({ chapter: 'chapter2', k }) === false,
             }"
           >
-            Geen Trol
+            😇 Geen Trol
           </button>
         </div>
       </div>
@@ -56,28 +55,49 @@ const done = computed(() =>
 .questions {
   max-width: 30rem;
   margin: 0 auto;
+  padding: 1em 0;
 }
 .item {
   padding: 1em;
+  background: var(--bg);
+  margin: 0 .5em 1em;
+  border-radius: 0.25em;
   .name {
+    background: var(--bg);
+    border-radius: 0.25em;
     text-align: left;
     margin-bottom: 0.5em;
-    padding: 1em 0;
+    padding: 0;
+    margin-bottom: 1em;
     .icon {
       display: inline-block;
       margin-right: 0.5em;
-      background: var(--bg);
-      width: 4rem;
-      height: 4rem;
-      border: 1rem solid var(--bg);
+      margin-left: 0.5em;
+      background: var(--bg1);
+      width: 2rem;
+      height: 2rem;
+      border: 0.25rem solid var(--bg1);
       border-radius: 100%;
       vertical-align: middle;
       margin-right: 1em;
+      :deep(svg) {
+        transform: scale(0.7);
+      }
     }
   }
 }
-button.active {
-  background: var(--fg);
-  color: var(--bg);
+
+.answer {
+  text-align: right;
+  button {
+    background: var(--bg1);
+    border: 2px solid var(--bg);
+  }
+  button.active {
+    background: var(--fg);
+    color: var(--bg);
+    // border: 2px solid var(--fg);
+  }
 }
+
 </style>

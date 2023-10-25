@@ -1,17 +1,29 @@
 <template>
-  <div class="user-chapter-5">
-    <div class="question">Beat the bot!</div>
-    <div class="input">
-      <textarea v-model="input"></textarea>
+  <div class="user-chapter-6">
+    <div class="question">Welke denk jij dat de constructiviteitsbot er (ten onrechte) uit zal filteren?</div>
+    <div class="questions">
+      <div class="options" v-for="(item,k) in questions.chapter6">
+        <div class="option" v-for="(subitem, kk) in item.options" @click="user.setAnswer({chapter: 'chapter6', k, answer: kk})" :class="{active: user.getAnswer({chapter: 'chapter6', k}) === kk}">
+          <div class="commentbox">{{ subitem }}</div>
+        </div>
+      </div>
     </div>
-    <div class="buttons">
-      <button @click="send()">verstuur</button>
+    <div class="done" v-if="!done">
+      <button class="contrast" @click="user.setDone('chapter6')">
+        Klik hier als je klaar bent!
+      </button>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
+import { storeToRefs } from "pinia";
+import questions from '@/content/questions.yml'
 const user = useUserStore();
+const { getAnswer } = storeToRefs(user);
 const input = ref("");
+const done = computed(() =>
+  user.done ? user.done.includes("chapter6") : false
+);
 async function send() {
   const data = await $fetch("/socketapi/beatthebot", {
     method: "POST",
@@ -21,17 +33,34 @@ async function send() {
 }
 </script>
 <style lang="less" scoped>
-.user-chapter-5 {
+
+.user-chapter-6 {
+  background: var(--testbg);
 }
-.input {
-  padding: 1rem;
-  textarea {
-    min-height: 10em;
-    box-shadow: inset 0 0.125rem 0.5rem #00000088;
-    border: 1px solid var(--bg);
-    &:focus {
-      border: 1px solid var(--fg);
+
+.questions {
+   padding: 1rem;
+   text-align: left;
+   width: 30rem;
+   max-width: 100%;
+   margin: 0 auto;
+}
+
+.options {
+  margin-bottom: 3rem;
+  border-top: 1px solid var(--bg);
+  padding-top: 1em;
+  .option {
+    cursor: pointer;
+    &.active {
+      .commentbox {
+        background: var(--gfg);
+        &:before {
+          background: var(--gfg);
+        }
+      }
     }
   }
 }
+
 </style>

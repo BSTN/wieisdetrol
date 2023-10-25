@@ -1,45 +1,37 @@
 <template>
   <div class="group-chapter-7" v-if="!group.loading">
-    <div>.</div>
-    <h1>Over en uit.</h1>
-    <div class="text">
-      <p>Bedankt voor met meedoen met <i>Wie is de trol?</i>!</p>
-      <p>
-        We hopen dat je nu beter inzicht hebt in de ontwikkeling die
-        <i>online reageren</i> heeft doorgemaakt, welke rol AI daarin is gaan
-        spelen en hoe dat ongeveer werkt. En wellicht heb je een beter idee over
-        hoe het er in de toekomst wellicht uit gaat zien...
-      </p>
-      <p>
-        Wil je meer lezen, Ga dan naar
-        <a
-          target="_blank"
-          href="https://www.wie-is-de-trol.nl/achtergrond-informatie"
-          >www.wie-is-de-trol.nl/achtergrond-informatie</a
-        >.
-      </p>
-      <p>
-        Wil je deze les aanraden aan vrienden en/of familie? Stuur de link
-        <a target="_blank" href="https://www.wie-is-de-trol.nl"
-          >www.wie-is-de-trol.nl</a
-        >
-        door!
-      </p>
+    <chapterlogo class="chapterlogo"></chapterlogo>
+    <h1>Beat the bot</h1>
+    <div class="subtitlequestion">
+      Schrijf de meest constructieve bijdrage die je kunt bedenken. De bot
+      plaatst alle reacties uit de klas straks in een hiërarchie van hoog naar
+      laag.
+    </div>
+    <videoPlayer
+      file="/videos/7.mp4"
+      :class="{ started }"
+      @next="group.startChapter('chapter7')"
+      @restart="group.unStartChapter('chapter7')"
+    ></videoPlayer>
+    <ChapterProgress chapter="chapter7" v-if="!results"></ChapterProgress>
+    <div class="results" v-if="results">
+      Hier komen alle reacties, gesorteerd op score.
+    </div>
+    <button @click="results = true" v-if="!results">
+      vergelijk resultaten
+    </button>
+    <div class="next" v-if="results">
+      <button @click="group.next()">naar het einde</button>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
+import chapterlogo from "@/assets/chapters/6.svg?component";
 const group = useGroupStore();
+const results = ref(false);
+const started = computed(() => group.started.includes("chapter7"));
 </script>
 <style lang="less" scoped>
-.group-7 {
-}
-.text {
-  width: 34rem;
-  max-width: calc(100% - 2rem);
-  margin: 0 auto;
-  p {
-    margin-bottom: 1em;
-  }
+.group-chapter-7 {
 }
 </style>

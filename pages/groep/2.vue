@@ -1,10 +1,10 @@
 <template>
-  <div class="group-chapter-2">
+  <div class="group-chapter-2" v-if="!group.loading">
     <chapterlogo class="chapterlogo"></chapterlogo>
     <h1>Trollen vangen</h1>
-    <div class="subtitlequestion">
+    <!-- <div class="subtitlequestion">
       Welke accounts vertonen volgens jou trolgedrag?
-    </div>
+    </div> -->
     <videoPlayer
       file="/videos/2.mp4"
       :class="{ started }"
@@ -16,13 +16,13 @@
       vergelijk resultaten
     </button>
     <div class="results" v-if="results">
-      <div class="q" v-for="(q, k) in questions['chapter2']">
-        <div class="name">{{ q.name }}</div>
+      <div class="q" v-for="(item, k) in list">
+        <div class="name">{{ item.name }}</div>
         <div class="trol">
-          <div class="circle">{{ trol(k).length }}</div>
+          😈 <span>{{ item.trol.length }}</span>
         </div>
         <div class="geentrol">
-          <div class="circle">{{ geentrol(k).length }}</div>
+          😇 <span>{{ item.geentrol.length }}</span>
         </div>
       </div>
       <div class="next">
@@ -47,6 +47,22 @@ function geentrol(k: Number) {
     return x.answers["chapter2"][k] === false;
   });
 }
+
+const list = computed(() => {
+  const qs = questions['chapter2']
+  const qs2 = qs.map((x, k:number) => {
+    return {
+      name: x.name,
+      trol: trol(k),
+      geentrol: geentrol(k)
+    }
+  })
+  qs2.sort((a,b) => {
+    return a.trol.length - b.trol.length
+  })
+  qs2.reverse()
+  return qs2
+})
 </script>
 <style lang="less" scoped>
 .group-chapter-2 {
@@ -60,27 +76,19 @@ function geentrol(k: Number) {
   display: flex;
   margin: 0 auto 1em;
   width: 100%;
+  background: var(--bg);
+  padding: 1em;
+  border-radius: 0.25em;
   .name {
     flex: 1;
     text-align: left;
   }
-}
-
-.circle {
-  padding: 0;
-  line-height: 1.5rem;
-  border-radius: 100%;
-  width: 1.5rem;
-  height: 1.5rem;
-  background: var(--gbg);
-  color: var(--gfg);
-  .geentrol & {
-    background: var(--rbg);
-    color: var(--rfg);
+  .trol, .geentrol {
+    width: 4em;
+    span {
+      margin-left: 0.5em;
+    }
   }
 }
-.trol,
-.geentrol {
-  padding: 0 0 0 0.5em;
-}
+
 </style>

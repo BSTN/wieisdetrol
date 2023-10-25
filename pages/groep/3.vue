@@ -1,21 +1,31 @@
 <template>
   <div class="group-chapter-3" v-if="!group.loading">
+    
+    <!-- TITLES -->
     <chapterlogo class="chapterlogo"></chapterlogo>
-    <h1>Labelen</h1>
-    <div class="subtitlequestion">
+    <h1>Motivaties</h1>
+    <!-- <div class="subtitlequestion">
       Deelnemers aan online platforms hebben verschillende intenties. Kun jij
       per reactie aangeven wat je denkt dat de bedoeling is van de schrijver?
-    </div>
+    </div> -->
+    
+    <!-- VIDEO -->
     <videoPlayer
       file="/videos/3.mp4"
       :class="{ started }"
       @next="group.startChapter('chapter3')"
       @restart="group.unStartChapter('chapter3')"
     ></videoPlayer>
+    
+    <!-- PROGRESS -->
     <ChapterProgress chapter="chapter3" v-if="!results"></ChapterProgress>
+
+    <!-- VERGELIJK DE RESULTATEN -->
     <button @click="results = true" v-if="!results">
       vergelijk resultaten
     </button>
+
+    <!-- RESULTATEN -->
     <div class="results" v-if="results">
       <div class="q" v-for="(q, k) in questions['chapter3']">
         <div class="commentbox">
@@ -25,6 +35,7 @@
           <div
             v-for="(users, label) in labelCountPerComment[k]"
             v-show="users.length > 0"
+            class="label"
           >
             {{ label }} <sup>{{ users.length }}</sup>
           </div>
@@ -90,6 +101,15 @@ const labelCountPerComment = computed(() => {
   }
 }
 
+.answers {
+  .label {
+    background: var(--bg);
+    display: inline-block;
+    padding: 0 0.5em 0.25em 0.5em;
+    border-radius: 0.25em;
+    margin: 0 0.5em 0.5em 0;
+  }
+}
 sup {
   vertical-align: super;
   font-size: 0.7rem;

@@ -101,7 +101,7 @@ const { messages, removeMessage, alerts, removeAlert, confirms, choices } =
       max-width: 26em;
       position: relative;
       z-index: 2;
-      box-shadow: 0 0.5em 0.5em var(--bgoverlay);
+      box-shadow: 0 0.5em 0.5em var(--shadow);
       user-select: none;
       .popup();
       .text {
@@ -112,6 +112,10 @@ const { messages, removeMessage, alerts, removeAlert, confirms, choices } =
         padding: 1em 0 0 0;
         button {
           min-width: 4em;
+          background: var(--bg2);
+          &:hover {
+            background: var(--fg);
+          }
         }
       }
     }

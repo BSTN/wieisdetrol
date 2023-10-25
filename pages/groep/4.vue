@@ -17,9 +17,9 @@
     </button>
     <div class="results" v-if="results">
       <div class="comments">
-        <div class="q" v-for="(q, k) in questions.chapter3">
+        <div class="q" v-for="(q, k) in list">
           <div class="commentbox">{{ q.text }}</div>
-          <div class="result">{{ resultaten[k].length }}</div>
+          <div class="result">{{ q.votes }}x </div>
         </div>
       </div>
       <div class="next">
@@ -34,31 +34,34 @@ import questions from "@/content/questions.yml";
 const group = useGroupStore();
 const results = ref(false);
 const started = computed(() => group.started.includes("chapter4"));
-const resultaten = computed(() => {
-  let res = {};
-  for (let i in questions["chapter3"]) {
-    res[i] = [];
-  }
-  group.users.map((user) => {
-    const answer = user.answers["chapter4"]
-      ? user.answers["chapter4"][0]
-      : undefined;
-    if (answer !== undefined) {
-      res[answer].push({ userid: user.userid, name: user.name });
+
+const list = computed(() => {
+  const qs = questions.chapter3.map((x,k) => {
+    return {
+      text: x.text,
+      votes: group.users.filter(x => x.answers['chapter4'] ? x.answers['chapter4'][0] === k : false).length,
+      users: group.users.filter(x => x.answers['chapter4'] ? x.answers['chapter4'][0] === k : false)
     }
-  });
-  return res;
-});
+  })
+  qs.sort((a,b) => a.votes - b.votes).reverse()
+  return qs
+})
 </script>
 <style lang="less" scoped>
 .group-chapter-4 {
+  
+}
+
+.results {
+  margin: 0 auto;
+  width: 30rem;
 }
 .comments {
   max-width: 100%;
   margin: 2rem auto;
   text-align: left;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 2rem;
   padding: 2rem;
   .q {

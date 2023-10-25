@@ -1,4 +1,4 @@
-- name: Start
+- name: Introductie
   group: 
   user: 1
 - name: "1. Goed en Kwaad"
@@ -7,18 +7,21 @@
 - name: "2. Trollen vangen"
   group: 2
   user: 2
-- name: "3. Labels"
+- name: "3. Motivaties"
   group: 3
   user: 3
-- name: "4. Pin"
+- name: "4. Verbeter de discussie"
   group: 4
   user: 4
-- name: "5. Battle-the-bot!"
+- name: "5. Ben je bot?"
   group: 5
   user: 5
-- name: "6. Beat-the-bot!"
+- name: "6. De gevaren van AI"
   group: 6
   user: 6
-- name: "Lees meer"
+- name: "7. Beat the bot!"
   group: 7
   user: 7
+- name: "Lees meer"
+  group: 8
+  user: 8

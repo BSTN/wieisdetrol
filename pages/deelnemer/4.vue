@@ -1,18 +1,23 @@
 <template>
   <div class="user-chapter-4">
     <userPause v-if="!started || done"></userPause>
-    <div class="questions" v-if="!done">
+    <div class="questions">
       <div class="question">
         Welke van de vorige berichten zou jij uitlichten? Je mag er 1 kiezen.
       </div>
       <div
         v-for="(q, k) in questions.chapter3"
         class="commentscontainer"
-        @click="user.setAnswer({ chapter: 'chapter4', k: 0, answer: k })"
         :class="{ active: getAnswer({ chapter: 'chapter4', k: 0 }) === k }"
       >
         <div class="commentbox">
           {{ q.text }}
+        </div>
+        <div class="select" v-if="!done">
+          <button @click="user.setAnswer({chapter: 'chapter4', k:0, answer: k})">selecteer deze reactie</button>
+        </div>
+        <div class="answers" v-if="done">
+          {{getVotes(k)}}x geselecteerd
         </div>
       </div>
     </div>
@@ -34,10 +39,28 @@ const started = computed(() =>
 const done = computed(() =>
   user.done ? user.done.includes("chapter4") : false
 );
+function getVotes(k:number){
+  const matches = user.users.filter(x => {
+    if('chapter4' in x.answers) {
+      return x.answers['chapter4'][0] === k
+    } else {
+      return false
+    }
+  })
+  return matches.length 
+}
 </script>
 <style lang="less" scoped>
 .user-chapter-4 {
   background: var(--testbg);
+}
+
+.select {
+  text-align: right;
+}
+
+.answers {
+  text-align: right;
 }
 
 .commentscontainer {
@@ -46,10 +69,16 @@ const done = computed(() =>
   cursor: pointer;
   &.active {
     .commentbox {
-      background: var(--gfg);
-      color: var(--gbg);
+      background: var(--fg);
+      color: var(--bg);
       &:before {
-        background: var(--gfg);
+        background: var(--fg);
+      }
+    }
+    .select {
+      button {
+        background: var(--fg);
+        color: var(--bg);
       }
     }
   }

@@ -12,7 +12,7 @@ import logo from "@/assets/logo/logo-diamond.svg";
     width: 12rem;
     height: 12rem;
   }
-  animation: diamondspinner 2s @easeInOutSine 0s infinite forwards;
+  animation: diamondspinner 3s @easeInOutSine 0s infinite forwards;
   @keyframes diamondspinner {
     // 20% {
     //   transform: rotate(360deg);
