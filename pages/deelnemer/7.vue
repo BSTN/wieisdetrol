@@ -1,25 +1,37 @@
 <template>
-  <div class="deelnemer-7">
-    <div class="text">
-      <p>Bedankt voor het meedoen!</p>
-      <p>
-        Wil je meer lezen over de geschiedenis van het internet, online reageren
-        en Kunstmatige Intelligentie (AI), ga dan naar:
-      </p>
-      <p>
-        <a href="https://www.wie-is-de-trol.nl/achtergrond"
-          >www.wie-is-de-trol.nl/achtergrond</a
-        >
-      </p>
+  <div class="user-chapter-7">
+    <div class="question">Beat the bot!</div>
+    <div class="input">
+      <textarea v-model="input"></textarea>
+    </div>
+    <div class="buttons">
+      <button @click="send()">verstuur</button>
     </div>
   </div>
 </template>
-<script lang="ts" setup></script>
-<style lang="less" scoped>
-.deelnemer-7 {
-  padding: 4em 1em;
+<script lang="ts" setup>
+const user = useUserStore();
+const input = ref("");
+async function send() {
+  const data = await $fetch("/socketapi/beatthebot", {
+    method: "POST",
+    body: { text: input.value, userid: user.userid, groupid: user.groupid },
+  });
+  console.log(data);
 }
-p {
-  margin-bottom: 1em;
+</script>
+<style lang="less" scoped>
+.user-chapter-7 {
+}
+.input {
+  padding: 1rem;
+  textarea {
+    min-height: 10em;
+    box-shadow: inset 0 0.125rem 0.5rem #00000088;
+    border: 1px solid var(--bg);
+    &:focus {
+      border: 1px solid var(--fg);
+    }
+  }
 }
 </style>

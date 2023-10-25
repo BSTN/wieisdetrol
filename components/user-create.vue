@@ -1,5 +1,5 @@
 <template>
-  <div class="user-start" v-if="!user.loading">
+  <div class="user-start" v-if="!user.loading" @click="generate()">
     <div class="centered" v-if="user.userid && user.userid !== ''">
       <div>
         <userAvatar :user="user.user" class="mainuser"></userAvatar>
@@ -9,11 +9,11 @@
     </div>
     <div class="" v-if="!user.userid">
       <div class="avatar">
-        <div class="icon" v-html="icon" @click="generate()"></div>
+        <div class="icon" v-html="icon" ></div>
         <div class="naam">{{ naam }}</div>
       </div>
       <div>
-        <button @click="user.createUser({ name: naam, userid })">start</button>
+        <button @click="user.createUser({ name: naam, userid })">Start</button>
       </div>
     </div>
   </div>
@@ -57,6 +57,7 @@ onMounted(() => {
   max-width: 100%;
   margin: 0 auto;
   user-select: none;
+  cursor: pointer;
   :deep(.mainuser.user-avatar .icon) {
     animation: heartbeat 0.8s linear 0.5s infinite forwards;
     // animation: rotate 2s linear 0.5s infinite forwards;
@@ -85,8 +86,13 @@ onMounted(() => {
 .avatar {
   background: var(--bg);
   border-radius: 0.5em;
-  margin-bottom: 1em;
-  padding: 2em;
+  margin-bottom: 2em;
+  padding: 1em 1em 2em;
+  text-align: center;
+  .icon {
+    width: 6rem;
+    margin: 0 auto;
+  }
   .naam {
     font-size: 1.75em;
   }

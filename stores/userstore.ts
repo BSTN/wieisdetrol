@@ -9,7 +9,7 @@ let SOCK: Socket<ServerToClientEvents, ClientToServerEvents> = io('/', {autoConn
 
 function asyncEmit(func: keyof ClientToServerEvents, data?:any) {
   return new Promise((resolve) => {
-    SOCK.emit(func, data, (returnData?:[object,boolean,string]) => {
+    SOCK.emit(func, data, (returnData?:any) => {
       resolve(returnData)
     })
   })
@@ -43,12 +43,12 @@ export const useUserStore = defineStore('userStore', {
     },
     getAnswer(state) {
       return ({ chapter, k }:{chapter:string, k: number}) => {
-        return state.answers[chapter][k]
+        return state.answers[chapter] ? state.answers[chapter][k] : null
       }
     },
     getChapterPosition(state) {
       return (chapter: string) => {
-        return state.answers[chapter] ? state.answers[chapter].length - 1 : 0
+        return state.answers[chapter] ? state.answers[chapter].length - 1 : -1
       }
     }
   },
@@ -82,7 +82,7 @@ export const useUserStore = defineStore('userStore', {
       SOCK = io(config.public.URL + config.public.BASE)
       
       // connection status
-      SOCK.on('connect', function () {
+      SOCK.on('connect', async function () {
         console.log('%c Socket connected.', 'color:yellow;')
         // join the room
         if (self.groupid !== '[undefined]' && self.userid !== '') {
@@ -92,12 +92,21 @@ export const useUserStore = defineStore('userStore', {
           })
         }
         SOCK.emit('getGroupData', {groupid: self.groupid})
+        SOCK.emit('getAllUserData', {groupid: self.groupid})
+        SOCK.emit('getUserData', {userid: self.userid, groupid: self.groupid, name: self.name}, (user) => {
+          if (user) {
+            self.userid = user.userid
+            self.done = user.done
+            self.answers = user.answers
+          }
+        })
         self.connected = true
       });
       SOCK.on('disconnect', function () { self.connected = false });
 
       SOCK.on('groupUserData', (data: Array<USER>) => {
-        this.users = data
+        // are we using this? yes, compare the results. thanks.
+        this.users = data 
       })
 
       SOCK.on('addUser', (data) => {
@@ -105,14 +114,25 @@ export const useUserStore = defineStore('userStore', {
       })
 
       SOCK.on('loadGroupData', (data) => {
+
         this.started = data.started
         
-        // todo: fix this
-        // for (let i in data.finished) {
-        //   if (data.finished[i].includes(this.userid)) {
-        //     if (!self.finished.includes(i)) { self.finished.push(i) }
-        //   }
-        // }
+        self.finished = data.finished
+        self.started = data.started
+        
+        for (let i in data.users) {
+          if (data.users[i].userid === self.userid) {
+            self.done = data.users[i].done
+          }
+        }
+      })
+
+      SOCK.on('updateAnswer', ({userid, chapter, k, answer}) => {
+
+        const user = self.users.find(user => user.userid === userid)
+        if (!user){return false}
+        user.answers[chapter][k] = answer
+        
       })
 
       // message from socketmaster
@@ -137,15 +157,29 @@ export const useUserStore = defineStore('userStore', {
         }
       })
 
-      SOCK.on('setFinished', ({ userid, name, groupid }) => {
-        if (!self.finished.includes(name)) {
-          self.finished.push(name)
+      SOCK.on('setFinished', ({ chapter }) => {
+        if (!self.finished.includes(chapter)) {
+          self.finished.push(chapter)
         }
       })
 
-      SOCK.on('setUnFinished', ({ userid, name, groupid }) => {
-        if (self.finished.includes(name)) {
-          self.finished.splice(self.finished.indexOf(name), 1)
+      SOCK.on('setUnFinished', ({ chapter }) => {
+        if (self.finished.includes(chapter)) {
+          self.finished.splice(self.finished.indexOf(chapter), 1)
+        }
+      })
+
+      SOCK.on('setDone', ({ chapter, userid }) => {
+        if (userid !== self.userid) return false
+        if (!self.done.includes(chapter)) {
+          self.done.push(chapter)
+        }
+      })
+
+      SOCK.on('setUnDone', ({ chapter, userid }) => {
+        if (userid !== self.userid) return false
+        if (self.done.includes(chapter)) {
+          self.done.splice(self.done.indexOf(chapter), 1)
         }
       })
 
@@ -220,17 +254,12 @@ export const useUserStore = defineStore('userStore', {
     },
     async createUser({ name, userid }:{ name: string, userid: string }) {
       const self = this
-      if (!name || name.trim() === '') {
-        const { alert } = useNotify()
-        alert('Voer eerst een naam in.')
-      } else {
-        self.creating = true
-        const done = await asyncEmit('createUser', { userid, groupid: this.groupid, name })
-        if (done) { 
-          self.userid = userid
-          self.name = name
-          self.saveToLocalStorage()
-        }
+      self.creating = true
+      const done = await asyncEmit('createUser', { userid, groupid: this.groupid, name })
+      if (done) { 
+        self.userid = userid
+        self.name = name
+        self.saveToLocalStorage()
       }
       return true
     }

@@ -9,7 +9,7 @@
 <style lang="less" scoped>
 .user-pause {
   width: 100%;
-  height: 90vh;
+  height: calc(100vh - 3.75rem);
   text-align: center;
   display: flex;
   flex-direction: column;

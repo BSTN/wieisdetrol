@@ -84,6 +84,22 @@ chapter5:
   - text: Vind dit weer echt vreselijk. Van mij hoeft het niet warmer dan 20 graden te worden. Maar ben bang dat dit helemaal de verkeerde kant op gaat. De winters zijn we al vergeten. Dat bestaat al niet meer. Dit is gewoon een natuur ramp!
     botresult: 0.87
   - text: Onderhand neem ik liever dat risico dan dat we de aarde zover opstoken dat er over de hele blauwe knikker niet of nauwelijks plekken voor mensen zijn om een beetje fatsoenlijk te kunnen overleven.
-    botresults: 0.11
+    botresult: 0.11
   - text: De wetenschap ziet het probleem. Nu nog de meerderheid van het 'volk'. En aan de reacties te zien blijkt dat het grootste probleem.
     botresult: 0.05
+chapter6:
+  - options:
+    - een lege
+    - nog een lege
+    - Mensen zijn nu nog blij dat ze lekker in de zon kunnen bakken door de oplopende temperaturen, maar er komen dus ook steeds meer mensen met kanker.
+    answer: 1
+  - options:
+    - een lege
+    - nog een lege
+    - Ik vind het flauw dat je tegenwoordig meteen voor wappie uitgemaakt wordt als je zegt dat het nog wel mee valt met de klimaatverandering. Een beetje positiviteit kan toch geen kwaad?
+    answer: 3
+  - options:
+    - een lege
+    - nog een lege
+    - Ik werd laatst uitgemaakt voor nazi omdat ik een houtkachel heb, dat gaat mij ook te ver.
+    answer: 1

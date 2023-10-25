@@ -20,8 +20,8 @@
         <div class="q" v-for="(q, k) in questions.chapter5">
           <div class="commentbox">{{ q.text }}</div>
           <div class="user" v-for="user in group.users">
-            {{ user.name }}:
-            {{ user.answers["chapter5"] ? user.answers["chapter5"][k] : "--" }}
+            <UserIcon :user="user" class="small" /> {{ user.name }}:
+            {{ user.answers["chapter5"] ? user.answers["chapter5"][k] : "-" }}
           </div>
         </div>
       </div>
@@ -50,5 +50,10 @@ const started = computed(() => group.started.includes("chapter5"));
   gap: 2rem;
   padding: 0rem 4rem;
   grid-template-columns: repeat(3, 1fr);
+}
+.results {
+  .user {
+    margin-bottom: 0.5em;
+  }
 }
 </style>

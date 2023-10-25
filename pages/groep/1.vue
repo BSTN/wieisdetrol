@@ -1,31 +1,40 @@
 <template>
-  <div class="group-chapter-1">
+  <div class="group-chapter-1" v-if="!group.loading">
+    
+    <!-- TITLES -->
     <chapterlogo class="chapterlogo"></chapterlogo>
-    <h1>Goed en Kwaad.</h1>
-    <div class="subtitlequestion">
+    <h1>Goed en Kwaad</h1>
+    <!-- <div class="subtitlequestion">
       Welke reacties vind jij toelaatbaar en welke niet?
-    </div>
-    <!-- <button @click="group.startChapter('chapter1')">START</button>
-    <button @click="group.unStartChapter('chapter1')">unSTART</button> -->
+    </div> -->
+
+    <!-- VIDEO -->
     <videoPlayer
       file="/videos/1.mp4"
       :class="{ started }"
       @next="group.startChapter('chapter1')"
       @restart="group.unStartChapter('chapter1')"
     ></videoPlayer>
-    <!-- <finished name="chapter1"></finished> -->
+
+    <!-- PROGRESS -->
     <ChapterProgress chapter="chapter1" v-if="!results"></ChapterProgress>
     <button @click="results = true" v-if="!results">
       vergelijk resultaten
     </button>
+
+    <!-- RESULTS -->
     <div class="results" v-if="results">
-      <div class="q" v-for="(q, k) in questions['chapter1']">
-        <div class="text commentbox">{{ q }}</div>
-        <div class="toegestaan">
-          <div class="circle">{{ toegestaan(k).length }}</div>
-        </div>
-        <div class="verwijderd">
-          <div class="circle">{{ verwijderd(k).length }}</div>
+      <div class="qcontainer">
+        <div class="q" v-for="(q, k) in list" :key="q.key">
+          <div class="splitbox">
+            <div class="toegestaan" v-if="q.toegestaan > 0" :style="{width: (q.toegestaan / (q.toegestaan + q.verwijderd)) * 100 + '%'}">
+              {{ q.toegestaan }}x toegestaan
+            </div>
+            <div class="verwijderd" v-if="q.verwijderd > 0" :style="{width: (q.verwijderd / (q.toegestaan + q.verwijderd)) * 100 + '%'}">
+              {{ q.verwijderd }}x verwijderd
+            </div>
+          </div>
+          <div class="text commentbox">{{ q.comment }}</div>
         </div>
       </div>
       <div class="next">
@@ -50,20 +59,69 @@ function verwijderd(k: Number) {
     return x.answers["chapter1"][k] === false;
   });
 }
+const list = computed(() => {
+  const qs = questions['chapter1']
+  const qs2 = qs.map((x,k) => {
+    return {
+      key: k,
+      comment: x,
+      verwijderd: verwijderd(k).length,
+      toegestaan: toegestaan(k).length
+    }
+  })
+  qs2.sort((a, b) => {
+    return a.verwijderd - b.verwijderd
+  })
+  qs2.reverse()
+  return qs2
+})
 </script>
 <style lang="less" scoped>
 .group-chapter-1 {
 }
 
-.q {
-  line-height: 1em;
+.qcontainer {
   display: flex;
-  width: 40rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.q {
+  display:inline-block;
+  flex:1;
+  line-height: 1em;
+  // display: flex;
+  min-width: 16rem;
   max-width: 100%;
   margin: 0 auto 0;
   .text {
     width: 100%;
     text-align: left;
+  }
+}
+
+.commentbox {
+  margin-bottom: 0;
+}
+
+.splitbox {
+  display:flex;
+  margin-bottom: 0.25rem;
+  border-radius: 0.5em;
+  overflow: hidden;
+  border: 1px solid var(--bg2);
+  .toegestaan {
+    font-size: 0.6rem;
+    padding: 0.5em;
+    background:var(--gfg);
+    color:var(--gbg);
+  }
+  .verwijderd {
+    font-size: 0.6rem;
+    padding: 0.5em;
+    background:var(--rfg);
+    color:var(--rbg);
   }
 }
 

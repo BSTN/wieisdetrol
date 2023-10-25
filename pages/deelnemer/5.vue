@@ -1,10 +1,17 @@
 <template>
   <div class="user-chapter-5">
-    <userPause v-if="!started || done"></userPause>
-    <div class="questions" v-if="!done">
+    <userPause v-if="!started"></userPause>
+    <div class="questions">
       <div class="q" v-for="(q, k) in questions.chapter5">
         <div class="commentbox">{{ q.text }}</div>
-        <botSlider :number="k" chapter="chapter5" @change="update"></botSlider>
+        <botSlider :number="k" chapter="chapter5" @change="update" v-if="!done"></botSlider>
+        <div class="result">
+          Jouw antwoord: {{ getAnswer({chapter: 'chapter5', k}) }}<br>
+          De bot: {{ q.botresult }}
+          <div class="resultslider">
+            
+          </div>
+        </div>
       </div>
     </div>
     <div class="done" v-if="!done">
@@ -33,6 +40,7 @@ const done = computed(() =>
 </script>
 <style lang="less" scoped>
 .user-chapter-5 {
+  background: var(--testbg);
 }
 .questions {
   width: 40rem;
@@ -40,6 +48,8 @@ const done = computed(() =>
   margin: 0 auto;
   padding: 1rem;
   text-align: left;
-  background: var(--testbg);
+  .q {
+    margin-bottom: 5rem;
+  }
 }
 </style>

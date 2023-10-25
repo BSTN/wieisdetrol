@@ -1,11 +1,9 @@
 <template>
   <div class="group-chapter-6" v-if="!group.loading">
     <chapterlogo class="chapterlogo"></chapterlogo>
-    <h1>Beat the bot</h1>
+    <h1>Gevaren van AI</h1>
     <div class="subtitlequestion">
-      Schrijf de meest constructieve bijdrage die je kunt bedenken. De bot
-      plaatst alle reacties uit de klas straks in een hiërarchie van hoog naar
-      laag.
+      Je ziet nu verschillende reacties. Welke denk jij dat de constructiviteitsbot er (ten onrechte) uit zal filteren?
     </div>
     <videoPlayer
       file="/videos/6.mp4"
@@ -20,7 +18,7 @@
     <button @click="results = true" v-if="!results">
       vergelijk resultaten
     </button>
-    <div class="next">
+    <div class="next" v-if="results">
       <button @click="group.next()">naar het einde</button>
     </div>
   </div>

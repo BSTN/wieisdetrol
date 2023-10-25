@@ -8,6 +8,7 @@
         <icon icon="cross" v-if="open"></icon>
       </div>
     </div>
+    <div class="status" v-if="open">{{ status }}</div>
     <div class="menu" v-if="open && user.userid">
       <div class="order">
         <div
@@ -18,9 +19,8 @@
           {{ item.name }}
         </div>
       </div>
-      <div class="status">status: {{ status }}</div>
       <button class="reset" @click="user.reset()" v-if="user.userid !== ''">
-        verlaat het spel
+        stoppen
       </button>
     </div>
     <div class="loggedoutmenu" v-if="open && !user.userid">
@@ -42,6 +42,9 @@ watch(
   }
 );
 onMounted(() => {
+  // if (route.path !== '/deelnemer')
+  // TODO: where do you go when you have no id?
+
   if (route.query.id) {
     user.setGroupid(route.query.id);
   }
@@ -65,6 +68,7 @@ onMounted(() => {
   // border-bottom: 1px solid var(--fg);
   display: flex;
   padding: 0 0.5em;
+  padding: 0.35em 1em;
   text-align: left;
   background: var(--bg);
   cursor: pointer;
@@ -83,6 +87,7 @@ onMounted(() => {
     flex: 1;
   }
 }
+
 
 .menu {
   // position: fixed;
@@ -103,23 +108,24 @@ onMounted(() => {
   border-radius: 0.25em;
   text-transform: uppercase;
   font-size: 0.6rem;
-  border: 1px solid var(--fg);
-  display: block;
-  width: 12rem;
-  margin: 0 auto 0em;
+  // border: 1px solid var(--fg);
+  display: inline-block;
+  width: auto;
+  margin: 0em auto 2em;
   .connected & {
-    background: #a5de93;
+    background: var(--gbg);
+    color: var(--gfg);
   }
   .disconnected & {
     background: #d85434;
   }
 }
 .order {
-  padding: 1em;
+  padding: 0em 1.5em;
   text-align: left;
   > div {
     border-top: 1px solid var(--bg2);
-    padding: 0.5em 0;
+    padding: 0.75em 0;
     color: var(--fg2);
     &:last-child {
       border-bottom: 1px solid var(--bg2);
@@ -130,23 +136,27 @@ onMounted(() => {
   }
 }
 button.reset {
-  background: #f00;
-  color: var(--bg);
+  background: var(--rbg);
+  color: var(--rfg);
   padding: 0.25em 0.5em;
   border: 0;
   margin: 1rem;
   text-transform: uppercase;
   font-size: 0.8rem;
 }
+
 :deep(.user-avatar) {
   padding: 0;
   margin: 0;
   width: auto;
   background: transparent;
   .icon {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 2rem;
+    height: 2rem;
     border-radius: 100%;
+    background: var(--bg1);
+    border: 5px solid var(--bg1);
+    margin-right: .5em;
   }
   .name {
     display: none;

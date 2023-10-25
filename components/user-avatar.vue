@@ -31,7 +31,8 @@ const { user } = defineProps({
 .icon {
   background: var(--bg);
   border-radius: 0.5em;
-  width: 6em;
+  // @size: 6rem;
+  // width: @size;
   margin: 0 auto;
   padding: 0;
   :deep(svg) {
