@@ -12,7 +12,11 @@
           <icon icon="cross" alt="close"></icon>
         </button>
         <video noloop ref="video">
+<<<<<<< HEAD
           <source :src="'https://api.wie-is-de-trol.nl' + file" type="video/mp4" />
+=======
+          <source :src="file" type="video/mp4" />
+>>>>>>> 1fa1d584b938864cf1c4300692514b7df1445ce9
         </video>
       </div>
       <div class="restart"></div>
