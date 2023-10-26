@@ -1,22 +1,23 @@
 <template>
   <div class="user-chapter-6">
     <div class="question">Welke denk jij dat de constructiviteitsbot er (ten onrechte) uit zal filteren?</div>
-    <div class="questions" v-if="!done">
-      <div class="options" v-for="(item,k) in questions.chapter6">
+    <user-pause v-if="done && !user.showResults.includes('chapter6')"></user-pause>
+    <div class="questions" v-if="!done && !user.showResults.includes('chapter6')">
+      <div class="options" v-for="(item,k) in questions.chapter6" :class="{active: k === 0 || !isNaN(user.getAnswer({chapter: 'chapter6', k: k - 1}))}">
         <div class="choose">Kies 1 van de volgende 3:</div>
         <div class="option" v-for="(subitem, kk) in item.options" @click="user.setAnswer({chapter: 'chapter6', k, answer: kk})" :class="{active: user.getAnswer({chapter: 'chapter6', k}) === kk}">
           <div class="commentbox">{{ subitem }}</div>
         </div>
       </div>
     </div>
-    <div class="questions" v-if="done">
+    <div class="questions done" v-if="done && user.showResults.includes('chapter6')">
       <div class="options" v-for="(item,k) in questions.chapter6">
         <div class="choose">Kies 1 van de volgende 3:</div>
         <div class="option" v-for="(subitem, kk) in item.options" :class="{active: user.getAnswer({chapter: 'chapter6', k}) === kk}">
           <div class="commentbox">
             {{ subitem }}
             <div class="result">
-              {{ stemmen }} stemmen
+              {{ stemmen[k][kk] }} stemmen
             </div>
           </div>
         </div>
@@ -38,13 +39,16 @@ const input = ref("");
 const done = computed(() =>
   user.done ? user.done.includes("chapter6") : false
 );
-async function send() {
-  const data = await $fetch("/socketapi/beatthebot", {
-    method: "POST",
-    body: { text: input.value, userid: user.userid, groupid: user.groupid },
-  });
-  console.log(data);
-}
+const stemmen = computed(() => {
+  let all = []
+  questions.chapter6.map((x,k) => {
+    all[k] = []
+    for (let i = 0; i < questions.chapter6.options; i++) {
+      all[k][i] = user.users.filter(user => user.answers && user.answers.chapter6 && user.answers.chapter6[k] === i ? true : false)
+    }
+  })
+  return all
+})
 </script>
 <style lang="less" scoped>
 
@@ -69,10 +73,21 @@ async function send() {
   padding: 0.5em;
 }
 
+
 .options {
   margin-bottom: 3rem;
   // border-top: 1px solid var(--bg);
   padding-top: 1em;
+  opacity: 0.25;
+  pointer-events: none;
+  .questions.done & {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  &.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
   .option {
     cursor: pointer;
     &.active {

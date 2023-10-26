@@ -1,7 +1,7 @@
 <template>
   <div class="group-chapter-7" v-if="!group.loading">
     <chapterlogo class="chapterlogo"></chapterlogo>
-    <h1>Beat the bot</h1>
+    <h1>Beat-the-bot!</h1>
     <div class="subtitlequestion">
       Schrijf de meest constructieve bijdrage die je kunt bedenken. De bot
       plaatst alle reacties uit de klas straks in een hiërarchie van hoog naar
@@ -13,15 +13,19 @@
       @next="group.startChapter('chapter7')"
       @restart="group.unStartChapter('chapter7')"
     ></videoPlayer>
-    <ChapterProgress chapter="chapter7" v-if="!results"></ChapterProgress>
+    <h1>Scorebord</h1>
+    <div class="scorebord">
+      <div class="user" v-for="user in highscore">
+        {{ user.name }}: {{ user.answers && user.answers.chapter7 ? Math.round(user.answers.chapter7[0].score * 100) / 100 : 0 }}
+      </div>
+
+    </div>
+    
     <div class="results" v-if="results">
       Hier komen alle reacties, gesorteerd op score.
     </div>
-    <button @click="results = true" v-if="!results">
-      vergelijk resultaten
-    </button>
-    <div class="next" v-if="results">
-      <button @click="group.next()">naar het einde</button>
+    <div class="next">
+      <button @click="group.next()">Ga naar de laatste pagina</button>
     </div>
   </div>
 </template>
@@ -30,6 +34,14 @@ import chapterlogo from "@/assets/chapters/6.svg?component";
 const group = useGroupStore();
 const results = ref(false);
 const started = computed(() => group.started.includes("chapter7"));
+const highscore = computed(() => {
+  const users = JSON.parse(JSON.stringify(group.users))
+  users.sort((a,b)=> {
+    if (!a.answers || !a.answers.chapter7 || !b.answers || !b.answers.chapter7) { return -1 }
+    a.answers.chapter7[0].score - b.answers.chapter7[0].score
+  })
+  return users
+})
 </script>
 <style lang="less" scoped>
 .group-chapter-7 {

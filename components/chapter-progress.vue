@@ -79,8 +79,8 @@ const { chapter } = defineProps({
       }
     }
     .ready, .busy {
-      font-size: 0.6rem;
-      padding: 0 1em;
+      // font-size: 0.6rem;
+      padding: 0.25em 1em;
       // border: 1px solid var(--fg);
       background: var(--bg1);
       border-radius: 100%;

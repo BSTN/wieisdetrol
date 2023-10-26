@@ -112,6 +112,7 @@ export const useGroupStore = defineStore('groupStore', {
         this.position = data.position
         if (data.finished) { this.finished = data.finished }
         if (data.started) { this.started = data.started }
+        if (data.showResults) { this.showResults = data.showResults }
       })
       SOCK.on('setStartChapter', ({ chapter, groupid }) => {
         if (!self.started.includes(chapter)) {

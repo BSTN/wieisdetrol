@@ -1,9 +1,9 @@
 <template>
   <div class="start">
     <div class="instructions" v-if="!user.userid">
-      <h1>Welkom bij<Br />Wie is de trol?</h1>
+      <!-- <h1>Welkom bij<Br />Wie is de trol?</h1> -->
       <p>
-        Hieronder zie je je gegenereerde gebruikersnaam en icoon. Zo kan je
+        Welkom bij Wie is de trol? Hieronder zie je je gegenereerde gebruikersnaam en icoon. Zo kan je
         je resultaten herkennen gedurende het spel.
       </p>
       <p class="info">
@@ -23,13 +23,6 @@ const user = useUserStore();
   min-height: 100vh;
 }
 
-.instructions {
-  
-  width: 20rem;
-  max-width: 100%;
-  margin: 0 auto;
-}
-
 h1 {
   font-size: 2rem;
   line-height: 1.2em;
@@ -37,8 +30,8 @@ h1 {
 }
 .instructions {
   text-align: center;
-  padding: 1rem 1rem;
-  // width: 30rem;
+  padding: 2rem 1rem;
+  width: 20rem;
   max-width: 100%;
   margin: 0 auto;
   :deep(p) {

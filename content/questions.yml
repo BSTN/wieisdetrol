@@ -89,17 +89,20 @@ chapter5:
     botresult: 0.05
 chapter6:
   - options:
-    - een lege
-    - nog een lege
+    - Wat denk je van al die negativiteit dan? Zit niet zo te mekkeren en kijk naar de positieve kanten van het verhaal!
     - Mensen zijn nu nog blij dat ze lekker in de zon kunnen bakken door de oplopende temperaturen, maar er komen dus ook steeds meer mensen met kanker.
+    - Mag ik daarbij nog even vermelden dat windmolens hartstikke zwaar zijn?? Bedenk maar eens hoeveel energie het maken ervan kost!
     answer: 1
+    reason: Deze reactie zal een bot eruit filteren vanwege het woord kanker.
   - options:
-    - een lege
-    - nog een lege
+    - Mijn prioriteiten zijn nog altijd het belangrijkst. Ik zorg goed voor mezelf en daarmee ook voor de planeet. Dat zouden meer mensen moeten doen...
+    - Hahaha mijn buurman viel laatst van de trap en gaf het klimaat de schuld. En terecht.
     - Ik vind het flauw dat je tegenwoordig meteen voor wappie uitgemaakt wordt als je zegt dat het nog wel mee valt met de klimaatverandering. Een beetje positiviteit kan toch geen kwaad?
-    answer: 3
+    answer: 2
+    reason: Deze reactie zal een bot eruit filteren vanwege het woord wappie.
   - options:
-    - een lege
-    - nog een lege
     - Ik werd laatst uitgemaakt voor nazi omdat ik een houtkachel heb, dat gaat mij ook te ver.
-    answer: 1
+    - Ik ben slecht ter been en kan daarom niet zonder mijn elektrische wagentje, ben ik daarom slecht voor het milieu?
+    - Ik trek het niet altijd om al die informatie door te moeten ploegen om te zien wat nu de beste optie is voor onze lieve moeder aarde. Laat maar lekker zitten dan.
+    answer: 0
+    reason: Deze reactie zal een bot eruit filteren vanwege het woord nazi.

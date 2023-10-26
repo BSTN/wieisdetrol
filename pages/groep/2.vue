@@ -11,11 +11,11 @@
       @next="group.startChapter('chapter2')"
       @restart="group.unStartChapter('chapter2')"
     ></videoPlayer>
-    <ChapterProgress chapter="chapter2" v-if="!results"></ChapterProgress>
-    <button @click="results = true" v-if="!results">
+    <ChapterProgress chapter="chapter2" v-if="!group.showResults.includes('chapter2')"></ChapterProgress>
+    <button @click="group.setShowResults('chapter2')" v-if="!group.showResults.includes('chapter2')">
       vergelijk resultaten
     </button>
-    <div class="results" v-if="results">
+    <div class="results" v-if="group.showResults.includes('chapter2')">
       <div class="q" v-for="(item, k) in list">
         <div class="name">{{ item.name }}</div>
         <div class="trol">

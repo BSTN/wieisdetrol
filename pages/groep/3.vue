@@ -18,15 +18,15 @@
     ></videoPlayer>
     
     <!-- PROGRESS -->
-    <ChapterProgress chapter="chapter3" v-if="!results"></ChapterProgress>
+    <ChapterProgress chapter="chapter3" v-if="!group.showResults.includes('chapter3')"></ChapterProgress>
 
     <!-- VERGELIJK DE RESULTATEN -->
-    <button @click="results = true" v-if="!results">
+    <button @click="group.setShowResults('chapter3')" v-if="!group.showResults.includes('chapter3')">
       vergelijk resultaten
     </button>
 
     <!-- RESULTATEN -->
-    <div class="results" v-if="results">
+    <div class="results" v-if="group.showResults.includes('chapter3')">
       <div class="q" v-for="(q, k) in questions['chapter3']">
         <div class="commentbox">
           {{ q.text }}
@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <div class="next" v-if="results">
+    <div class="next" v-if="group.showResults.includes('chapter3')">
       <button @click="group.next()">volgende hoofdstuk</button>
     </div>
   </div>

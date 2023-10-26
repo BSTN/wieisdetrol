@@ -147,15 +147,15 @@ export const useUserStore = defineStore('userStore', {
         // navigateTo(order[position].user)
       });
 
-      SOCK.on('setStartChapter', ({ name, groupid }) => {
-        if (!self.started.includes(name)) {
-          self.started.push(name)
+      SOCK.on('setStartChapter', ({ chapter, groupid }) => {
+        if (!self.started.includes(chapter)) {
+          self.started.push(chapter)
         }
       })
 
-      SOCK.on('setUnStartChapter', ({ name, groupid }) => {
-        if (self.started.includes(name)) {
-          self.started.splice(self.started.indexOf(name), 1)
+      SOCK.on('setUnStartChapter', ({ chapter, groupid }) => {
+        if (self.started.includes(chapter)) {
+          self.started.splice(self.started.indexOf(chapter), 1)
         }
       })
 

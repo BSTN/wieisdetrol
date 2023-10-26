@@ -21,13 +21,14 @@
     <button @click="group.setShowResults('chapter1')" v-if="!group.showResults.includes('chapter1')">
       vergelijk resultaten
     </button>
-    <button @click="group.setUnShowResults('chapter1')" v-if="group.showResults.includes('chapter1')">
+    <!-- <button @click="group.setUnShowResults('chapter1')" v-if="group.showResults.includes('chapter1')">
       verberg resultaten
-    </button>
+    </button> -->
     <!-- RESULTS -->
     <div class="results" v-if="group.showResults.includes('chapter1')">
       <div class="qcontainer">
         <div class="q" v-for="(q, k) in list" :key="q.key">
+          <div class="text commentbox"><span>reactie #{{q.key + 1}}</span>{{ q.comment }}</div>
           <div class="splitbox">
             <div class="toegestaan" v-if="q.toegestaan > 0" :style="{width: (q.toegestaan / (q.toegestaan + q.verwijderd)) * 100 + '%'}">
               {{ q.toegestaan }}x toegestaan
@@ -36,7 +37,6 @@
               {{ q.verwijderd }}x verwijderd
             </div>
           </div>
-          <div class="text commentbox">{{ q.comment }}</div>
         </div>
       </div>
       <div class="next" v-if="group.showResults.includes('chapter1')">
@@ -87,6 +87,8 @@ const list = computed(() => {
   flex-wrap: wrap;
   gap: 1.5rem;
   padding: 1rem;
+  max-width: 30rem;
+  margin: 0 auto;
 }
 
 .q {

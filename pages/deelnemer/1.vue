@@ -1,7 +1,10 @@
 <template>
   <div class="user-chapter1" v-if="!user.loading">
-    <!-- <userPause v-if="!started || done"></userPause> -->
+    <userPause v-if="!started"></userPause>
     <div v-if="started" class="comments">
+      <div v-if="done" class="info">
+      Dank voor je antwoorden! Zodra de resultaten worden weergegeven kan je hieronder je resultaten vergelijken met die van andere deelnemers:
+      </div>
       <div
         v-for="(comment, k) in questions.chapter1"
         class="comment"
@@ -9,7 +12,7 @@
       >
 
         <!-- COMMENT -->
-        <div class="text commentbox">{{ comment }}</div>
+        <div class="text commentbox"><span>reactie #{{k + 1}}</span>{{ comment }}</div>
 
         <!-- BUTTONS -->
         <div class="buttons" v-if="!done">
@@ -33,11 +36,13 @@
 
         <!-- ANSWERS -->
         <div class="answers" v-if="user.showResults.includes('chapter1')">
-          jouw antwoord: {{ getAnswer({chapter: 'chapter1', k}) ? 'verwijderen' : 'toelaten'}}
+          <div class="ownanswer">jouw antwoord: {{ getAnswer({chapter: 'chapter1', k}) ? 'verwijderen' : 'toelaten'}}</div>
+          <div class="verwijderd">{{ allAnswers ? allAnswers.verwijderden[k].length : 0 }}x verwijderd</div>
+          <div class="toegestaan">{{ allAnswers ? allAnswers.toegestanen[k].length : 0 }}x toegestaan</div>
         </div>
       </div>
     </div>
-    <div class="done" v-if="!done">
+    <div class="done" v-if="!done && started">
       <button class="contrast" @click="user.setDone('chapter1')">
         Klik hier als je klaar bent!
       </button>
@@ -60,17 +65,28 @@ const started = computed(() =>
 const done = computed(() =>
   user.done ? user.done.includes("chapter1") : false
 );
+const allAnswers = computed(() => {
+  if (!user.showResults.includes('chapter1')) { return false }
+  const verwijderden = [];
+  const toegestanen = [];
+  for (let i = 0; i < questions['chapter1'].length; i++) {
+    verwijderden[i] = user.users.filter(x => x.answers && x.answers.chapter1 && x.answers.chapter1[i] === false ? true : false)
+    toegestanen[i] = user.users.filter(x => x.answers && x.answers.chapter1 && x.answers.chapter1[i] === true ? true : false)
+  }
+  return {verwijderden, toegestanen}
+})
 </script>
 <style lang="less" scoped>
 .user-chapter1 {
   text-align: left;
   background: var(--testbg);
+  min-height: 100vh;
 }
 .comments {
   padding: 1rem;
 }
 .comment {
-  margin: 0 auto 3rem;
+  margin: 0 auto 4rem;
   width: 32rem;
   max-width: 100%;
   opacity: 0.1;
@@ -98,5 +114,32 @@ const done = computed(() =>
       }
     }
   }
+}
+
+.answers {
+  .ownanswer {
+    margin-bottom: 0.5em;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  .verwijderd, .toegestaan {
+    padding: 0.25em 0.5em;
+    font-size: 0.8rem;
+    border-radius: 0.5em;
+    margin-bottom: 0.25em;
+  }
+  .verwijderd {
+    color: var(--rbg);
+    background: var(--rfg);
+    border: 1px solid var(--rbg);
+  }
+  .toegestaan {
+    color: var(--gbg);
+    background: var(--gfg);
+    border: 1px solid var(--gbg);
+  }
+}
+.info {
+  margin-bottom: 2rem;
 }
 </style>

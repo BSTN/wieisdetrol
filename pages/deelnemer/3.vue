@@ -1,10 +1,10 @@
 <template>
   <div class="user-chapter-3">
      <!-- PAUSE -->
-    <userPause v-if="!started"></userPause>
+    <userPause v-if="!started || (done && !user.showResults.includes('chapter3'))"></userPause>
 
     <!-- VRAGEN -->
-    <div class="questions">
+    <div class="questions" v-if="started && (!done || user.showResults.includes('chapter3'))">
       <div class="question">
         Welk label vind je het beste van toepassing bij de volgende reacties?
       </div>

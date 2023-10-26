@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="800px" height="800px" viewBox="0 0 800 800" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg viewBox="0 0 800 800" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>7 copy</title>
     <g id="7-copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <path d="M198.987863,86.0445892 L601.012137,86.0445892 C663.388985,86.0445892 713.955411,136.611015 713.955411,198.987863 L713.955411,601.012137 C713.955411,663.388985 663.388985,713.955411 601.012137,713.955411 L198.987863,713.955411 C136.611015,713.955411 86.0445892,663.388985 86.0445892,601.012137 L86.0445892,198.987863 C86.0445892,136.611015 136.611015,86.0445892 198.987863,86.0445892 Z" id="Rectangle" fill="#FAFFF6" transform="translate(400, 400) rotate(-45) translate(-400, -400)"></path>

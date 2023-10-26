@@ -197,6 +197,13 @@ h1 {
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 0%);
     background: var(--cbg);
   }
+  span {
+    border-radius: 100%;
+    display: block;
+    font-size: 0.8em;
+    opacity: 0.5;
+    transform: translateY(-0.5em);
+  }
 }
 
 .next {
@@ -235,6 +242,10 @@ h1 {
   width: 6rem;
   height: auto;
   margin: 2rem 0 0;
+  svg {
+    width: 100% !important;
+    height: auto !important;
+  }
   path {
     fill: var(--bg);
     &:nth-child(2) {

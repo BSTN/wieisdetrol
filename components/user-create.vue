@@ -4,7 +4,7 @@
       <div>
         <userAvatar :user="user.user" class="mainuser"></userAvatar>
         <br /><br />
-        <div>Even wachten tot iedereen zover is...</div>
+        <div>Als het goed is zie je je icoontje verschijnen op het grote scherm. We wachten even tot iedereen zover is...</div>
       </div>
     </div>
     <div class="" v-if="!user.userid">
@@ -85,7 +85,7 @@ onMounted(() => {
 
 .avatar {
   background: var(--bg);
-  border-radius: 0.5em;
+  border-radius: 1em;
   margin-bottom: 2em;
   padding: 1em 1em 2em;
   text-align: center;
@@ -96,9 +96,5 @@ onMounted(() => {
   .naam {
     font-size: 1.75em;
   }
-}
-
-.max {
-  color: #f00;
 }
 </style>

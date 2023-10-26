@@ -43,6 +43,11 @@
           <icon icon="rewind"></icon>
         </button> -->
         <button @click="togglePlay()" class="contrast">
+          <div class="spinner" :class="{active: spinner}">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
           <icon :icon="playing ? 'pause' : 'play'"></icon>
         </button>
         <!-- <button @click="toggleMute()" class="contrast">
@@ -57,6 +62,7 @@
 import Slider from "@vueform/slider";
 // for loading
 const started = ref(true);
+const spinner = ref(false)
 
 const group = useGroupStore();
 const { file, initStarted } = defineProps({
@@ -120,6 +126,12 @@ onMounted(() => {
     });
     video.value.addEventListener("pause", () => {
       playing.value = false;
+    });
+    video.value.addEventListener("waiting", () => {
+      spinner.value = true
+    });
+    video.value.addEventListener("playing", () => {
+      spinner.value = false
     });
     video.value.addEventListener("timeupdate", () => {
       timecode.value = fancyTimeFormat(parseInt(video.value.currentTime));
@@ -219,6 +231,7 @@ function stopDragging() {
     color: var(--bg);
   }
 }
+
 .fullscreen-frame {
   padding: 4rem 1rem;
   position: fixed;
@@ -324,6 +337,7 @@ function stopDragging() {
     }
   }
   button {
+    position: relative;
     background: var(--fg);
     color: var(--bg);
     font-size: 2em;
@@ -337,6 +351,69 @@ function stopDragging() {
     opacity: 1;
   }
 }
+
+
+// .spinner {
+//   position:absolute;
+//   top:0;
+//   right:0;
+//   width: 1rem;
+//   height: 1rem;
+//   border: 2px solid var(--bg);
+//   border-radius: 100%;
+//   border-left: 0;
+//   border-right: 0;
+//   animation: spinner 1s linear 0s infinite forwards;
+//   @keyframes spinner {
+//     100% {
+//       transform: rotate(360deg);
+//     }
+//   }
+// }
+
+.spinner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: var(--fg);
+  border-radius: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+  &.active {
+    opacity: 1;
+  }
+}
+.spinner div {
+  display: inline-block;
+  position: relative;
+  margin: 0 0.25rem;
+  top:.25rem;
+  width: 0.5rem;
+  height: .5rem;
+  background: var(--bg);
+  border-radius: 100%;
+  animation: spinner .7s linear infinite;
+}
+.spinner div:nth-child(1) {
+  animation-delay: -0.24s;
+}
+.spinner div:nth-child(2) {
+  animation-delay: -0.12s;
+}
+.spinner div:nth-child(3) {
+  animation-delay: 0;
+}
+@keyframes spinner {
+  0%, 100% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.3);
+  }
+}
+
 
 .timeline {
   width: 60rem;

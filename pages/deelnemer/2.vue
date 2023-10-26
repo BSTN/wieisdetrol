@@ -1,6 +1,7 @@
 <template>
   <div class="user-chapter-2">
-    <div class="questions" v-if="started">
+    <user-pause v-if="done && !user.showResults.includes('chapter2')"></user-pause>
+    <div class="questions" v-if="started && (!done || user.showResults.includes('chapter2'))">
       <div class="item" v-for="(q, k) in questions.chapter2">
         <div class="name"><icon icon="user"></icon>{{ q.name }}</div>
         <div class="comments">
@@ -8,7 +9,7 @@
             {{ comment }}
           </div>
         </div>
-        <div class="answer">
+        <div class="answer" v-if="!done">
           <button
             @click="user.setAnswer({ chapter: 'chapter2', k, answer: true })"
             :class="{
@@ -25,6 +26,11 @@
           >
             😇 Geen Trol
           </button>
+        </div>
+        <div class="answers" v-if="user.showResults.includes('chapter2')">
+          <div><label>Jouw antwoord:</label> {{ getAnswer({ chapter: 'chapter2', k }) === false ? '😈': '😇' }}</div>
+          <div><label>Alle antwoorden:</label> 😈 {{allAnswers ? allAnswers.trol[k].length : 0}}
+          😇 {{allAnswers ? allAnswers.geentrol[k].length : 0}}</div>
         </div>
       </div>
       <div class="done" v-if="!done">
@@ -46,6 +52,17 @@ const started = computed(() =>
 const done = computed(() =>
   user.done ? user.done.includes("chapter2") : false
 );
+
+const allAnswers = computed(() => {
+  if (!user.showResults.includes('chapter2')) { return false }
+  const trol = [];
+  const geentrol = [];
+  for (let i = 0; i < questions['chapter2'].length; i++) {
+    trol[i] = user.users.filter(x => x.answers && x.answers.chapter1 && x.answers.chapter1[i] === false ? true : false)
+    geentrol[i] = user.users.filter(x => x.answers && x.answers.chapter1 && x.answers.chapter1[i] === true ? true : false)
+  }
+  return {trol, geentrol}
+})
 </script>
 <style lang="less" scoped>
 .user-chapter-2 {
@@ -98,6 +115,10 @@ const done = computed(() =>
     color: var(--bg);
     // border: 2px solid var(--fg);
   }
+}
+
+.answers {
+  text-align: center;
 }
 
 </style>

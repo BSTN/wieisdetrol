@@ -5,21 +5,21 @@
     <div class="subtitlequestion">
       Welke reacties voegen volgens jou iets toe aan de discussie?
     </div>
-    <ChapterProgress chapter="chapter4" v-if="!results"></ChapterProgress>
+    <ChapterProgress chapter="chapter4" v-if="!group.showResults.includes('chapter4')"></ChapterProgress>
     <videoPlayer
       file="/videos/4.mp4"
       :class="{ started }"
       @next="group.startChapter('chapter4')"
       @restart="group.unStartChapter('chapter4')"
     ></videoPlayer>
-    <button @click="results = true" v-if="!results">
+    <button @click="group.setShowResults('chapter4')" v-if="!group.showResults.includes('chapter4')">
       vergelijk resultaten
     </button>
-    <div class="results" v-if="results">
+    <div class="results" v-if="group.showResults.includes('chapter4')">
       <div class="comments">
         <div class="q" v-for="(q, k) in list">
-          <div class="commentbox">{{ q.text }}</div>
-          <div class="result">{{ q.votes }}x </div>
+          <div class="commentbox"><span>reactie #{{ q.key }}</span>{{ q.text }}</div>
+          <div class="result">{{ q.votes }}x geselecteerd</div>
         </div>
       </div>
       <div class="next">
@@ -39,6 +39,7 @@ const list = computed(() => {
   const qs = questions.chapter3.map((x,k) => {
     return {
       text: x.text,
+      key: k,
       votes: group.users.filter(x => x.answers['chapter4'] ? x.answers['chapter4'][0] === k : false).length,
       users: group.users.filter(x => x.answers['chapter4'] ? x.answers['chapter4'][0] === k : false)
     }

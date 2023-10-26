@@ -1,27 +1,33 @@
 <template>
   <div class="group-chapter-5" v-if="!group.loading">
     <chapterlogo class="chapterlogo"></chapterlogo>
-    <h1>Hulp van de bot</h1>
-    <div class="subtitlequestion">
-      Vergelijk jouw score uit onderdeel 4 met die van de bot.
-    </div>
-    <ChapterProgress chapter="chapter5" v-if="!results"></ChapterProgress>
+    <h1>Ben je bot?</h1>
+    <ChapterProgress chapter="chapter5" v-if="!group.showResults.includes('chapter5')"></ChapterProgress>
     <videoPlayer
       file="/videos/5.mp4"
       :class="{ started }"
       @next="group.startChapter('chapter5')"
       @restart="group.unStartChapter('chapter5')"
     ></videoPlayer>
-    <button @click="results = true" v-if="!results">
+    <button @click="group.setShowResults('chapter5')" v-if="!group.showResults.includes('chapter5')">
       vergelijk resultaten
     </button>
-    <div class="results" v-if="results">
+    <div class="results" v-if="group.showResults.includes('chapter5')">
       <div class="comments" v-if="questions.chapter5">
         <div class="q" v-for="(q, k) in questions.chapter5">
           <div class="commentbox">{{ q.text }}</div>
+          <div class="user bot">
+            <div class="userdetails">🤖 Bot:</div>
+            <div class="slid">
+              <div class="bar" :style="{width: Math.round(q.botresult * 100) + '%'}"></div>
+            </div>
+          </div>
           <div class="user" v-for="user in group.users">
-            <UserIcon :user="user" class="small" /> {{ user.name }}:
-            {{ user.answers["chapter5"] ? user.answers["chapter5"][k] : "-" }}
+            <div class="userdetails"><UserIcon :user="user" class="small" /> {{ user.name }}:</div>
+            <div class="slid">
+              <div class="bar" :style="{width: Math.round(user.answers['chapter5'][k] ? user.answers['chapter5'][k] * 100 : 0) + '%'}"></div>
+            {{ user.answers["chapter5"] ? Math.round(user.answers["chapter5"][k] * 100) + '%' : '-' }}
+            </div>
           </div>
         </div>
       </div>
@@ -54,6 +60,27 @@ const started = computed(() => group.started.includes("chapter5"));
 .results {
   .user {
     margin-bottom: 0.5em;
+    display:flex;
+    align-items: center;
+    .userdetails {
+      flex: 1;
+    }
+    .slid {
+      flex: 1;
+      width: 50%;
+      height: 0.5em;
+      position: relative;
+      background: var(--rbg);
+      border-radius: 0.25em;
+      overflow: hidden;
+      .bar {
+        position:absolute;
+        left:0;
+        background: var(--gbg);
+        height: 100%;
+        border-right: 2px solid var(--bg);
+      }
+    }
   }
 }
 </style>
