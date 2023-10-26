@@ -6,7 +6,7 @@ import type { ServerToClientEvents, ClientToServerEvents } from "types/types";
 
 import order from '~/content/order.yml'
 
-let SOCK: Socket<ServerToClientEvents, ClientToServerEvents> = io('/', {autoConnect: false})
+let SOCK: Socket<ServerToClientEvents, ClientToServerEvents> = io('https://api.wie-is-de-trol.nl/', {autoConnect: false})
 
 export const useGroupStore = defineStore('groupStore', {
   state: (): GroupState => ({

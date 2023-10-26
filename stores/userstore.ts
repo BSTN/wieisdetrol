@@ -5,7 +5,7 @@ import { io, Socket } from "socket.io-client";
 import type { ServerToClientEvents, ClientToServerEvents, USER, Answer } from "types/types";
 import order from '~/content/order.yml'
 
-let SOCK: Socket<ServerToClientEvents, ClientToServerEvents> = io('/', {autoConnect: false})
+let SOCK: Socket<ServerToClientEvents, ClientToServerEvents> = io('https://api.wie-is-de-trol.nl/', {autoConnect: false})
 
 function asyncEmit(func: keyof ClientToServerEvents, data?:any) {
   return new Promise((resolve) => {
