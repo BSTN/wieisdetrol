@@ -39,11 +39,13 @@ const results = ref(false);
 const started = computed(() => group.started.includes("chapter2"));
 function trol(k: Number) {
   return group.users.filter((x) => {
+    if (!x.answers || !x.answers["chapter2"]) { return false }
     return x.answers["chapter2"][k] === true;
   });
 }
 function geentrol(k: Number) {
   return group.users.filter((x) => {
+    if (!x.answers || !x.answers["chapter2"]) { return false }
     return x.answers["chapter2"][k] === false;
   });
 }

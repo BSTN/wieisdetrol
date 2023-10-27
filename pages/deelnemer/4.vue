@@ -1,7 +1,7 @@
 <template>
   <div class="user-chapter-4">
-    <userPause v-if="!started || done"></userPause>
-    <div class="questions" v-if="started && (!done || user.showResults.includes('chapter4'))">
+    <userPause v-if="!started || (done && !user.showResults.includes('chapter4'))"></userPause>
+    <div class="questions" v-if="started && (done || user.showResults.includes('chapter4'))">
       <div class="question">
         Welke van de vorige berichten zou jij uitlichten? Je mag er 1 kiezen.
       </div>
@@ -11,7 +11,7 @@
         :class="{ active: getAnswer({ chapter: 'chapter4', k: 0 }) === k }"
       >
         <div class="commentbox">
-          {{ q.text }}
+          <span>Reactie #{{ k + 1 }}</span>{{ q.text }}
         </div>
         <div class="select" v-if="!done">
           <button @click="user.setAnswer({chapter: 'chapter4', k:0, answer: k})">selecteer deze reactie</button>
@@ -69,16 +69,16 @@ function getVotes(k:number){
   cursor: pointer;
   &.active {
     .commentbox {
-      background: var(--fg);
-      color: var(--bg);
+      background: var(--gfg);
+      color: var(--gbg);
       &:before {
-        background: var(--fg);
+        background: var(--gfg);
       }
     }
     .select {
       button {
-        background: var(--fg);
-        color: var(--bg);
+        // background: var(--gfg);
+        // color: var(--gbg);
       }
     }
   }

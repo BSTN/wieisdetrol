@@ -115,24 +115,18 @@ export const useUserStore = defineStore('userStore', {
       })
 
       SOCK.on('loadGroupData', (data) => {
-
-        this.started = data.started
-        
-        self.finished = data.finished
-        self.started = data.started
-        self.showResults = data.showResults
-        
-        for (let i in data.users) {
-          if (data.users[i].userid === self.userid) {
-            self.done = data.users[i].done
-          }
-        }
+        this.position = data.position
+        if (data.finished) { this.finished = data.finished }
+        if (data.started) { this.started = data.started }
+        if (data.showResults) { this.showResults = data.showResults }
       })
 
       SOCK.on('updateAnswer', ({userid, chapter, k, answer}) => {
 
         const user = self.users.find(user => user.userid === userid)
         if (!user){return false}
+        if (!user.answers) {user.answers = {} }
+        if (!user.answers[chapter]) {user.answers[chapter] = [] }
         user.answers[chapter][k] = answer
         
       })

@@ -1,6 +1,6 @@
 <template>
   <div class="user-chapter-2">
-    <user-pause v-if="done && !user.showResults.includes('chapter2')"></user-pause>
+    <user-pause v-if="!started || (done && !user.showResults.includes('chapter2'))"></user-pause>
     <div class="questions" v-if="started && (!done || user.showResults.includes('chapter2'))">
       <div class="item" v-for="(q, k) in questions.chapter2">
         <div class="name"><icon icon="user"></icon>{{ q.name }}</div>
@@ -68,6 +68,7 @@ const allAnswers = computed(() => {
 .user-chapter-2 {
   text-align: left;
   background: var(--testbg);
+  min-height: 100vh;
 }
 .questions {
   max-width: 30rem;

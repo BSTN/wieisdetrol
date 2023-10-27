@@ -2,9 +2,9 @@
   <div class="group-chapter-4" v-if="!group.loading">
     <chapterlogo class="chapterlogo"></chapterlogo>
     <h1>Constructiviteit</h1>
-    <div class="subtitlequestion">
+    <!-- <div class="subtitlequestion">
       Welke reacties voegen volgens jou iets toe aan de discussie?
-    </div>
+    </div> -->
     <ChapterProgress chapter="chapter4" v-if="!group.showResults.includes('chapter4')"></ChapterProgress>
     <videoPlayer
       file="/videos/4.mp4"
@@ -18,7 +18,7 @@
     <div class="results" v-if="group.showResults.includes('chapter4')">
       <div class="comments">
         <div class="q" v-for="(q, k) in list">
-          <div class="commentbox"><span>reactie #{{ q.key }}</span>{{ q.text }}</div>
+          <div class="commentbox"><span>reactie #{{ q.key + 1 }}</span>{{ q.text }}</div>
           <div class="result">{{ q.votes }}x geselecteerd</div>
         </div>
       </div>

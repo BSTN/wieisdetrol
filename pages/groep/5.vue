@@ -24,8 +24,8 @@
           </div>
           <div class="user" v-for="user in group.users">
             <div class="userdetails"><UserIcon :user="user" class="small" /> {{ user.name }}:</div>
-            <div class="slid">
-              <div class="bar" :style="{width: Math.round(user.answers['chapter5'][k] ? user.answers['chapter5'][k] * 100 : 0) + '%'}"></div>
+            <div class="slid" v-if="user.answers['chapter5'] && !isNaN(user.answers['chapter5'][k])">
+              <div class="bar" :style="{width: Math.round(user.answers['chapter5'] && user.answers['chapter5'][k] ? user.answers['chapter5'][k] * 100 : 0) + '%'}"></div>
             {{ user.answers["chapter5"] ? Math.round(user.answers["chapter5"][k] * 100) + '%' : '-' }}
             </div>
           </div>
