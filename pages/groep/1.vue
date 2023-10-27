@@ -53,11 +53,13 @@ const started = computed(() => group.started.includes("chapter1"));
 const results = ref(false);
 function toegestaan(k: Number) {
   return group.users.filter((x) => {
+    if (!x.answers || !x.answers["chapter1"]) { return false }
     return x.answers["chapter1"][k] === true;
   });
 }
 function verwijderd(k: Number) {
   return group.users.filter((x) => {
+    if (!x.answers || !x.answers["chapter1"]) { return false }
     return x.answers["chapter1"][k] === false;
   });
 }

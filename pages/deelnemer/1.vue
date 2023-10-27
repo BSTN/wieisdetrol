@@ -1,10 +1,10 @@
 <template>
   <div class="user-chapter1" v-if="!user.loading">
-    <userPause v-if="!started"></userPause>
-    <div v-if="started" class="comments">
-      <div v-if="done" class="info">
-      Dank voor je antwoorden! Zodra de resultaten worden weergegeven kan je hieronder je resultaten vergelijken met die van andere deelnemers:
-      </div>
+    <userPause v-if="!started || (done && !user.showResults.includes('chapter1'))"></userPause>
+    <div v-if="done" class="info">
+    Dank voor je antwoorden! Zodra de resultaten worden weergegeven kan je hieronder je resultaten vergelijken met die van andere deelnemers:
+    </div>
+    <div v-if="started && (!done || user.showResults.includes('chapter1'))" class="comments">
       <div
         v-for="(comment, k) in questions.chapter1"
         class="comment"
@@ -141,5 +141,6 @@ const allAnswers = computed(() => {
 }
 .info {
   margin-bottom: 2rem;
+  padding: 1rem;
 }
 </style>
