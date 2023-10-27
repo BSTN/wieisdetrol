@@ -31,7 +31,7 @@ const options = computed(() => {
 async function send() {
   error.value = ''
   loading.value = true
-  const data = await $fetch("http://localhost/beatthebot", {
+  const data = await $fetch("https://api.wie-is-de-trol.nl/beatthebot", {
     method: "POST",
     body: { text: input.value, userid: user.userid, groupid: user.groupid },
   }).catch(err => {
