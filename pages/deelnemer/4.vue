@@ -1,7 +1,7 @@
 <template>
   <div class="user-chapter-4">
     <userPause v-if="!started || (done && !user.showResults.includes('chapter4'))"></userPause>
-    <div class="questions" v-if="started && (done || user.showResults.includes('chapter4'))">
+    <div class="questions" v-if="started && (!done || user.showResults.includes('chapter4'))">
       <div class="question">
         Welke van de vorige berichten zou jij uitlichten? Je mag er 1 kiezen.
       </div>
