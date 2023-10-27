@@ -80,7 +80,7 @@ export const useUserStore = defineStore('userStore', {
       }
       // init socket
       const config = useRuntimeConfig()
-      SOCK = io(config.public.URL + config.public.BASE)
+      SOCK = io(config.public.URL + config.public.BASE, {transports: ['polling']})
       
       // connection status
       SOCK.on('connect', async function () {

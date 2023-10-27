@@ -61,7 +61,7 @@ export const useGroupStore = defineStore('groupStore', {
       // }
 
       const config = useRuntimeConfig()
-      SOCK = io(config.public.URL + config.public.BASE)
+      SOCK = io(config.public.URL + config.public.BASE, {transports: ['polling']})
 
       // connection status
       SOCK.on('connect', function () { 
