@@ -1,5 +1,5 @@
 <template>
-  <div class="user-start" v-if="!user.loading" @click="generate()">
+  <div class="user-start" v-if="!user.loading">
     <div class="centered" v-if="user.userid && user.userid !== ''">
       <div>
         <userAvatar :user="user.user" class="mainuser"></userAvatar>
@@ -7,7 +7,7 @@
         <div>Als het goed is zie je je icoontje verschijnen op het grote scherm. We wachten even tot iedereen zover is...</div>
       </div>
     </div>
-    <div class="" v-if="!user.userid">
+    <div class="" v-if="!user.userid" @click="generate()">
       <div class="avatar">
         <div class="icon" v-html="icon" ></div>
         <div class="naam">{{ naam }}</div>
