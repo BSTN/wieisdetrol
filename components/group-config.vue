@@ -4,12 +4,23 @@
   </div>
 </template>
 <script lang="ts" setup>
+import order from '@/content/order.yml'
 const group = useGroupStore();
 const status = ref("");
 const route = useRoute();
-watch(route, (a, b, c) => {
-  console.log({ a, b, c });
-});
+watch(() => route.path, (to, from) => {
+  const newto = to.replace('/groep/', '')
+  // const oldfrom = from ? from.replace('/groep/', '') : false
+  // if (oldfrom && newto !== '/' && oldfrom !== '/' && !isNaN(newto) && !isNaN(oldfrom) && newto > oldfrom) { return false }
+  if (newto === '/' && from !== '/') { return false }
+  let index = 0
+  if (newto === '/') { 
+    index = 0 
+  } else {
+    index = order.findIndex((x) => x.group == newto)
+  }
+  group.next(index)
+}, {deep: true, immediate: true});
 
 watch(
   () => group.connected,

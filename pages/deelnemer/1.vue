@@ -1,8 +1,11 @@
 <template>
   <div class="user-chapter1" v-if="!user.loading">
     <userPause v-if="!started || (done && !user.showResults.includes('chapter1'))"></userPause>
-    <div v-if="done" class="info">
+    <!-- <div v-if="done" class="info">
     Dank voor je antwoorden! Zodra de resultaten worden weergegeven kan je hieronder je resultaten vergelijken met die van andere deelnemers:
+    </div> -->
+    <div v-if="started && (!done || user.showResults.includes('chapter1'))" class="newspaperframe">
+      <newspaper />
     </div>
     <div v-if="started && (!done || user.showResults.includes('chapter1'))" class="comments">
       <div
@@ -36,9 +39,9 @@
 
         <!-- ANSWERS -->
         <div class="answers" v-if="user.showResults.includes('chapter1')">
-          <div class="ownanswer">jouw antwoord: {{ getAnswer({chapter: 'chapter1', k}) ? 'verwijderen' : 'toelaten'}}</div>
-          <div class="verwijderd">{{ allAnswers ? allAnswers.verwijderden[k].length : 0 }}x verwijderd</div>
-          <div class="toegestaan">{{ allAnswers ? allAnswers.toegestanen[k].length : 0 }}x toegestaan</div>
+          <div class="ownanswer">Jouw antwoord: {{ getAnswer({chapter: 'chapter1', k}) ? 'toestaan' : 'verwijderen'}}</div>
+          <div class="verwijderd">{{ allAnswers ? allAnswers.verwijderden[k].length : 0 }}x verwijderen</div>
+          <div class="toegestaan">{{ allAnswers ? allAnswers.toegestanen[k].length : 0 }}x toestaan</div>
         </div>
       </div>
     </div>
@@ -81,6 +84,15 @@ const allAnswers = computed(() => {
   text-align: left;
   background: var(--testbg);
   min-height: 100vh;
+}
+
+.newspaperframe {
+  background: var(--fg);
+  padding: 1rem;
+  border-bottom: 1px solid var(--fg);
+  @media (max-width: 50rem) {
+    padding: 0.5rem;
+  }
 }
 .comments {
   padding: 1rem;

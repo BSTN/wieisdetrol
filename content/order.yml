@@ -1,5 +1,5 @@
 - name: Introductie
-  group: 
+  group: /
   user: start
 - name: "1. Goed en Kwaad"
   group: 1

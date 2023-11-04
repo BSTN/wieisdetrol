@@ -229,7 +229,6 @@ export const useUserStore = defineStore('userStore', {
     },
     async reset() {
       // sure ?
-
       const { confirm } = useNotify()
       const sure = await confirm('Weet je zeker dat je het spel wilt verlaten?')
       if (sure) {

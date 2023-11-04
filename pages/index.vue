@@ -29,9 +29,7 @@ import logo from "@/assets/logo/logo-diamond.svg?component";
 const group = useGroupStore();
 const config = useRuntimeConfig();
 const started = ref(false);
-onMounted(() => {
-  console.log(config.public.URL, config.public.BASE);
-});
+
 </script>
 <style lang="less" scoped>
 .group-start {

@@ -2,9 +2,10 @@
   <div class="user-start" v-if="!user.loading">
     <div class="centered" v-if="user.userid && user.userid !== ''">
       <div>
-        <userAvatar :user="user.user" class="mainuser"></userAvatar>
+        <UserIcon :user="user.user"></UserIcon>
+        <div class="name">{{ user.name }}</div>
         <br /><br />
-        <div>Als het goed is zie je je icoontje verschijnen op het grote scherm. We wachten even tot iedereen zover is...</div>
+        <div>Als het goed is zie je je icoontje verschijnen op het grote scherm. We wachten ondertussen even tot iedereen zover is...</div>
       </div>
     </div>
     <div class="" v-if="!user.userid" @click="generate()">
@@ -13,7 +14,7 @@
         <div class="naam">{{ naam }}</div>
       </div>
       <div>
-        <button @click="user.createUser({ name: naam, userid })">Start</button>
+        <button class="big" @click="user.createUser({ name: naam, userid })">Start</button>
       </div>
     </div>
   </div>
@@ -53,7 +54,7 @@ onMounted(() => {
 .user-start {
   padding: 1em;
   text-align: center;
-  width: 16rem;
+  // width: 16rem;
   max-width: 100%;
   margin: 0 auto;
   user-select: none;
@@ -83,18 +84,41 @@ onMounted(() => {
   }
 }
 
+:deep(.user-icon) {
+  width: 12rem !important;
+  height: 12rem !important;
+  overflow: hidden;
+  border-radius: 1em !important;
+  border: 1rem solid var(--bg) !important;
+}
+
 .avatar {
-  background: var(--bg);
-  border-radius: 1em;
   margin-bottom: 2em;
-  padding: 1em 1em 2em;
+  padding: 0em 0 1em;
   text-align: center;
   .icon {
-    width: 6rem;
-    margin: 0 auto;
+    width: 8rem;
+    height: 8rem;
+    margin: 0 auto 1rem;
+    background: var(--bg);
+    font-size: 0;
+    border-radius: 1rem;
+    :deep(svg) {
+      margin: 0;
+    }
   }
   .naam {
-    font-size: 1.75em;
+    font-size: 1em;
+    font-weight: 500;
   }
+}
+
+.name {
+  font-weight: 500;
+  background: var(--bg);
+  width: 12rem;
+  border-radius: .5rem;
+  margin: .25rem auto;
+  padding: 0.5em;
 }
 </style>

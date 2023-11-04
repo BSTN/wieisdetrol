@@ -12,12 +12,12 @@
     </div>
     <div class="questions done" v-if="done && user.showResults.includes('chapter6')">
       <div class="options" v-for="(item,k) in questions.chapter6">
-        <div class="choose">Kies 1 van de volgende 3:</div>
+        <label>Kies 1 van de volgende 3:</label>
         <div class="option" v-for="(subitem, kk) in item.options" :class="{active: user.getAnswer({chapter: 'chapter6', k}) === kk}">
           <div class="commentbox">
             {{ subitem }}
             <div class="result">
-              {{ stemmen[k][kk] }} stemmen
+              {{ stemmen[k][kk].length }} stem{{stemmen[k][kk].length > 1 ? 'men' : ''}}
             </div>
           </div>
         </div>
@@ -43,8 +43,8 @@ const stemmen = computed(() => {
   let all = []
   questions.chapter6.map((x,k) => {
     all[k] = []
-    for (let i = 0; i < questions.chapter6.options; i++) {
-      all[k][i] = user.users.filter(user => user.answers && user.answers.chapter6 && user.answers.chapter6[k] === i ? true : false)
+    for (let i = 0; i < x.options.length; i++) {
+      all[k][i] = user.users.filter(u => u.answers && u.answers.chapter6 && u.answers.chapter6[k] == i)
     }
   })
   return all

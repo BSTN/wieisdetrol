@@ -6,11 +6,11 @@
         <div class="commentbox">{{ q.text }}</div>
         <botSlider :number="k" chapter="chapter5" @change="update" v-if="!done"></botSlider>
         <div class="result" v-if="user.showResults.includes('chapter5')">
-          Jouw antwoord:
+          <label>Jouw antwoord:</label>
           <div class="slid user">
               <div class="bar" :style="{width: Math.round(user.answers['chapter5'][k] ? user.answers['chapter5'][k] * 100 : 0) + '%'}"></div>
             </div>
-          De bot:
+          <label>De bot:</label>
           <div class="slid bot">
             <div class="bar" :style="{width: Math.round(q.botresult * 100) + '%'}"></div>
           </div>

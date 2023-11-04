@@ -3,7 +3,7 @@
     <userPause v-if="!started || (done && !user.showResults.includes('chapter4'))"></userPause>
     <div class="questions" v-if="started && (!done || user.showResults.includes('chapter4'))">
       <div class="question">
-        Welke van de vorige berichten zou jij uitlichten? Je mag er 1 kiezen.
+        Welke van de volgende berichten (dezelfde als in het vorige hoofdstuk) zou jij uitlichten? Je mag er 1 kiezen.
       </div>
       <div
         v-for="(q, k) in questions.chapter3"

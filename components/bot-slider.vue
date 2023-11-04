@@ -16,6 +16,12 @@
         tooltipPosition="top"
         :lazy="false"
       ></Slider>
+      <div class="stripes">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
   </div>
 </template>
@@ -62,6 +68,26 @@ const val = computed({
 .frame {
   position: relative;
   margin-bottom: 2rem;
+}
+
+.stripes {
+  position:absolute;
+  left:0;
+  top:0;
+  width: 100%;
+  height:100%;
+  z-index:2;
+  pointer-events: none;
+  div {
+    position:absolute;
+    height: 100%;
+    border-left: 2px solid var(--bg);
+    top:0;
+    &:nth-child(1) { left: 20%; }
+    &:nth-child(2) { left: 40%; }
+    &:nth-child(3) { left: 60%; }
+    &:nth-child(4) { left: 80%; }
+  }
 }
 .theslider {
   background: var(--bg2);

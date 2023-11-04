@@ -96,14 +96,14 @@ export const useGroupStore = defineStore('groupStore', {
       // custom events
       SOCK.on('goto', (position) => {
         const router = useRouter()
-        if (order[position].group !== null) {
+        if (order[position].group !== null && order[position].group !== '/') {
           router.push('/groep/' + order[position].group)
           self.position = position
         }
       })
       SOCK.on('addUser', ({ userid, groupid, name }) => {
-        // check if user exists
-        this.users.push({userid, groupid, name, answers: {}})
+        if (this.users.find(x => x.userid === userid)) { return false }
+        this.users.push({userid, groupid, name, answers: {}, done: []})
       })
       SOCK.on('groupUserData', (data) => {
         this.users = data

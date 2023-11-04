@@ -13,8 +13,8 @@
       vergelijk resultaten
     </button>
     <div class="results" v-if="group.showResults.includes('chapter5')">
-      <div class="comments" v-if="questions.chapter5">
-        <div class="q" v-for="(q, k) in questions.chapter5">
+      <div class="comments" v-if="list">
+        <div class="q" v-for="(q, k) in list">
           <div class="commentbox">{{ q.text }}</div>
           <div class="user bot">
             <div class="userdetails">🤖 Bot:</div>
@@ -22,13 +22,15 @@
               <div class="bar" :style="{width: Math.round(q.botresult * 100) + '%'}"></div>
             </div>
           </div>
-          <div class="user" v-for="user in group.users">
+          Eens met de bot: {{q.matching ? q.matching.length : 0}} <Br />
+          Oneens: {{ q.other ? q.other.length : 0}}
+          <!-- <div class="user" v-for="user in group.users">
             <div class="userdetails"><UserIcon :user="user" class="small" /> {{ user.name }}:</div>
             <div class="slid" v-if="user.answers['chapter5'] && !isNaN(user.answers['chapter5'][k])">
               <div class="bar" :style="{width: Math.round(user.answers['chapter5'] && user.answers['chapter5'][k] ? user.answers['chapter5'][k] * 100 : 0) + '%'}"></div>
             {{ user.answers["chapter5"] ? Math.round(user.answers["chapter5"][k] * 100) + '%' : '-' }}
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="next">
@@ -43,6 +45,23 @@ import questions from "@/content/questions.yml";
 const group = useGroupStore();
 const results = ref(false);
 const started = computed(() => group.started.includes("chapter5"));
+const precision = 0.2;
+const list = computed(() => {
+  const qs = questions.chapter5.map((x,k) => {
+    x.matching = []
+    x.other = []
+    for (let i in group.users) {
+      const user = group.users[i]
+      const answers = user.answers.chapter5 || false
+      if (answers && !isNaN(answers[k])) {
+        if (answers[k] > x.botresult - (precision / 2) && answers[k] < x.botresult + (precision / 2)) { x.matching.push(user) }
+        else { x.other.push(user)}
+      }
+    }
+    return x
+  })
+  return qs
+})
 </script>
 <style lang="less" scoped>
 .group-chapter-5 {

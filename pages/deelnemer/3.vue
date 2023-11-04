@@ -53,7 +53,7 @@ const done = computed(() =>
 function count(label:string,k:number) { 
   let count = 0
   user.users.map(userx => {
-    if (user.userid !== userx.userid && userx.answers['chapter3'] && k in userx.answers['chapter3']) {
+    if (userx.answers['chapter3'] && k in userx.answers['chapter3']) {
       if (userx.answers['chapter3'][k] === label) { count++ }
     }
   })
@@ -102,8 +102,8 @@ button.active {
 .allanswers {
   button {
     &:hover {
-      background: var(--bg);
-      color: var(--fg2);
+      // background: var(--bg);
+      // color: var(--fg2);
     }
     span {
       // opacity: 0.5;

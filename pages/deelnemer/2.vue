@@ -2,6 +2,9 @@
   <div class="user-chapter-2">
     <user-pause v-if="!started || (done && !user.showResults.includes('chapter2'))"></user-pause>
     <div class="questions" v-if="started && (!done || user.showResults.includes('chapter2'))">
+      <div class="question">
+        Wie is de trol?
+      </div>
       <div class="item" v-for="(q, k) in questions.chapter2">
         <div class="name"><icon icon="user"></icon>{{ q.name }}</div>
         <div class="comments">
@@ -28,7 +31,7 @@
           </button>
         </div>
         <div class="answers" v-if="user.showResults.includes('chapter2')">
-          <div><label>Jouw antwoord:</label> {{ getAnswer({ chapter: 'chapter2', k }) === false ? '😈': '😇' }}</div>
+          <div><label>Jouw antwoord:</label>{{ getAnswer({ chapter: 'chapter2', k }) === true ? '😈': '😇' }}</div>
           <div><label>Alle antwoorden:</label> 😈 {{allAnswers ? allAnswers.trol[k].length : 0}}
           😇 {{allAnswers ? allAnswers.geentrol[k].length : 0}}</div>
         </div>
@@ -58,8 +61,9 @@ const allAnswers = computed(() => {
   const trol = [];
   const geentrol = [];
   for (let i = 0; i < questions['chapter2'].length; i++) {
-    trol[i] = user.users.filter(x => x.answers && x.answers.chapter1 && x.answers.chapter1[i] === false ? true : false)
-    geentrol[i] = user.users.filter(x => x.answers && x.answers.chapter1 && x.answers.chapter1[i] === true ? true : false)
+    console.log(i)
+    trol[i] = user.users.filter(x => x.answers && x.answers.chapter1 && x.answers.chapter2[i] === true)
+    geentrol[i] = user.users.filter(x => x.answers && x.answers.chapter1 && x.answers.chapter2[i] === false)
   }
   return {trol, geentrol}
 })

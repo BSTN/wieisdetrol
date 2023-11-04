@@ -47,7 +47,7 @@ const stemmen = computed(() => {
   let all = []
   questions.chapter6.map((x,k) => {
     all[k] = []
-    for (let i = 0; i < questions.chapter6.options; i++) {
+    for (let i = 0; i < x.options.length; i++) {
       all[k][i] = group.users.filter(user => user.answers && user.answers.chapter6 && user.answers.chapter6[k] === i ? true : false)
     }
   })

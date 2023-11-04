@@ -43,7 +43,7 @@ i, em {
   font-style:italic;
 }
 b, strong {
-  font-weight: bold;
+  font-weight: 500;
 }
 
 a {
@@ -207,11 +207,24 @@ h1 {
 }
 
 .next {
-  padding: 5rem 1rem;
+  padding: 1rem 1rem;
+  position:fixed;
+  bottom:0;
+  right:0;
+  text-align: right;
   button {
     box-shadow: 0 0 0.5em var(--bg2);
     padding: 1em 1.5em;
-    // border: 1px solid var(--fg);
+    background: var(--fg2);
+    color: var(--bg);
+    text-transform: uppercase;
+    &:hover {
+      background: var(--fg);
+    }
+    .icon {
+      display: inline-block;
+      vertical-align: baseline;
+    }
   }
 }
 
@@ -266,4 +279,9 @@ div[class^="group-chapter"] {
   margin-bottom: 4rem;
   width: 30em;
   margin: 0 auto;
+}
+
+.toelichting {
+  width: 30rem;
+  margin: 0 auto 3rem;
 }

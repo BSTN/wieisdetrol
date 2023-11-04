@@ -1,15 +1,20 @@
 <template>
   <div class="user-config" :class="status">
-    <div class="topbar" @click="open = !open">
-      <user-avatar :user="user"></user-avatar>
+    <div class="topbar" @click="open = !open" v-if="user.name">
+      <user-icon :user="user"></user-icon>
       <div class="flex">{{ user.name }}</div>
       <div class="burger">
         <icon icon="menu" v-if="!open"></icon>
         <icon icon="cross" v-if="open"></icon>
       </div>
     </div>
-    <div class="status" v-if="open">{{ status }}</div>
-    <div class="menu" v-if="open && user.userid">
+    <div class="openmenu" v-if="open">
+      <div class="status" v-if="open">{{ status }}</div>
+      <button class="reset" @click="user.reset()" v-if="user.userid !== ''">
+        stoppen
+      </button>
+    </div>
+    <!-- <div class="menu" v-if="open && user.userid">
       <div class="order">
         <div
           class="position"
@@ -19,10 +24,8 @@
           {{ item.name }}
         </div>
       </div>
-      <button class="reset" @click="user.reset()" v-if="user.userid !== ''">
-        stoppen
-      </button>
-    </div>
+      
+    </div> -->
     <div class="loggedoutmenu" v-if="open && !user.userid">
       Bezoek <a href="https://wie-is-de-trol.nl"> wie-is-de-trol.nl</a> voor
       meer informatie.
@@ -77,8 +80,10 @@ onMounted(() => {
     // outline: 1px solid #ccc;
     border-radius: 0;
   }
-  > div {
-    padding: 0.5em 0.25em;
+  > .flex {
+    padding: 0.75em 0.25em 0.5em 0.25em;
+    font-size: 0.8em;
+    font-weight: 500;
   }
   > .burger {
     margin-right: 0.5rem;
@@ -86,6 +91,10 @@ onMounted(() => {
   .flex {
     flex: 1;
   }
+}
+
+.openmenu {
+  background: var(--bg);
 }
 
 
@@ -145,18 +154,24 @@ button.reset {
   font-size: 0.8rem;
 }
 
-:deep(.user-avatar) {
+:deep(.user-icon) {
   padding: 0;
   margin: 0;
-  width: auto;
+  margin-right: .5em !important;
   background: transparent;
+  display:flex;
+
+  @s: 2rem;
+  width: @s !important;
+  min-width: @s !important;
+  height: @s !important;
+  min-height: @s !important;
+  transform: none !important;
+  padding: 0 !important;
+  border-radius: 100% !important;
   .icon {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 100%;
     background: var(--bg1);
     border: 5px solid var(--bg1);
-    margin-right: .5em;
   }
   .name {
     display: none;

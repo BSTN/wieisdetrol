@@ -26,21 +26,24 @@
     </button> -->
     <!-- RESULTS -->
     <div class="results" v-if="group.showResults.includes('chapter1')">
+      <div class="toelichting">
+        Hieronder zie je de reacties met de meest verwijderde bovenaan. In hoeverre zijn jullie het met elkaar eens?
+      </div>
       <div class="qcontainer">
         <div class="q" v-for="(q, k) in list" :key="q.key">
           <div class="text commentbox"><span>reactie #{{q.key + 1}}</span>{{ q.comment }}</div>
           <div class="splitbox">
             <div class="toegestaan" v-if="q.toegestaan > 0" :style="{width: (q.toegestaan / (q.toegestaan + q.verwijderd)) * 100 + '%'}">
-              {{ q.toegestaan }}x toegestaan
+              {{ q.toegestaan }}x toestaan
             </div>
             <div class="verwijderd" v-if="q.verwijderd > 0" :style="{width: (q.verwijderd / (q.toegestaan + q.verwijderd)) * 100 + '%'}">
-              {{ q.verwijderd }}x verwijderd
+              {{ q.verwijderd }}x verwijderen
             </div>
           </div>
         </div>
       </div>
       <div class="next" v-if="group.showResults.includes('chapter1')">
-        <button @click="group.next()">volgende hoofdstuk</button>
+        <button @click="group.next()">volgend hoofdstuk <icon icon="next"></icon></button>
       </div>
     </div>
   </div>

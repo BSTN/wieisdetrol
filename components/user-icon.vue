@@ -20,6 +20,9 @@ const { user } = defineProps({
   padding: @s * 0.2;
   color: var(--fg2);
   width: @s;
+  min-width: @s;
+  height: @s;
+  min-height: @s;
   background: var(--bg);
   margin: 0;
   border-radius: 100%;
@@ -32,9 +35,10 @@ const { user } = defineProps({
 }
 .icon {
   background: var(--bg);
-  border-radius: 0.5em;
+  border-radius: 0.25em;
   // @size: 6rem;
   // width: @size;
+  width: 100%;
   margin: 0 auto;
   padding: 0;
   :deep(svg) {
