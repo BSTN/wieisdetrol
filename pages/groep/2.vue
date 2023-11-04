@@ -5,6 +5,9 @@
     <!-- <div class="subtitlequestion">
       Welke accounts vertonen volgens jou trolgedrag?
     </div> -->
+    <div class="chapter-toelichting">
+      Hoe bepaal jij wat een trolaccount is? Speelt de naam van het account een rol? Zijn er bepaalde woorden in de reacties die meespelen in jouw keuze? In hoeverre speelt de argumentatie een rol?
+    </div>
     <videoPlayer
       file="/videos/2.mp4"
       :class="{ started }"
@@ -17,6 +20,9 @@
     </button>
     <div class="results" v-if="group.showResults.includes('chapter2')">
       <div class="q" v-for="(item, k) in list">
+        <div class="icon">
+          <icon icon="user"></icon>
+        </div>
         <div class="name">{{ item.name }}</div>
         <div class="trol">
           😈 <span>{{ item.trol.length }}</span>
@@ -26,7 +32,7 @@
         </div>
       </div>
       <div class="next">
-        <button @click="group.next()">volgende hoofdstuk</button>
+        <button @click="group.next()">volgend hoofdstuk <icon icon="next"></icon></button>
       </div>
     </div>
   </div>
@@ -71,7 +77,7 @@ const list = computed(() => {
 }
 
 .results {
-  width: 20rem;
+  width: 24rem;
   margin: 0 auto;
 }
 .q {
@@ -81,12 +87,28 @@ const list = computed(() => {
   background: var(--bg);
   padding: 1em;
   border-radius: 0.25em;
+  align-items: center;
+  .icon {
+    background:var(--bg1);
+    border-radius: 100%;
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    :deep(.icon) {
+      width: 1rem;
+      height: 1rem;
+      display: inline-block;
+      margin-top: 0.35rem;
+    }
+  }
   .name {
     flex: 1;
     text-align: left;
+    padding-left: 0.75em;
   }
   .trol, .geentrol {
     width: 4em;
+    font-weight: 500;
     span {
       margin-left: 0.5em;
     }

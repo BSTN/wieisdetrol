@@ -70,7 +70,7 @@ function getVotes(k:number){
   &.active {
     .commentbox {
       background: var(--gfg);
-      color: var(--gbg);
+      // color: var(--gbg);
       &:before {
         background: var(--gfg);
       }

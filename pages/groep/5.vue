@@ -2,6 +2,9 @@
   <div class="group-chapter-5" v-if="!group.loading">
     <chapterlogo class="chapterlogo"></chapterlogo>
     <h1>Ben je bot?</h1>
+    <div class="chapter-toelichting" v-if="group.showResults.includes('chapter5')">
+      Waar zitten de grootste verschillen tussen het klassengemiddelde en de bot? Ben jij het eens met de criteria die de bot lijkt te gebruiken? Tip: de bot lijkt een voorkeur te hebben voor lange reacties. Ook lijkt hij te selecteren op bepaalde woorden die voorkomen in de reactie. 
+    </div>
     <ChapterProgress chapter="chapter5" v-if="!group.showResults.includes('chapter5')"></ChapterProgress>
     <videoPlayer
       file="/videos/5.mp4"
@@ -22,8 +25,8 @@
               <div class="bar" :style="{width: Math.round(q.botresult * 100) + '%'}"></div>
             </div>
           </div>
-          Eens met de bot: {{q.matching ? q.matching.length : 0}} <Br />
-          Oneens: {{ q.other ? q.other.length : 0}}
+          Eens met de bot: <span>{{q.matching ? q.matching.length : 0}}</span> <Br />
+          Oneens: <span>{{ q.other ? q.other.length : 0}}</span>
           <!-- <div class="user" v-for="user in group.users">
             <div class="userdetails"><UserIcon :user="user" class="small" /> {{ user.name }}:</div>
             <div class="slid" v-if="user.answers['chapter5'] && !isNaN(user.answers['chapter5'][k])">
@@ -34,7 +37,7 @@
         </div>
       </div>
       <div class="next">
-        <button @click="group.next()">volgende hoofdstuk</button>
+        <button @click="group.next()">volgend hoofdstuk <icon icon="next"></icon></button>
       </div>
     </div>
   </div>
@@ -65,6 +68,7 @@ const list = computed(() => {
 </script>
 <style lang="less" scoped>
 .group-chapter-5 {
+  padding-bottom: 4rem;
 }
 .comments {
   // width: 40rem;
@@ -72,11 +76,15 @@ const list = computed(() => {
   margin: 2rem auto;
   text-align: left;
   display: grid;
-  gap: 2rem;
+  gap: 3rem;
   padding: 0rem 4rem;
   grid-template-columns: repeat(3, 1fr);
+  span {
+    font-weight: 500;
+  }
 }
 .results {
+  padding: 1rem 0;
   .user {
     margin-bottom: 0.5em;
     display:flex;
@@ -89,13 +97,13 @@ const list = computed(() => {
       width: 50%;
       height: 0.5em;
       position: relative;
-      background: var(--rbg);
+      background: var(--bg3);
       border-radius: 0.25em;
       overflow: hidden;
       .bar {
         position:absolute;
         left:0;
-        background: var(--gbg);
+        background: var(--fg);
         height: 100%;
         border-right: 2px solid var(--bg);
       }

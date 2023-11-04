@@ -1,8 +1,8 @@
 <template>
   <div class="bot-slider">
     <div class="labels">
-      <label>← niet-constructief</label>
-      <label>constructief →</label>
+      <label><icon icon="prev"></icon> niet-constructief</label>
+      <label>constructief <icon icon="next"></icon></label>
     </div>
     <div class="frame">
       <!-- {{ val }} -->
@@ -53,15 +53,21 @@ const val = computed({
 </script>
 <style lang="less" scoped>
 .bot-slider {
+  padding: 0 1em;
 }
 .labels {
   display: flex;
   > label {
     flex: 1;
-    opacity: 0.5;
+    opacity: 0.75;
     font-size: 0.6rem;
+    padding: 0;
     &:nth-child(2) {
       text-align: right;
+    }
+    .icon {
+      display: inline-block;
+      transform: translateY(0.125em);
     }
   }
 }
@@ -92,7 +98,7 @@ const val = computed({
 .theslider {
   background: var(--bg2);
   border-radius: 0.25em;
-  --slider-bg: var(--bg2);
+  --slider-bg: var(--bg3);
   --slider-connect-bg: var(--fg);
   :deep(.slider-origin) {
     // right: 0;

@@ -1,8 +1,8 @@
 <template>
   <div class="user-chapter-6">
-    <div class="question">Welke denk jij dat de constructiviteitsbot er (ten onrechte) uit zal filteren?</div>
-    <user-pause v-if="done && !user.showResults.includes('chapter6')"></user-pause>
-    <div class="questions" v-if="!done && !user.showResults.includes('chapter6')">
+    <div class="question" v-if="user.started.includes('chapter6')">Welke denk jij dat de constructiviteitsbot er (ten onrechte) uit zal filteren?</div>
+    <user-pause v-if="done && !user.showResults.includes('chapter6') || !user.started.includes('chapter6')"></user-pause>
+    <div class="questions" v-if="!done && !user.showResults.includes('chapter6') && user.started.includes('chapter6')">
       <div class="options" v-for="(item,k) in questions.chapter6" :class="{active: k === 0 || !isNaN(user.getAnswer({chapter: 'chapter6', k: k - 1}))}">
         <div class="choose">Kies 1 van de volgende 3:</div>
         <div class="option" v-for="(subitem, kk) in item.options" @click="user.setAnswer({chapter: 'chapter6', k, answer: kk})" :class="{active: user.getAnswer({chapter: 'chapter6', k}) === kk}">
@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div class="done" v-if="!done">
+    <div class="done" v-if="!done && user.started.includes('chapter6')">
       <button class="contrast" @click="user.setDone('chapter6')">
         Klik hier als je klaar bent!
       </button>
@@ -67,10 +67,11 @@ const stemmen = computed(() => {
 .choose {
   margin-bottom: 1em;
   text-align: center;
-  background: var(--fg);
-  color: var(--bg);
-  border-radius: 0.25em;
+  // background: var(--fg);
+  // color: var(--bg);
+  border-top: 1px solid var(--bg3);
   padding: 0.5em;
+  font-size: 0.8rem;
 }
 
 

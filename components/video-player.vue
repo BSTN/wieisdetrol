@@ -227,6 +227,7 @@ function stopDragging() {
   top:0;
   left:0;
   margin: 1rem;
+  z-index: 9;
   &:hover {
     color: var(--bg);
   }

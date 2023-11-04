@@ -2,8 +2,8 @@
   <div class="group-chapter-6" v-if="!group.loading">
     <chapterlogo class="chapterlogo"></chapterlogo>
     <h1>Gevaren van AI</h1>
-    <div class="subtitlequestion">
-      Je ziet nu verschillende reacties. Welke denk jij dat de constructiviteitsbot er (ten onrechte) uit zal filteren?
+    <div class="chapter-toelichting" v-if="group.showResults.includes('chapter6')">
+      Hebben jullie alle woorden eruit gehaald die de bot als ‘toxisch’ bestempeld?
     </div>
     <videoPlayer
       file="/videos/6.mp4"
@@ -56,6 +56,7 @@ const stemmen = computed(() => {
 </script>
 <style lang="less" scoped>
 .group-chapter-6 {
+  padding: 2rem;
 }
 
 .questions {
@@ -70,11 +71,12 @@ const stemmen = computed(() => {
 .result {
   text-align: center;
   margin-top: 1rem;
+  font-weight: bold;
 }
 
 .answer {
   text-align: center;
-  color: var(--gbg);
+  color: var(--fg);
   background: var(--gfg);
   padding: 0.5em;
   margin-top: 0.5em;

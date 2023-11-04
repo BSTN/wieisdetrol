@@ -7,6 +7,9 @@
     <!-- <div class="subtitlequestion">
       Welke reacties vind jij toelaatbaar en welke niet?
     </div> -->
+    <div class="chapter-toelichting">
+      Moderatoren zijn getraind om toxische berichten te verwijderen. Het gaat dan bijvoorbeeld om berichten waarin mensen beledigd of gediscrimineerd worden. Wat verstaan jullie onder toxiciteit? Zijn er misschien bepaalde woorden in de berichten die bepalen of je een bericht toelaatbaar vindt?
+    </div>
 
     <!-- VIDEO -->
     <videoPlayer
@@ -27,7 +30,7 @@
     <!-- RESULTS -->
     <div class="results" v-if="group.showResults.includes('chapter1')">
       <div class="toelichting">
-        Hieronder zie je de reacties met de meest verwijderde bovenaan. In hoeverre zijn jullie het met elkaar eens?
+        Hieronder zie je de reacties met de meest verwijderde bovenaan:
       </div>
       <div class="qcontainer">
         <div class="q" v-for="(q, k) in list" :key="q.key">

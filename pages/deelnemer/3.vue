@@ -101,6 +101,8 @@ button.active {
 }
 .allanswers {
   button {
+    display:block;
+    font-size: 0.8rem;
     &:hover {
       // background: var(--bg);
       // color: var(--fg2);

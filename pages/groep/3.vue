@@ -8,6 +8,10 @@
       Deelnemers aan online platforms hebben verschillende intenties. Kun jij
       per reactie aangeven wat je denkt dat de bedoeling is van de schrijver?
     </div> -->
+
+    <div class="chapter-toelichting">
+      Welke reacties zijn op dezelfde manier gelabeld en welke niet? Over welke reacties bestaat de meeste discussie? 
+    </div>
     
     <!-- VIDEO -->
     <videoPlayer
@@ -43,7 +47,7 @@
       </div>
     </div>
     <div class="next" v-if="group.showResults.includes('chapter3')">
-      <button @click="group.next()">volgende hoofdstuk</button>
+      <button @click="group.next()">volgend hoofdstuk <icon icon="next"></icon></button>
     </div>
   </div>
 </template>

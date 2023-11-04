@@ -1,10 +1,13 @@
 <template>
   <div class="group-chapter-4" v-if="!group.loading">
     <chapterlogo class="chapterlogo"></chapterlogo>
-    <h1>Constructiviteit</h1>
-    <!-- <div class="subtitlequestion">
-      Welke reacties voegen volgens jou iets toe aan de discussie?
-    </div> -->
+    <h1>Een ‘goede’ discussie.</h1>
+    <div class="chapter-toelichting">
+      Welke reacties hebben een hoge score en welke reacties een lage scoren? Horen daarin ook boze en grappige reacties thuis in een goeie discussie? Zo ja, waarom wel of waarom niet?
+    </div>
+    <div class="subtitlequestion">
+      Gesorteerd op meest geselecteerd:
+    </div>
     <ChapterProgress chapter="chapter4" v-if="!group.showResults.includes('chapter4')"></ChapterProgress>
     <videoPlayer
       file="/videos/4.mp4"
@@ -23,7 +26,7 @@
         </div>
       </div>
       <div class="next">
-        <button @click="group.next()">volgende hoofdstuk</button>
+        <button @click="group.next()">volgend hoofdstuk <icon icon="next"></icon></button>
       </div>
     </div>
   </div>

@@ -2,10 +2,10 @@
   <div class="group-chapter-7" v-if="!group.loading">
     <chapterlogo class="chapterlogo"></chapterlogo>
     <h1>Beat-the-bot!</h1>
-    <div class="subtitlequestion">
-      Schrijf de meest constructieve bijdrage die je kunt bedenken. De bot
-      plaatst alle reacties uit de klas straks in een hiërarchie van hoog naar
-      laag.
+    <div class="chapter-toelichting">
+      Welke reacties score het hoogst en welke het laagst? Krijgen jullie nu nog
+      een beter inzicht in de manier waarop de bot een construciviteitsscore
+      berekent?
     </div>
     <videoPlayer
       file="/videos/7.mp4"
@@ -16,16 +16,20 @@
     <h1>Scorebord</h1>
     <div class="scorebord">
       <div class="user" v-for="user in highscore">
-        {{ user.name }}: {{ user.answers && user.answers.chapter7 ? Math.round(user.answers.chapter7[0].score * 100) / 100 : 0 }}
+        {{ user.name }}:
+        {{
+          user.answers && user.answers.chapter7
+            ? Math.round(user.answers.chapter7[0].score * 100) / 100
+            : 0
+        }}
       </div>
-
     </div>
-    
+
     <div class="results" v-if="results">
       Hier komen alle reacties, gesorteerd op score.
     </div>
     <div class="next">
-      <button @click="group.next()">Ga naar de laatste pagina</button>
+      <button @click="group.next()">Afronden <icon icon="next"></icon></button>
     </div>
   </div>
 </template>
@@ -35,13 +39,20 @@ const group = useGroupStore();
 const results = ref(false);
 const started = computed(() => group.started.includes("chapter7"));
 const highscore = computed(() => {
-  const users = JSON.parse(JSON.stringify(group.users))
-  users.sort((a,b)=> {
-    if (!a.answers || !a.answers.chapter7 || !b.answers || !b.answers.chapter7) { return -1 }
-    a.answers.chapter7[0].score - b.answers.chapter7[0].score
-  })
-  return users
-})
+  const users = JSON.parse(JSON.stringify(group.users));
+  users.sort((a, b) => {
+    if (
+      !a.answers ||
+      !a.answers.chapter7 ||
+      !b.answers ||
+      !b.answers.chapter7
+    ) {
+      return -1;
+    }
+    a.answers.chapter7[0].score - b.answers.chapter7[0].score;
+  });
+  return users;
+});
 </script>
 <style lang="less" scoped>
 .group-chapter-7 {
