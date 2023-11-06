@@ -38,5 +38,8 @@ h3 {
 p {
   margin-bottom: 1em;
   text-align: left;
+  a {
+    font-weight: 500;
+  }
 }
 </style>
