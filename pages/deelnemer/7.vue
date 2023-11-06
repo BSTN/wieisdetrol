@@ -24,7 +24,7 @@
       <label>Al je reacties (gesorteerd op hoogste score):</label>
       <div class="options" v-for="item in options">
         <div class="commentbox">
-          <span>Score: {{ Math.round(item.score * 100) / 100 }}</span
+          <span>Constructiviteit: {{ Math.round(item.score * 100) }}%</span
           >{{ item.text }}
         </div>
       </div>
@@ -64,7 +64,7 @@ async function send() {
     user.setAnswer({
       chapter: "chapter7",
       k: 0,
-      answer: { text: alltxt[0], score: data.score },
+      answer: { text: alltxt[0].text, score: data.score },
     });
     input.value = "";
   }

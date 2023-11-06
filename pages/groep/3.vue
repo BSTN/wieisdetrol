@@ -1,6 +1,5 @@
 <template>
   <div class="group-chapter-3" v-if="!group.loading">
-    
     <!-- TITLES -->
     <chapterlogo class="chapterlogo"></chapterlogo>
     <h1>Motivaties</h1>
@@ -10,9 +9,10 @@
     </div> -->
 
     <div class="chapter-toelichting">
-      Welke reacties zijn op dezelfde manier gelabeld en welke niet? Over welke reacties bestaat de meeste discussie? 
+      Welke reacties zijn op dezelfde manier gelabeld en welke niet? Over welke
+      reacties bestaat de meeste discussie?
     </div>
-    
+
     <!-- VIDEO -->
     <videoPlayer
       file="/videos/3.mp4"
@@ -20,12 +20,18 @@
       @next="group.startChapter('chapter3')"
       @restart="group.unStartChapter('chapter3')"
     ></videoPlayer>
-    
+
     <!-- PROGRESS -->
-    <ChapterProgress chapter="chapter3" v-if="!group.showResults.includes('chapter3')"></ChapterProgress>
+    <ChapterProgress
+      chapter="chapter3"
+      v-if="!group.showResults.includes('chapter3')"
+    ></ChapterProgress>
 
     <!-- VERGELIJK DE RESULTATEN -->
-    <button @click="group.setShowResults('chapter3')" v-if="!group.showResults.includes('chapter3')">
+    <button
+      @click="group.setShowResults('chapter3')"
+      v-if="!group.showResults.includes('chapter3')"
+    >
       vergelijk resultaten
     </button>
 
@@ -47,7 +53,9 @@
       </div>
     </div>
     <div class="next" v-if="group.showResults.includes('chapter3')">
-      <button @click="group.next()">volgend hoofdstuk <icon icon="next"></icon></button>
+      <button @click="group.next()">
+        volgend hoofdstuk <icon icon="next"></icon>
+      </button>
     </div>
   </div>
 </template>
@@ -91,6 +99,9 @@ const labelCountPerComment = computed(() => {
   grid-template-columns: 1fr 1fr 1fr;
   gap: 2rem;
   padding: 2rem;
+  @media (max-width: 80rem) {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 .q {
   // display: flex;
@@ -107,7 +118,8 @@ const labelCountPerComment = computed(() => {
 
 .answers {
   .label {
-    background: var(--bg);
+    background: var(--bluebg);
+    color: var(--bluefg);
     display: inline-block;
     padding: 0 0.5em 0.25em 0.5em;
     border-radius: 0.25em;

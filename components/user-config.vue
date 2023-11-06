@@ -9,10 +9,24 @@
       </div>
     </div>
     <div class="openmenu" v-if="open">
-      <div class="status" v-if="open">{{ status }}</div>
-      <button class="reset" @click="user.reset()" v-if="user.userid !== ''">
-        stoppen
-      </button>
+      <div class="qr">
+        <div class="context">
+          Gebruik onderstaande QR-code om iemand uit te nodigen mee te doen aan
+          deze game van Wie is de trol?:
+        </div>
+        <img :src="qrcodeimg" v-if="qrcodeimg !== ''" /><br />
+        <span style="display: none">{{ url }}</span>
+      </div>
+      <div class="bottom">
+        <div class="state">
+          <div class="status" v-if="open">{{ status }}</div>
+        </div>
+        <div class="leave">
+          <button class="reset" @click="user.reset()" v-if="user.userid !== ''">
+            verlaat het spel
+          </button>
+        </div>
+      </div>
     </div>
     <!-- <div class="menu" v-if="open && user.userid">
       <div class="order">
@@ -54,6 +68,22 @@ onMounted(() => {
   if (!user.mounted) {
     user.init();
   }
+});
+
+import QRCode from "qrcode";
+const qrcodeimg = ref("");
+
+const url = computed(() => {
+  const str = window.location.href;
+  const url =
+    (str.endsWith("/") ? str.slice(0, -1) : str) +
+    "/deelnemer/start?id=" +
+    user.groupid;
+  QRCode.toDataURL(url, function (err, code) {
+    if (err) return console.log("error occurred");
+    qrcodeimg.value = code;
+  });
+  return url;
 });
 </script>
 <style lang="less" scoped>
@@ -97,7 +127,15 @@ onMounted(() => {
   background: var(--bg);
 }
 
-
+.qr {
+  .context {
+    font-size: 0.8rem;
+    line-height: 1.4em;
+    width: 20em;
+    max-width: 100%;
+    margin: 1em auto 1em;
+  }
+}
 .menu {
   // position: fixed;
   position: relative;
@@ -110,14 +148,14 @@ onMounted(() => {
   background: var(--bg);
   padding: 2rem;
 }
-.status {
+.status,
+button.reset {
   padding: 0em 0.5em;
   --fg: #222;
   color: var(--fg);
   border-radius: 0.25em;
   text-transform: uppercase;
   font-size: 0.6rem;
-  // border: 1px solid var(--fg);
   display: inline-block;
   width: auto;
   margin: 0em auto 2em;
@@ -128,6 +166,11 @@ onMounted(() => {
   .disconnected & {
     background: #d85434;
   }
+}
+
+button.reset {
+  background: var(--rbg) !important;
+  color: var(--rfg);
 }
 .order {
   padding: 0em 1.5em;
@@ -144,22 +187,13 @@ onMounted(() => {
     }
   }
 }
-button.reset {
-  background: var(--rbg);
-  color: var(--rfg);
-  padding: 0.25em 0.5em;
-  border: 0;
-  margin: 1rem;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-}
 
 :deep(.user-icon) {
   padding: 0;
   margin: 0;
-  margin-right: .5em !important;
+  margin-right: 0.5em !important;
   background: transparent;
-  display:flex;
+  display: flex;
 
   @s: 2rem;
   width: @s !important;
@@ -175,6 +209,18 @@ button.reset {
   }
   .name {
     display: none;
+  }
+}
+
+.bottom {
+  padding: 1rem;
+  .state {
+  }
+  .leave {
+    button {
+      padding: 1.25em 2em;
+      color: var(--bg);
+    }
   }
 }
 </style>

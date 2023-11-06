@@ -3,30 +3,50 @@
     <chapterlogo class="chapterlogo"></chapterlogo>
     <h1>Een ‘goede’ discussie.</h1>
     <div class="chapter-toelichting">
-      Welke reacties hebben een hoge score en welke reacties een lage scoren? Horen daarin ook boze en grappige reacties thuis in een goeie discussie? Zo ja, waarom wel of waarom niet?
+      Welke reacties hebben een hoge score en welke reacties een lage scoren?
+      Horen daarin ook boze en grappige reacties thuis in een goeie discussie?
+      Zo ja, waarom wel of waarom niet?
     </div>
-    <div class="subtitlequestion">
+    <!-- <div class="subtitlequestion">
       Gesorteerd op meest geselecteerd:
-    </div>
-    <ChapterProgress chapter="chapter4" v-if="!group.showResults.includes('chapter4')"></ChapterProgress>
+    </div> -->
+    <ChapterProgress
+      chapter="chapter4"
+      v-if="!group.showResults.includes('chapter4')"
+    ></ChapterProgress>
     <videoPlayer
       file="/videos/4.mp4"
       :class="{ started }"
       @next="group.startChapter('chapter4')"
       @restart="group.unStartChapter('chapter4')"
     ></videoPlayer>
-    <button @click="group.setShowResults('chapter4')" v-if="!group.showResults.includes('chapter4')">
+    <button
+      @click="group.setShowResults('chapter4')"
+      v-if="!group.showResults.includes('chapter4')"
+    >
       vergelijk resultaten
     </button>
     <div class="results" v-if="group.showResults.includes('chapter4')">
       <div class="comments">
-        <div class="q" v-for="(q, k) in list">
-          <div class="commentbox"><span>reactie #{{ q.key + 1 }}</span>{{ q.text }}</div>
-          <div class="result">{{ q.votes }}x geselecteerd</div>
+        <div class="q commentsplit" v-for="(q, k) in list">
+          <div class="left">
+            <div class="commentbox">
+              <span>reactie #{{ q.key + 1 }}</span
+              >{{ q.text }}
+            </div>
+          </div>
+          <div class="right">
+            <basicBar :count="q.votes" :total="total">
+              <b>{{ q.votes }}x</b> geselecteerd
+            </basicBar>
+          </div>
+          <!-- <div class="result">{{ q.votes }}x geselecteerd</div> -->
         </div>
       </div>
       <div class="next">
-        <button @click="group.next()">volgend hoofdstuk <icon icon="next"></icon></button>
+        <button @click="group.next()">
+          volgend hoofdstuk <icon icon="next"></icon>
+        </button>
       </div>
     </div>
   </div>
@@ -38,27 +58,39 @@ const group = useGroupStore();
 const results = ref(false);
 const started = computed(() => group.started.includes("chapter4"));
 
+const total = computed(() => {
+  return group.users.length > 0
+    ? group.users.filter(
+        (x) => x.answers["chapter4"] && !isNaN(x.answers["chapter4"][0])
+      ).length
+    : 0;
+});
+
 const list = computed(() => {
-  const qs = questions.chapter3.map((x,k) => {
+  const qs = questions.chapter3.map((x, k) => {
     return {
       text: x.text,
       key: k,
-      votes: group.users.filter(x => x.answers['chapter4'] ? x.answers['chapter4'][0] === k : false).length,
-      users: group.users.filter(x => x.answers['chapter4'] ? x.answers['chapter4'][0] === k : false)
-    }
-  })
-  qs.sort((a,b) => a.votes - b.votes).reverse()
-  return qs
-})
+      votes: group.users.filter((x) =>
+        x.answers["chapter4"] ? x.answers["chapter4"][0] === k : false
+      ).length,
+      users: group.users.filter((x) =>
+        x.answers["chapter4"] ? x.answers["chapter4"][0] === k : false
+      ),
+    };
+  });
+  // qs.sort((a,b) => a.votes - b.votes).reverse()
+  return qs;
+});
 </script>
 <style lang="less" scoped>
 .group-chapter-4 {
-  
+  padding: 0 0 2em;
 }
 
 .results {
   margin: 0 auto;
-  width: 30rem;
+  width: 60rem;
 }
 .comments {
   max-width: 100%;
@@ -68,8 +100,9 @@ const list = computed(() => {
   grid-template-columns: 1fr;
   gap: 2rem;
   padding: 2rem;
-  .q {
+  .q.commentsplit {
     padding-bottom: 2rem;
+    margin-bottom: 2rem;
   }
   .result {
     text-align: right;
