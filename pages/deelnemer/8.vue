@@ -1,7 +1,7 @@
 <template>
   <div class="deelnemer-8">
     <div class="text">
-      <p>Bedankt voor met meedoen met <i>Wie is de trol?</i>!</p>
+      <h3>Bedankt voor het meedoen met <i>Wie is de trol?</i>!</h3>
       <p>
         Je hebt nu zelf kunnen ervaren hoe complex het werk van een moderator
         is. In werkelijkheid is het nog een tandje moeilijker: bij nu.nl komen
@@ -15,7 +15,7 @@
       </p>
       <p>
         <a href="https://www.wie-is-de-trol.nl/lees-meer"
-          >www.wie-is-de-trol.nl/lees-meer</a
+          >https://wie-is-de-trol.nl/lees-meer</a
         >
       </p>
     </div>
@@ -25,8 +25,18 @@
 <style lang="less" scoped>
 .deelnemer-8 {
   padding: 4em 1em;
+  max-width: 24rem;
+  margin: 0 auto;
+}
+h3 {
+  font-size: 1.5em;
+  width: 10em;
+  margin: 0 auto 2em;
+  line-height: 1.2em;
+  font-weight: 500;
 }
 p {
   margin-bottom: 1em;
+  text-align: left;
 }
 </style>
