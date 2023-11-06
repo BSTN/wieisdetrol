@@ -31,7 +31,12 @@
               }}%
             </div>
           </div>
-          <div class="text">
+          <div
+            class="text"
+            v-if="
+              user.answers && user.answers.chapter7 && user.answers.chapter7[0]
+            "
+          >
             <div class="commentbox">
               {{ user.answers.chapter7[0].text }}
             </div>
@@ -79,6 +84,7 @@ const highscore = computed(() => {
   background: var(--testbg);
   box-shadow: inset 0 0 1rem var(--bg3);
   box-shadow: 0 0 1rem var(--bg3);
+  padding-bottom: 4rem;
   label {
     position: relative;
     z-index: 2;

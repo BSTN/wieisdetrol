@@ -36,6 +36,10 @@
           <div class="right">
             <div class="user bot">
               <div class="userdetails">🤖</div>
+              <div class="labels">
+                <label><icon icon="prev"></icon> niet-constructief</label>
+                <label>constructief <icon icon="next"></icon></label>
+              </div>
               <div class="slid">
                 <div
                   class="bar"
@@ -137,6 +141,23 @@ const list = computed(() => {
         height: 100%;
         border-right: 3rem solid var(--bluebg);
       }
+    }
+  }
+}
+
+.labels {
+  display: flex;
+  > label {
+    flex: 1;
+    opacity: 0.75;
+    font-size: 0.6rem;
+    padding: 0;
+    &:nth-child(2) {
+      text-align: right;
+    }
+    .icon {
+      display: inline-block;
+      transform: translateY(0.125em);
     }
   }
 }

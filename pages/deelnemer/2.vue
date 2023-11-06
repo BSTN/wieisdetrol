@@ -1,10 +1,13 @@
 <template>
   <div class="user-chapter-2">
-    <user-pause v-if="!started || (done && !user.showResults.includes('chapter2'))"></user-pause>
-    <div class="questions" v-if="started && (!done || user.showResults.includes('chapter2'))">
-      <div class="question">
-        Wie is de trol?
-      </div>
+    <user-pause
+      v-if="!started || (done && !user.showResults.includes('chapter2'))"
+    ></user-pause>
+    <div
+      class="questions"
+      v-if="started && (!done || user.showResults.includes('chapter2'))"
+    >
+      <div class="question">Wie is de trol?</div>
       <div class="item" v-for="(q, k) in questions.chapter2">
         <div class="name"><icon icon="user"></icon>{{ q.name }}</div>
         <div class="comments">
@@ -19,7 +22,7 @@
               active: getAnswer({ chapter: 'chapter2', k }) === true,
             }"
           >
-            😈 Trol
+            Trol
           </button>
           <button
             @click="user.setAnswer({ chapter: 'chapter2', k, answer: false })"
@@ -27,13 +30,19 @@
               active: getAnswer({ chapter: 'chapter2', k }) === false,
             }"
           >
-            😇 Geen Trol
+            Geen Trol
           </button>
         </div>
         <div class="answers" v-if="user.showResults.includes('chapter2')">
-          <div><label>Jouw antwoord:</label>{{ getAnswer({ chapter: 'chapter2', k }) === true ? '😈': '😇' }}</div>
-          <div><label>Alle antwoorden:</label> 😈 {{allAnswers ? allAnswers.trol[k].length : 0}}
-          😇 {{allAnswers ? allAnswers.geentrol[k].length : 0}}</div>
+          <div>
+            <label>Jouw antwoord:</label
+            >{{ getAnswer({ chapter: "chapter2", k }) === true ? "😈" : "😇" }}
+          </div>
+          <div>
+            <label>Alle antwoorden:</label> 😈
+            {{ allAnswers ? allAnswers.trol[k].length : 0 }} 😇
+            {{ allAnswers ? allAnswers.geentrol[k].length : 0 }}
+          </div>
         </div>
       </div>
       <div class="done" v-if="!done">
@@ -57,16 +66,22 @@ const done = computed(() =>
 );
 
 const allAnswers = computed(() => {
-  if (!user.showResults.includes('chapter2')) { return false }
+  if (!user.showResults.includes("chapter2")) {
+    return false;
+  }
   const trol = [];
   const geentrol = [];
-  for (let i = 0; i < questions['chapter2'].length; i++) {
-    console.log(i)
-    trol[i] = user.users.filter(x => x.answers && x.answers.chapter1 && x.answers.chapter2[i] === true)
-    geentrol[i] = user.users.filter(x => x.answers && x.answers.chapter1 && x.answers.chapter2[i] === false)
+  for (let i = 0; i < questions["chapter2"].length; i++) {
+    console.log(i);
+    trol[i] = user.users.filter(
+      (x) => x.answers && x.answers.chapter1 && x.answers.chapter2[i] === true
+    );
+    geentrol[i] = user.users.filter(
+      (x) => x.answers && x.answers.chapter1 && x.answers.chapter2[i] === false
+    );
   }
-  return {trol, geentrol}
-})
+  return { trol, geentrol };
+});
 </script>
 <style lang="less" scoped>
 .user-chapter-2 {
@@ -82,7 +97,7 @@ const allAnswers = computed(() => {
 .item {
   padding: 1em;
   background: var(--bg);
-  margin: 0 .5em 1em;
+  margin: 0 0.5em 1em;
   border-radius: 0.25em;
   .name {
     background: var(--bg);
@@ -116,8 +131,8 @@ const allAnswers = computed(() => {
     border: 2px solid var(--bg);
   }
   button.active {
-    background: var(--fg);
-    color: var(--bg);
+    background: var(--bluebg);
+    color: var(--bluefg);
     // border: 2px solid var(--fg);
   }
 }
@@ -125,5 +140,4 @@ const allAnswers = computed(() => {
 .answers {
   text-align: center;
 }
-
 </style>

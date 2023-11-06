@@ -6,7 +6,13 @@
           users.length > 1 || users.length === 0 ? "s" : ""
         }}</label
       >
-      <userAvatar v-for="user in users" :user="user" />
+      <div class="users">
+        <!-- <userAvatar v-for="user in users" :user="user" /> -->
+        <div class="user" v-for="user in users">
+          <UserIcon :user="user"></UserIcon>
+          <div class="name">{{ user.name }}</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -59,24 +65,24 @@ onMounted(() => {
   max-width: 120vh;
   margin: 2rem auto;
   padding: 1rem 0;
-  :deep(.user-avatar) {
-    font-size: 0.8rem;
-  }
-  &.type-small {
-    :deep(.user-avatar) {
-      font-size: 0.5rem;
-      border-radius: 4rem;
-      width: 4rem;
-      height: 4rem;
-      .icon {
-        margin: 0 auto;
-      }
-      .name {
-        padding: 1em 0;
-      }
-      // .name {
-      //   display: none;
-      // }
+}
+
+label {
+  margin-bottom: 2rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.users {
+  .user {
+    :deep(.user-icon) {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 0.5em;
+    }
+    .name {
+      font-weight: 500;
+      font-size: 0.8rem;
     }
   }
 }

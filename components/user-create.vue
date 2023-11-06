@@ -5,16 +5,21 @@
         <UserIcon :user="user.user"></UserIcon>
         <div class="name">{{ user.name }}</div>
         <br /><br />
-        <div>Als het goed is zie je je icoontje verschijnen op het grote scherm. We wachten ondertussen even tot iedereen zover is...</div>
+        <div class="wachten">
+          Als het goed is zie je je icoontje verschijnen op het grote scherm. We
+          wachten ondertussen even tot iedereen zover is...
+        </div>
       </div>
     </div>
     <div class="" v-if="!user.userid" @click="generate()">
       <div class="avatar">
-        <div class="icon" v-html="icon" ></div>
+        <div class="icon" v-html="icon"></div>
         <div class="naam">{{ naam }}</div>
       </div>
       <div>
-        <button class="big" @click="user.createUser({ name: naam, userid })">Start</button>
+        <button class="big" @click="user.createUser({ name: naam, userid })">
+          Start
+        </button>
       </div>
     </div>
   </div>
@@ -115,10 +120,16 @@ onMounted(() => {
 
 .name {
   font-weight: 500;
-  background: var(--bg);
+  // background: var(--bg);
   width: 12rem;
-  border-radius: .5rem;
-  margin: .25rem auto;
+  border-radius: 0.5rem;
+  margin: 0.25rem auto;
   padding: 0.5em;
+}
+
+.wachten {
+  width: 16em;
+  max-width: 100%;
+  margin: 0 auto;
 }
 </style>

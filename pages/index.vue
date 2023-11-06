@@ -15,11 +15,13 @@
           Doe mee door de camera van je telefoon op het plaatje te richten en
           klik vervolgens op de link op je scherm.
         </p>
-        <p>Tip: Je kan de link ook direct delen via bijvoorbeeld een groep app.</p>
+        <p>
+          Tip: Je kan de link ook direct delen via bijvoorbeeld een groep app.
+        </p>
       </div>
     </div>
     <allUsers type="small"></allUsers>
-    <button @click="group.next(1)">
+    <button @click="group.next(1)" class="startbutton">
       Iedereen gereed? Klik dan hier om te beginnen!
     </button>
   </div>
@@ -29,7 +31,6 @@ import logo from "@/assets/logo/logo-diamond.svg?component";
 const group = useGroupStore();
 const config = useRuntimeConfig();
 const started = ref(false);
-
 </script>
 <style lang="less" scoped>
 .group-start {
@@ -43,7 +44,7 @@ const started = ref(false);
 }
 .split {
   max-width: 50rem;
-  margin: 5rem auto;
+  margin: 5rem auto 1rem;
   // margin: 4rem auto;
   display: flex;
   text-align: left;
@@ -70,6 +71,16 @@ button {
   &:hover {
     background: #fff;
     color: var(--fg);
+  }
+}
+
+.startbutton {
+  padding: 1em 1.5em;
+  background: var(--fg2);
+  color: var(--bg);
+  &:hover {
+    background: var(--bluebg);
+    color: var(--bluefg);
   }
 }
 </style>

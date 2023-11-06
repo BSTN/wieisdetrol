@@ -21,11 +21,15 @@
       <div class="buttons">
         <button @click="send()">verstuur</button>
       </div>
-      <label>Al je reacties (gesorteerd op hoogste score):</label>
+      <label v-if="options.length > 0"
+        >Al je reacties (gesorteerd op hoogste score):</label
+      >
       <div class="options" v-for="item in options">
         <div class="commentbox">
-          <span>Constructiviteit: {{ Math.round(item.score * 100) }}%</span
-          >{{ item.text }}
+          <div class="score">
+            Volgens de bot: {{ Math.round(item.score * 100) }}% constructief
+          </div>
+          {{ item.text }}
         </div>
       </div>
     </div>
@@ -64,7 +68,7 @@ async function send() {
     user.setAnswer({
       chapter: "chapter7",
       k: 0,
-      answer: { text: alltxt[0].text, score: data.score },
+      answer: { text: alltxt[0].text, score: alltxt[0].score },
     });
     input.value = "";
   }
@@ -86,10 +90,10 @@ async function send() {
     font-size: 1rem;
     padding: 0.5em;
     min-height: 10em;
-    box-shadow: inset 0 0.125rem 0.5rem #00000033;
+    box-shadow: inset 0 0.125rem 0.25rem #00000055;
     border: 1px solid var(--bg2);
     &:focus {
-      border: 1px solid var(--fg);
+      border: 1px solid var(--bluebg);
     }
   }
   textarea {
@@ -103,7 +107,7 @@ async function send() {
 }
 
 .question {
-  padding: 2rem 1rem;
+  // padding: 2rem 1rem;
 }
 
 .buttons {
@@ -111,5 +115,15 @@ async function send() {
 }
 .options {
   padding: 1em;
+}
+
+.commentbox {
+  .score {
+    background: var(--bluebg);
+    color: var(--bluefg);
+    padding: 0.5em;
+    border-radius: 0.25em;
+    margin-bottom: 1em;
+  }
 }
 </style>

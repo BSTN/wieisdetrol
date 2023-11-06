@@ -1,10 +1,15 @@
 <template>
   <div class="user-chapter-3">
-     <!-- PAUSE -->
-    <userPause v-if="!started || (done && !user.showResults.includes('chapter3'))"></userPause>
+    <!-- PAUSE -->
+    <userPause
+      v-if="!started || (done && !user.showResults.includes('chapter3'))"
+    ></userPause>
 
     <!-- VRAGEN -->
-    <div class="questions" v-if="started && (!done || user.showResults.includes('chapter3'))">
+    <div
+      class="questions"
+      v-if="started && (!done || user.showResults.includes('chapter3'))"
+    >
       <div class="question">
         Welk label vind je het beste van toepassing bij de volgende reacties?
       </div>
@@ -24,8 +29,11 @@
           </button>
         </div>
         <div class="allanswers" v-if="done">
-          <button v-for="label in questions['chapter3-labels']" :class="{active: getAnswer({ chapter: 'chapter3', k }) === label}">
-            <span>{{ count(label,k) }}</span> {{ label }} 
+          <button
+            v-for="label in questions['chapter3-labels']"
+            :class="{ active: getAnswer({ chapter: 'chapter3', k }) === label }"
+          >
+            <span>{{ count(label, k) }}</span> {{ label }}
           </button>
         </div>
       </div>
@@ -50,14 +58,16 @@ const started = computed(() =>
 const done = computed(() =>
   user.done ? user.done.includes("chapter3") : false
 );
-function count(label:string,k:number) { 
-  let count = 0
-  user.users.map(userx => {
-    if (userx.answers['chapter3'] && k in userx.answers['chapter3']) {
-      if (userx.answers['chapter3'][k] === label) { count++ }
+function count(label: string, k: number) {
+  let count = 0;
+  user.users.map((userx) => {
+    if (userx.answers["chapter3"] && k in userx.answers["chapter3"]) {
+      if (userx.answers["chapter3"][k] === label) {
+        count++;
+      }
     }
-  })
-  return count
+  });
+  return count;
 }
 </script>
 <style lang="less" scoped>
@@ -92,16 +102,16 @@ function count(label:string,k:number) {
   }
 }
 button.active {
-  background: var(--gbg);
-  color: var(--gfg);
-  border-color: var(--gbg);
+  background: var(--bluebg);
+  color: var(--bluefg);
+  border-color: var(--bluebg);
   &:hover {
     color: var(--bg);
   }
 }
 .allanswers {
   button {
-    display:block;
+    display: block;
     font-size: 0.8rem;
     &:hover {
       // background: var(--bg);

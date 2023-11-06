@@ -57,14 +57,14 @@ const { chapter } = defineProps({
     margin-bottom: 2px;
     align-items: center;
     position: relative;
-    padding: 0.5rem .75rem;
+    padding: 0.5rem 0.75rem;
     border: 2px solid var(--bg);
-    background:var(--bg);
-    display:flex;
+    background: var(--bg);
+    display: flex;
     .name {
       padding: 0 0.5em 0 1em;
       font-size: 0.75em;
-      flex:1;
+      flex: 1;
       text-align: left;
     }
     :deep(.user-avatar.small) {
@@ -78,13 +78,18 @@ const { chapter } = defineProps({
         border-radius: 0.25rem;
       }
     }
-    .ready, .busy {
+    .ready,
+    .busy {
       // font-size: 0.6rem;
       padding: 0.25em 1em;
       // border: 1px solid var(--fg);
       background: var(--bg1);
       border-radius: 100%;
       border-radius: 0.25rem;
+    }
+    .ready {
+      background: var(--bluebg);
+      color: var(--bluefg);
     }
     .busy {
       background: var(--fg);
