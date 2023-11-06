@@ -49,7 +49,12 @@ const options = computed(() => {
 async function send() {
   error.value = "";
   loading.value = true;
-  const data = await $fetch("https://api.wie-is-de-trol.nl/beatthebot", {
+  // const url =
+  //   window && window.location.href.match("localhost")
+  //     ? "/beatthebot"
+  //     : "https://api.wie-is-de-trol.nl/beatthebot";
+  const url = "https://api.wie-is-de-trol.nl/beatthebot";
+  const data = await $fetch(url, {
     method: "POST",
     body: { text: input.value, userid: user.userid, groupid: user.groupid },
   }).catch((err) => {

@@ -9,7 +9,7 @@
       <div class="chapters">
         <div class="chapter" v-for="item in order">
           <nuxt-link
-            :to="'/groep/' + item.group === '/' ? '' : String(item.group)"
+            :to="item.group == '/' ? '' : '/groep/' + String(item.group)"
             :class="{
               active: group.started.includes(item.ref) || item.ref === 'intro',
             }"
@@ -112,20 +112,25 @@ onMounted(async () => {
     pointer-events: auto;
     transform: translateX(0rem);
   }
-  .chapters {
-    margin: 4rem 2rem;
-    .chapter {
-      padding: 0.5em 0;
-      border-top: 1px solid var(--bc);
-      text-align: left;
-      a {
-        text-decoration: none;
-        opacity: 0.25;
-        &:hover {
-          color: var(--bluebg);
-        }
-        &.active {
-          opacity: 1;
+}
+.chapters {
+  margin: 4rem 2rem;
+  .chapter {
+    padding: 0.5em 0;
+    border-top: 1px solid var(--bc);
+    text-align: left;
+    a {
+      text-decoration: none;
+      opacity: 0.25;
+      pointer-events: none;
+      &:hover {
+        color: var(--bluebg);
+      }
+      &.active {
+        opacity: 1;
+        pointer-events: none;
+        .open & {
+          pointer-events: auto;
         }
       }
     }

@@ -187,7 +187,7 @@ export const useGroupStore = defineStore('groupStore', {
     prev() {
       SOCK.emit('prev', { groupid: this.groupid})
     },
-    next(position?:number) {
+    next(position?: number) {
       SOCK.emit('next', { groupid: this.groupid, position })
     },
     test () {
