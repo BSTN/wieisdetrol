@@ -1,27 +1,36 @@
 - name: Introductie
+  ref: intro
   group: /
   user: start
 - name: "1. Goed en Kwaad"
+  ref: chapter1
   group: 1
   user: 1
 - name: "2. Trollen vangen"
+  ref: chapter2
   group: 2
   user: 2
 - name: "3. Motivaties"
+  ref: chapter3
   group: 3
   user: 3
 - name: "4. Verbeter de discussie"
+  ref: chapter4
   group: 4
   user: 4
 - name: "5. Ben je bot?"
+  ref: chapter5
   group: 5
   user: 5
 - name: "6. De gevaren van AI"
+  ref: chapter6
   group: 6
   user: 6
 - name: "7. Beat the bot!"
+  ref: chapter7
   group: 7
   user: 7
 - name: "Lees meer"
+  ref: chapter8
   group: 8
   user: 8

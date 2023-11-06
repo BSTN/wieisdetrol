@@ -12,11 +12,18 @@
           <icon icon="cross" alt="close"></icon>
         </button>
         <video noloop ref="video">
-          <source :src="'https://api.wie-is-de-trol.nl' + file" type="video/mp4" />
+          <source
+            :src="'https://api.wie-is-de-trol.nl' + file"
+            type="video/mp4"
+          />
         </video>
       </div>
       <div class="restart"></div>
-      <div class="control" :class="{ show: showController }" @mouseenter="enter">
+      <div
+        class="control"
+        :class="{ show: showController }"
+        @mouseenter="enter"
+      >
         <div class="timeline">
           <Slider
             class="theslider"
@@ -43,7 +50,7 @@
           <icon icon="rewind"></icon>
         </button> -->
         <button @click="togglePlay()" class="contrast">
-          <div class="spinner" :class="{active: spinner}">
+          <div class="spinner" :class="{ active: spinner }">
             <div></div>
             <div></div>
             <div></div>
@@ -62,7 +69,7 @@
 import Slider from "@vueform/slider";
 // for loading
 const started = ref(true);
-const spinner = ref(false)
+const spinner = ref(false);
 
 const group = useGroupStore();
 const { file, initStarted } = defineProps({
@@ -128,10 +135,10 @@ onMounted(() => {
       playing.value = false;
     });
     video.value.addEventListener("waiting", () => {
-      spinner.value = true
+      spinner.value = true;
     });
     video.value.addEventListener("playing", () => {
-      spinner.value = false
+      spinner.value = false;
     });
     video.value.addEventListener("timeupdate", () => {
       timecode.value = fancyTimeFormat(parseInt(video.value.currentTime));
@@ -223,9 +230,9 @@ function stopDragging() {
   background: var(--fg);
   color: var(--bg2);
   font-size: 0.6rem;
-  position:fixed;
-  top:0;
-  left:0;
+  position: fixed;
+  top: 0;
+  left: 0;
   margin: 1rem;
   z-index: 9;
   &:hover {
@@ -243,7 +250,7 @@ function stopDragging() {
   transition: all 0.35s;
   background: var(--bg);
   border-radius: 0.25rem;
-  z-index: 2;
+  z-index: 9;
   opacity: 1;
   pointer-events: auto;
   .videoframe {
@@ -279,9 +286,14 @@ function stopDragging() {
     }
   }
   video {
-    position: relative;   
+    position: relative;
     width: 100%;
-    clip-path: polygon(2px 2px, calc(100% - 2px) 2px, calc(100% - 2px) calc(100% - 2px), 2px calc(100% - 2px));
+    clip-path: polygon(
+      2px 2px,
+      calc(100% - 2px) 2px,
+      calc(100% - 2px) calc(100% - 2px),
+      2px calc(100% - 2px)
+    );
   }
   .started & {
     position: absolute;
@@ -353,7 +365,6 @@ function stopDragging() {
   }
 }
 
-
 // .spinner {
 //   position:absolute;
 //   top:0;
@@ -390,12 +401,12 @@ function stopDragging() {
   display: inline-block;
   position: relative;
   margin: 0 0.25rem;
-  top:.25rem;
+  top: 0.25rem;
   width: 0.5rem;
-  height: .5rem;
+  height: 0.5rem;
   background: var(--bg);
   border-radius: 100%;
-  animation: spinner .7s linear infinite;
+  animation: spinner 0.7s linear infinite;
 }
 .spinner div:nth-child(1) {
   animation-delay: -0.24s;
@@ -407,14 +418,14 @@ function stopDragging() {
   animation-delay: 0;
 }
 @keyframes spinner {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   20% {
     transform: scale(1.3);
   }
 }
-
 
 .timeline {
   width: 60rem;

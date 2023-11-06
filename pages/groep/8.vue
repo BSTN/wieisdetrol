@@ -12,14 +12,8 @@
       <p>
         Wil je meer lezen?<br />
         <a target="_blank" href="https://www.wie-is-de-trol.nl/lees-meer"
-          >www.wie-is-de-trol.nl/lees-meer</a
+          >https://www.wie-is-de-trol.nl/lees-meer</a
         >.
-      </p>
-      <p>
-        Wil je deze les aanraden aan vrienden en/of familie?<br />
-        <a target="_blank" href="https://www.wie-is-de-trol.nl"
-          >www.wie-is-de-trol.nl</a
-        >
       </p>
     </div>
   </div>
@@ -37,6 +31,12 @@ const group = useGroupStore();
   margin: 0 auto;
   p {
     margin-bottom: 1em;
+  }
+  a {
+    font-weight: 600;
+    &:hover {
+      color: var(--bluebg);
+    }
   }
 }
 </style>

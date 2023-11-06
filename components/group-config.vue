@@ -1,6 +1,23 @@
 <template>
   <div class="group-config" :class="status">
-    <div class="status"></div>
+    <div class="menubutton" @click="open = !open">
+      <icon icon="menu" v-if="!open"></icon>
+      <icon icon="cross" v-else></icon>
+    </div>
+    <div class="menu" :class="{ open }">
+      <div class="status"></div>
+      <div class="chapters">
+        <div class="chapter" v-for="item in order">
+          <nuxt-link
+            :to="'/groep/' + item.group === '/' ? '' : String(item.group)"
+            :class="{
+              active: group.started.includes(item.ref) || item.ref === 'intro',
+            }"
+            >{{ item.name }}</nuxt-link
+          >
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -8,6 +25,7 @@ import order from "@/content/order.yml";
 const group = useGroupStore();
 const status = ref("");
 const route = useRoute();
+const open = ref(false);
 watch(
   () => route.path,
   (to, from) => {
@@ -68,15 +86,61 @@ onMounted(async () => {
     background: #d85434;
   }
 }
-button.reset {
+
+.menubutton {
   position: fixed;
-  bottom: 0;
+  top: 0;
   right: 0;
-  background: #f00;
-  padding: 0.25em 0.5em;
-  border: 1px solid var(--fg);
-  margin: 1rem;
-  text-transform: uppercase;
-  font-size: 0.8rem;
+  padding: 1.5em;
+  z-index: 99;
 }
+
+.menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 24rem;
+  height: 100vh;
+  background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 0 0.5rem var(--shadow);
+  transition: all 0.3s;
+  transform: translateX(3rem);
+  &.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0rem);
+  }
+  .chapters {
+    margin: 4rem 2rem;
+    .chapter {
+      padding: 0.5em 0;
+      border-top: 1px solid var(--bc);
+      text-align: left;
+      a {
+        text-decoration: none;
+        opacity: 0.25;
+        &:hover {
+          color: var(--bluebg);
+        }
+        &.active {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+// button.reset {
+//   position: fixed;
+//   bottom: 0;
+//   right: 0;
+//   background: #f00;
+//   padding: 0.25em 0.5em;
+//   border: 1px solid var(--fg);
+//   margin: 1rem;
+//   text-transform: uppercase;
+//   font-size: 0.8rem;
+// }
 </style>
