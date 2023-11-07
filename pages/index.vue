@@ -16,7 +16,7 @@
           klik vervolgens op de link op je scherm.
         </p>
         <p>
-          Tip: Je kan de link ook direct delen via bijvoorbeeld een groep app.
+          Tip: Je kan de link ook direct delen via bijvoorbeeld een groepsapp.
         </p>
       </div>
     </div>

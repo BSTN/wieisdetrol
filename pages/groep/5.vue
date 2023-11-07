@@ -35,29 +35,56 @@
           </div>
           <div class="right">
             <div class="user bot">
-              <div class="userdetails">🤖</div>
+              <!-- <div class="userdetails">🤖</div> -->
               <div class="labels">
                 <label><icon icon="prev"></icon> niet-constructief</label>
                 <label>constructief <icon icon="next"></icon></label>
               </div>
               <div class="slid">
+                <div class="mark"></div>
+                <div class="mark"></div>
+                <div class="mark"></div>
+                <div class="mark"></div>
+                <div class="threshold"></div>
+                <!-- <div
+                  class="userline"
+                  v-for="user in q.users"
+                  :style="{ left: user.answers['chapter5'][k] * 100 + '%' }"
+                ></div> -->
                 <div
                   class="bar"
                   :style="{ width: Math.round(q.botresult * 100) + '%' }"
                 ></div>
               </div>
-            </div>
-            Eens met de bot:
-            <span>{{ q.matching ? q.matching.length : 0 }}</span> <br />
-            Oneens:
-            <span>{{ q.other ? q.other.length : 0 }}</span>
-            <!-- <div class="user" v-for="user in group.users">
+              Bot: <b>{{ q.botresult * 100 }}%</b> ({{
+                q.botresult < 0.8 ? "niet" : ""
+              }}
+              constructief)<br />
+              <!-- Eens met de bot:
+            <span>{{ q.matching ? q.matching.length : 0 }}</span
+            >, Oneens:
+            <span>{{ q.other ? q.other.length : 0 }}</span> -->
+              <!-- <div class="user" v-for="user in group.users">
             <div class="userdetails"><UserIcon :user="user" class="small" /> {{ user.name }}:</div>
             <div class="slid" v-if="user.answers['chapter5'] && !isNaN(user.answers['chapter5'][k])">
               <div class="bar" :style="{width: Math.round(user.answers['chapter5'] && user.answers['chapter5'][k] ? user.answers['chapter5'][k] * 100 : 0) + '%'}"></div>
             {{ user.answers["chapter5"] ? Math.round(user.answers["chapter5"][k] * 100) + '%' : '-' }}
             </div>
           </div> -->
+              <label>All deelnemers:</label>
+              <div class="slid">
+                <div class="mark"></div>
+                <div class="mark"></div>
+                <div class="mark"></div>
+                <div class="mark"></div>
+                <div class="threshold"></div>
+                <div
+                  class="userline"
+                  v-for="user in q.users"
+                  :style="{ left: user.answers['chapter5'][k] * 100 + '%' }"
+                ></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -80,10 +107,12 @@ const list = computed(() => {
   const qs = questions.chapter5.map((x, k) => {
     x.matching = [];
     x.other = [];
+    x.users = [];
     for (let i in group.users) {
       const user = group.users[i];
       const answers = user.answers.chapter5 || false;
       if (answers && !isNaN(answers[k])) {
+        x.users.push(user);
         if (
           answers[k] > x.botresult - precision / 2 &&
           answers[k] < x.botresult + precision / 2
@@ -118,6 +147,16 @@ const list = computed(() => {
   .user {
     margin-bottom: 0.5em;
     align-items: center;
+    label {
+      margin-top: 1em;
+    }
+    .userline {
+      position: Absolute;
+      left: 0;
+      top: 0%;
+      height: 100%;
+      border-left: 3px solid var(--bluebg);
+    }
     .userdetails {
       // flex: 1;
       font-size: 4rem;
@@ -132,14 +171,46 @@ const list = computed(() => {
       position: relative;
       background: var(--bg);
       border-radius: 0.25em;
-      overflow: hidden;
+      overflow: visible;
+      margin-bottom: 0.5em;
+      .mark {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        border-left: 1px solid var(--bg2);
+        opacity: 0.75;
+        z-index: 9;
+        &:nth-child(1) {
+          left: 20%;
+        }
+        &:nth-child(2) {
+          left: 40%;
+        }
+        &:nth-child(3) {
+          left: 60%;
+        }
+        &:nth-child(4) {
+          left: 80%;
+        }
+      }
       .bar {
         position: absolute;
         left: 0;
         background: var(--bluebg);
         background: transparent;
         height: 100%;
-        border-right: 3rem solid var(--bluebg);
+        border-right: 2px solid var(--bluebg);
+      }
+      .irrelevant {
+      }
+      .threshold {
+        position: absolute;
+        left: 80%;
+        height: 140%;
+        top: -20%;
+        border-left: 2px dotted var(--fg2);
+        z-index: 9;
       }
     }
   }

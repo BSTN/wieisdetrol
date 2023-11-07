@@ -2,7 +2,8 @@
   <div class="chapter-progress">
     <div class="users">
       <div class="user" v-for="user in group.users">
-        <UserAvatar class="small" :user="user"></UserAvatar>
+        <!-- <UserAvatar class="small" :user="user"></UserAvatar> -->
+        <userIcon :user="user"></userIcon>
         <div class="name">{{ user.name }}</div>
         <div class="ready" v-if="user.done && user.done.includes(chapter)">
           klaar
@@ -57,15 +58,26 @@ const { chapter } = defineProps({
     margin-bottom: 2px;
     align-items: center;
     position: relative;
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem 0.5rem;
     border: 2px solid var(--bg);
     background: var(--bg);
     display: flex;
+    :deep(.user-icon) {
+      // background: var(--bg1);
+      width: 2.5rem;
+      height: 2.5rem;
+      margin: 0;
+      padding: 0;
+      transform: none;
+      .icon {
+        background: var(--bg1);
+      }
+    }
     .name {
       padding: 0 0.5em 0 1em;
-      font-size: 0.75em;
       flex: 1;
       text-align: left;
+      font-weight: 500;
     }
     :deep(.user-avatar.small) {
       width: 2rem;

@@ -4,7 +4,7 @@
       <icon icon="menu" v-if="!open"></icon>
       <icon icon="cross" v-else></icon>
     </div>
-    <div class="menu" :class="{ open }">
+    <div class="menu" :class="{ open }" @click="open = !open">
       <div class="status"></div>
       <div class="chapters">
         <div class="chapter" v-for="item in order">

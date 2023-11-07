@@ -1,18 +1,68 @@
 <template>
   <div class="user-chapter-5">
-    <userPause v-if="!started || (done && !user.showResults.includes('chapter5'))"></userPause>
-    <div class="questions" v-if="started && (!done || user.showResults.includes('chapter5'))">
-      <div class="q" v-for="(q, k) in questions.chapter5" :class="{active: k === 0 || !isNaN(getAnswer({chapter: 'chapter5', k: k - 1}))}">
+    <userPause
+      v-if="!started || (done && !user.showResults.includes('chapter5'))"
+    ></userPause>
+    <div
+      class="questions"
+      v-if="started && (!done || user.showResults.includes('chapter5'))"
+    >
+      <div class="question">
+        In hoeverre vind je de volgende reacties een constructieve bijdrage
+        leveren?
+      </div>
+      <div
+        class="q"
+        v-for="(q, k) in questions.chapter5"
+        :class="{
+          active:
+            k === 0 || !isNaN(getAnswer({ chapter: 'chapter5', k: k - 1 })),
+        }"
+      >
         <div class="commentbox">{{ q.text }}</div>
-        <botSlider :number="k" chapter="chapter5" @change="update" v-if="!done"></botSlider>
+        <botSlider
+          :number="k"
+          chapter="chapter5"
+          @change="update"
+          v-if="!done"
+        ></botSlider>
         <div class="result" v-if="user.showResults.includes('chapter5')">
           <label>Jouw antwoord:</label>
+          <div class="labels">
+            <label><icon icon="prev"></icon> niet-constructief</label>
+            <label>constructief <icon icon="next"></icon></label>
+          </div>
           <div class="slid user">
-              <div class="bar" :style="{width: Math.round(user.answers['chapter5'][k] ? user.answers['chapter5'][k] * 100 : 0) + '%'}"></div>
-            </div>
+            <div class="mark"></div>
+            <div class="mark"></div>
+            <div class="mark"></div>
+            <div class="mark"></div>
+            <div
+              class="bar"
+              :style="{
+                width:
+                  Math.round(
+                    user.answers['chapter5'][k]
+                      ? user.answers['chapter5'][k] * 100
+                      : 0
+                  ) + '%',
+              }"
+            ></div>
+          </div>
           <label>De bot:</label>
+          <div class="labels">
+            <label><icon icon="prev"></icon> niet-constructief</label>
+            <label>constructief <icon icon="next"></icon></label>
+          </div>
           <div class="slid bot">
-            <div class="bar" :style="{width: Math.round(q.botresult * 100) + '%'}"></div>
+            <div class="mark"></div>
+            <div class="mark"></div>
+            <div class="mark"></div>
+            <div class="mark"></div>
+            <div
+              class="bar"
+              :style="{ width: Math.round(q.botresult * 100) + '%' }"
+            ></div>
           </div>
         </div>
       </div>
@@ -45,6 +95,23 @@ const done = computed(() =>
 .user-chapter-5 {
   background: var(--testbg);
 }
+
+.labels {
+  display: flex;
+  > label {
+    flex: 1;
+    opacity: 0.75;
+    font-size: 0.6rem;
+    padding: 0;
+    &:nth-child(2) {
+      text-align: right;
+    }
+    .icon {
+      display: inline-block;
+      transform: translateY(0.125em);
+    }
+  }
+}
 .questions {
   width: 40rem;
   max-width: 100%;
@@ -63,20 +130,41 @@ const done = computed(() =>
 }
 
 .slid {
-    flex: 1;
-    width: 100%;
-    height: 0.5em;
-    position: relative;
-    background: var(--rbg);
-    border-radius: 0.25em;
-    overflow: hidden;;
-    margin-bottom: 0.5rem;
-    .bar {
-      position:absolute;
-      left:0;
-      background: var(--gbg);
-      height: 100%;
-      border-right: 2px solid var(--bg);
+  flex: 1;
+  width: 100%;
+  height: 0.5em;
+  position: relative;
+  background: var(--bg);
+  border-radius: 0.25em;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  .mark {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-left: 1px solid var(--bg2);
+    opacity: 0.75;
+    z-index: 9;
+    &:nth-child(1) {
+      left: 20%;
+    }
+    &:nth-child(2) {
+      left: 40%;
+    }
+    &:nth-child(3) {
+      left: 60%;
+    }
+    &:nth-child(4) {
+      left: 80%;
     }
   }
+  .bar {
+    position: absolute;
+    left: 0;
+    background: var(--bluebg);
+    height: 100%;
+    border-right: 2px solid var(--bg);
+  }
+}
 </style>

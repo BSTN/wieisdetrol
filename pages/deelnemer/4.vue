@@ -9,7 +9,7 @@
     >
       <div class="question">
         Welke van de volgende berichten (dezelfde als in het vorige hoofdstuk)
-        zou jij uitlichten? Je mag er 1 kiezen.
+        zou jij uitlichten voor een goede discussie? Je mag er 1 kiezen.
       </div>
       <div
         v-for="(q, k) in questions.chapter3"

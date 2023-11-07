@@ -35,11 +35,11 @@
         </div>
         <div class="answers" v-if="user.showResults.includes('chapter2')">
           <div>
-            <label>Jouw antwoord:</label
-            >{{ getAnswer({ chapter: "chapter2", k }) === true ? "😈" : "😇" }}
+            <label>Jouw keuze:</label>
+            {{ getAnswer({ chapter: "chapter2", k }) === true ? "😈" : "😇" }}
           </div>
           <div>
-            <label>Alle antwoorden:</label> 😈
+            <label>Alle keuzes:</label> 😈
             {{ allAnswers ? allAnswers.trol[k].length : 0 }} 😇
             {{ allAnswers ? allAnswers.geentrol[k].length : 0 }}
           </div>

@@ -75,10 +75,16 @@ label {
 
 .users {
   .user {
+    display: inline-block;
+    margin: 0 0.5em;
     :deep(.user-icon) {
       width: 3rem;
       height: 3rem;
       border-radius: 0.5em;
+      background: var(--bg1);
+      .icon {
+        background: var(--bg1);
+      }
     }
     .name {
       font-weight: 500;
