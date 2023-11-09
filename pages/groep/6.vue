@@ -126,9 +126,10 @@ const stemmen = computed(() => {
   text-align: left;
   color: var(--fg);
   background: var(--gfg);
-  padding: 0.5em 1em;
+  padding: 0.75em 1em;
   margin-top: 0.5em;
   border-radius: 0.25em;
   font-size: 0.75rem;
+  line-height: 1.3em;
 }
 </style>

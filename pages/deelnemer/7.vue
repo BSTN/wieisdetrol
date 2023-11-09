@@ -51,7 +51,7 @@ async function send() {
   loading.value = true;
   // const url =
   //   window && window.location.href.match("localhost")
-  //     ? "/beatthebot"
+  //     ? "http://localhost/beatthebot"
   //     : "https://api.wie-is-de-trol.nl/beatthebot";
   const url = "https://api.wie-is-de-trol.nl/beatthebot";
   const data = await $fetch(url, {

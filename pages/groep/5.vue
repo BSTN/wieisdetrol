@@ -10,6 +10,10 @@
       bot? Ben jij het eens met de criteria die de bot lijkt te gebruiken? Tip:
       de bot lijkt een voorkeur te hebben voor lange reacties. Ook lijkt hij te
       selecteren op bepaalde woorden die voorkomen in de reactie.
+      <div class="subtoelichting" style="font-size: 0.8rem; margin-top: 2rem">
+        * Stippellijntje is de grens van 80%. Advies met deze waarde (of meer)
+        zullen de moderatoren overwegen om de reactie vast te pinnen.
+      </div>
     </div>
     <ChapterProgress
       chapter="chapter5"
@@ -36,10 +40,15 @@
           <div class="right">
             <div class="user bot">
               <!-- <div class="userdetails">🤖</div> -->
-              <div class="labels">
+              <label
+                ><b
+                  >Dit denkt de bot ({{ q.botresult * 100 }}% constructief):</b
+                ></label
+              >
+              <!-- <div class="labels">
                 <label><icon icon="prev"></icon> niet-constructief</label>
                 <label>constructief <icon icon="next"></icon></label>
-              </div>
+              </div> -->
               <div class="slid">
                 <div class="mark"></div>
                 <div class="mark"></div>
@@ -56,10 +65,10 @@
                   :style="{ width: Math.round(q.botresult * 100) + '%' }"
                 ></div>
               </div>
-              Bot: <b>{{ q.botresult * 100 }}%</b> ({{
+              <!-- Bot: <b>{{ q.botresult * 100 }}%</b> ({{
                 q.botresult < 0.8 ? "niet" : ""
               }}
-              constructief)<br />
+              constructief)<br /> -->
               <!-- Eens met de bot:
             <span>{{ q.matching ? q.matching.length : 0 }}</span
             >, Oneens:
@@ -71,7 +80,7 @@
             {{ user.answers["chapter5"] ? Math.round(user.answers["chapter5"][k] * 100) + '%' : '-' }}
             </div>
           </div> -->
-              <label>All deelnemers:</label>
+              <label><b>Dit denken jullie:</b></label>
               <div class="slid">
                 <div class="mark"></div>
                 <div class="mark"></div>
@@ -200,7 +209,7 @@ const list = computed(() => {
         background: var(--bluebg);
         background: transparent;
         height: 100%;
-        border-right: 2px solid var(--bluebg);
+        border-right: 8px solid var(--bluebg);
       }
       .irrelevant {
       }
