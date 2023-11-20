@@ -288,6 +288,7 @@ function stopDragging() {
   video {
     position: relative;
     width: 100%;
+    max-height: calc(100vh - 12rem);
     clip-path: polygon(
       2px 2px,
       calc(100% - 2px) 2px,
