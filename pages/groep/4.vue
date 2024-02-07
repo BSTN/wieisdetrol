@@ -18,21 +18,17 @@
     </button>
     <div class="results" v-if="group.showResults.includes('chapter4')">
       <div class="comments">
-        <div class="q commentsplit" v-for="(q, k) in list">
-          <div class="left">
-            <div class="commentbox">
-              <span>reactie #{{ q.key + 1 }}</span>{{ q.text }}
-            </div>
+        <div class="q" v-for="(q, k) in list">
+          <div class="commentbox">
+            <span>reactie #{{ q.key + 1 }}</span>{{ q.text }}
           </div>
-          <div class="right">
-            <basicBar :count="q.votes" :total="total">
-              <b>{{ q.votes }}x</b> geselecteerd
-            </basicBar>
-            <label>Labels uit vorig hoofdstuk:</label>
-            <div class="answers labels">
-              <div v-for="(users, label) in labelCountPerComment[k]" v-show="users.length > 0" class="label">
-                {{ label }} <sup>{{ users.length }}</sup>
-              </div>
+          <basicBar :count="q.votes" :total="total">
+            <b>{{ q.votes }}x</b> geselecteerd
+          </basicBar>
+          <label>Labels uit vorig hoofdstuk:</label>
+          <div class="answers labels">
+            <div v-for="(users, label) in labelCountPerComment[k]" v-show="users.length > 0" class="label">
+              {{ label }} <sup>{{ users.length }}</sup>
             </div>
           </div>
           <!-- <div class="result">{{ q.votes }}x geselecteerd</div> -->
@@ -107,7 +103,8 @@ const labelCountPerComment = computed(() => {
 
 .results {
   margin: 0 auto;
-  width: 60rem;
+  width: 100%;
+  padding: 0;
 }
 
 .comments {
@@ -115,9 +112,9 @@ const labelCountPerComment = computed(() => {
   margin: 2rem auto;
   text-align: left;
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  padding: 2rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4rem;
+  padding: 4rem;
 
   .q.commentsplit {
     padding-bottom: 2rem;

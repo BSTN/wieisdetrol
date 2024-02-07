@@ -19,7 +19,7 @@
         <div class="answers" v-if="done">{{ getVotes(k) }}x geselecteerd</div>
       </div>
     </div>
-    <div class="done" v-if="!done">
+    <div class="done" v-if="!done && started">
       <button class="contrast" @click="user.setDone('chapter4')">
         Klik hier als je klaar bent!
       </button>
