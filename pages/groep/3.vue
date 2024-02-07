@@ -9,29 +9,18 @@
     </div> -->
 
     <div class="chapter-toelichting">
-      Welke reacties zijn op dezelfde manier gelabeld en welke niet? Over welke
-      reacties bestaat de meeste discussie?
+      Welk label vind je het beste van toepassing bij de volgende reacties?
     </div>
 
     <!-- VIDEO -->
-    <videoPlayer
-      file="/videos/3.mp4"
-      :class="{ started }"
-      @next="group.startChapter('chapter3')"
-      @restart="group.unStartChapter('chapter3')"
-    ></videoPlayer>
+    <videoPlayer file="/videos/3.mp4" :class="{ started }" @next="group.startChapter('chapter3')"
+      @restart="group.unStartChapter('chapter3')"></videoPlayer>
 
     <!-- PROGRESS -->
-    <ChapterProgress
-      chapter="chapter3"
-      v-if="!group.showResults.includes('chapter3')"
-    ></ChapterProgress>
+    <ChapterProgress chapter="chapter3" v-if="!group.showResults.includes('chapter3')"></ChapterProgress>
 
     <!-- VERGELIJK DE RESULTATEN -->
-    <button
-      @click="group.setShowResults('chapter3')"
-      v-if="!group.showResults.includes('chapter3')"
-    >
+    <button @click="group.setShowResults('chapter3')" v-if="!group.showResults.includes('chapter3')">
       vergelijk resultaten
     </button>
 
@@ -42,11 +31,7 @@
           {{ q.text }}
         </div>
         <div class="answers">
-          <div
-            v-for="(users, label) in labelCountPerComment[k]"
-            v-show="users.length > 0"
-            class="label"
-          >
+          <div v-for="(users, label) in labelCountPerComment[k]" v-show="users.length > 0" class="label">
             {{ label }} <sup>{{ users.length }}</sup>
           </div>
         </div>
@@ -89,8 +74,7 @@ const labelCountPerComment = computed(() => {
 });
 </script>
 <style lang="less" scoped>
-.group-chapter-3 {
-}
+.group-chapter-3 {}
 
 .results {
   // width: 20rem;
@@ -99,10 +83,12 @@ const labelCountPerComment = computed(() => {
   grid-template-columns: 1fr 1fr 1fr;
   gap: 2rem;
   padding: 2rem;
+
   @media (max-width: 80rem) {
     grid-template-columns: 1fr 1fr;
   }
 }
+
 .q {
   // display: flex;
   margin: 0 auto 1em;
@@ -110,6 +96,7 @@ const labelCountPerComment = computed(() => {
   padding: 1rem;
   border-radius: 0.5rem;
   text-align: left;
+
   .name {
     flex: 1;
     text-align: left;
@@ -126,6 +113,7 @@ const labelCountPerComment = computed(() => {
     margin: 0 0.5em 0.5em 0;
   }
 }
+
 sup {
   vertical-align: super;
   font-size: 0.7rem;
@@ -139,11 +127,13 @@ sup {
   height: 1.5rem;
   background: var(--gbg);
   color: var(--gfg);
+
   .geentrol & {
     background: var(--rbg);
     color: var(--rfg);
   }
 }
+
 .trol,
 .geentrol {
   padding: 0 0 0 0.5em;

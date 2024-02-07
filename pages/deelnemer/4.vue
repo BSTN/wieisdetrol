@@ -1,29 +1,18 @@
 <template>
   <div class="user-chapter-4">
-    <userPause
-      v-if="!started || (done && !user.showResults.includes('chapter4'))"
-    ></userPause>
-    <div
-      class="questions"
-      v-if="started && (!done || user.showResults.includes('chapter4'))"
-    >
+    <userPause v-if="!started || (done && !user.showResults.includes('chapter4'))"></userPause>
+    <div class="questions" v-if="started && (!done || user.showResults.includes('chapter4'))">
       <div class="question">
         Welke van de volgende berichten (dezelfde als in het vorige hoofdstuk)
         zou jij uitlichten voor een goede discussie? Je mag er 1 kiezen.
       </div>
-      <div
-        v-for="(q, k) in questions.chapter3"
-        class="commentscontainer"
-        :class="{ active: getAnswer({ chapter: 'chapter4', k: 0 }) === k }"
-      >
+      <div v-for="(q, k) in questions.chapter3" class="commentscontainer"
+        :class="{ active: getAnswer({ chapter: 'chapter4', k: 0 }) === k }">
         <div class="commentbox">
-          <span>Reactie #{{ k + 1 }}</span
-          >{{ q.text }}
+          <span>Reactie #{{ k + 1 }}</span>{{ q.text }}
         </div>
         <div class="select" v-if="!done">
-          <button
-            @click="user.setAnswer({ chapter: 'chapter4', k: 0, answer: k })"
-          >
+          <button @click="user.setAnswer({ chapter: 'chapter4', k: 0, answer: k })">
             selecteer deze reactie
           </button>
         </div>
@@ -76,14 +65,17 @@ function getVotes(k: number) {
   text-align: left;
   padding: 1rem;
   cursor: pointer;
+
   &.active {
     .commentbox {
       background: var(--bluebg);
       color: var(--bluefg);
+
       &:before {
         background: var(--bluebg);
       }
     }
+
     .select {
       button {
         // background: var(--gfg);

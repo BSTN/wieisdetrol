@@ -12,24 +12,14 @@
     </div>
 
     <!-- VIDEO -->
-    <videoPlayer
-      file="/videos/1.mp4"
-      :class="{ started }"
-      @next="group.startChapter('chapter1')"
-      @restart="group.unStartChapter('chapter1')"
-    ></videoPlayer>
+    <videoPlayer file="/videos/1.mp4" :class="{ started }" @next="group.startChapter('chapter1')"
+      @restart="group.unStartChapter('chapter1')"></videoPlayer>
 
     <!-- PROGRESS -->
-    <ChapterProgress
-      chapter="chapter1"
-      v-if="!group.showResults.includes('chapter1')"
-    ></ChapterProgress>
+    <ChapterProgress chapter="chapter1" v-if="!group.showResults.includes('chapter1')"></ChapterProgress>
 
     <!-- SHOW RESULTS -->
-    <button
-      @click="group.setShowResults('chapter1')"
-      v-if="!group.showResults.includes('chapter1')"
-    >
+    <button @click="group.setShowResults('chapter1')" v-if="!group.showResults.includes('chapter1')">
       vergelijk resultaten
     </button>
 
@@ -40,17 +30,21 @@
     <!-- RESULTS -->
     <div class="results" v-if="group.showResults.includes('chapter1')">
       <div class="qcontainer">
-        <div class="q commentsplit" v-for="(q, k) in list" :key="q.key">
+        <div class="q" v-for="(q, k) in list" :key="q.key">
           <div class="left">
             <div class="text commentbox">
-              <span>reactie #{{ q.key + 1 }}</span
-              >{{ q.comment }}
+              <percentage :count="q.verwijderd" :total="q.verwijderd + q.toegestaan"></percentage>
+              <span>reactie #{{ q.key + 1 }}</span>{{ q.comment }}
             </div>
           </div>
-          <div class="right">
-            <BasicBar :count="q.verwijderd" :total="q.verwijderd + q.toegestaan"
-              >{{ q.verwijderd }}x verwijderd</BasicBar
-            >
+          <div class="right" v-if="q.verwijderd > 0 && q.verwijderd !== q.toegestaan + q.verwijderd">
+            <b>{{ q.verwijderd }} van de {{ q.verwijderd + q.toegestaan }}</b> zouden dit bericht <b>verwijderen.</b>
+          </div>
+          <div class="right" v-if="q.verwijderd === q.toegestaan + q.verwijderd">
+            <b>Iedereen</b> zou dit bericht <b>verwijderen.</b>
+          </div>
+          <div class="right niemand" v-if="q.verwijderd === 0">
+            <b>Niemand</b> zou dit bericht verwijderen.
           </div>
         </div>
       </div>
@@ -102,30 +96,57 @@ const list = computed(() => {
 });
 </script>
 <style lang="less" scoped>
-.group-chapter-1 {
+.group-chapter-1 {}
+
+.results {
+  margin-top: 5rem;
+  padding-bottom: 10rem;
 }
 
 .qcontainer {
   flex-wrap: wrap;
   gap: 1.5rem;
   padding: 1rem;
-  max-width: 60rem;
+  width: 100%;
+  max-width: calc(100% - 4rem);
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4rem;
+
+  @media (max-width: 80rem) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+:deep(.percentage) {
+  position: absolute;
+  top: -2rem;
+  right: -2rem;
+
+  .circle {
+    transform-origin: center;
+  }
 }
 
 .q {
   flex: 1;
   line-height: 1em;
   // display: flex;
-  min-width: 16rem;
-  max-width: 100%;
   margin: 0 auto 4rem;
+
   .text {
     width: 100%;
     text-align: left;
   }
+
   .right {
-    text-align: left;
+    margin-top: 1rem;
+    color: var(--rbg);
+
+    &.niemand {
+      color: var(--gbg);
+    }
   }
 }
 
@@ -139,12 +160,14 @@ const list = computed(() => {
   border-radius: 0.5em;
   overflow: hidden;
   border: 1px solid var(--bg2);
+
   .toegestaan {
     font-size: 0.6rem;
     padding: 0.5em;
     background: var(--gfg);
     color: var(--gbg);
   }
+
   .verwijderd {
     font-size: 0.6rem;
     padding: 0.5em;
@@ -161,11 +184,13 @@ const list = computed(() => {
   height: 1.5rem;
   background: var(--gbg);
   color: var(--gfg);
+
   .verwijderd & {
     background: var(--rbg);
     color: var(--rfg);
   }
 }
+
 .toegestaan,
 .verwijderd {
   padding: 0 0 0 0.5em;

@@ -1,45 +1,69 @@
 <template>
-  <div class="deelnemer-8">
-    <div class="text">
-      <h3>Bedankt voor het meedoen met <i>Wie is de trol?</i>!</h3>
-      <p>
-        Je hebt nu zelf kunnen ervaren hoe complex het werk van een moderator
-        is. In werkelijkheid is het nog een tandje moeilijker: bij nu.nl komen
-        dagelijks zo'n 33 duizend reacties binnen, die verwerkt worden door
-        momenteel 3 moderatoren. Je kunt je dus wel voorstellen dat ze AI hard
-        nodig hebben.
-      </p>
-      <p>
-        Wil je meer lezen over de geschiedenis van het internet, online reageren
-        en Kunstmatige Intelligentie (AI), ga dan naar:
-      </p>
-      <p>
-        <a href="https://www.wie-is-de-trol.nl/lees-meer"
-          >https://wie-is-de-trol.nl/lees-meer</a
-        >
-      </p>
+  <div class="user-chapter-8">
+    <user-pause v-if="user.finished.includes('chapter8') ||
+      (!user.showResults.includes('chapter8') &&
+        !user.started.includes('chapter8')) || done
+      "></user-pause>
+    <div class="try" v-if="user.started.includes('chapter8') && !user.done.includes('chapter8')">
+      <div class="question" v-for="(q, k) in questions.chapter8">
+        <h1>{{ q.question }}</h1>
+        <div class="options">
+          <div class="option" v-for="(option, kk) in q.options"
+            :class="{ active: user.getAnswer({ chapter: 'chapter8', k }) === kk }"
+            @click="user.setAnswer({ chapter: 'chapter8', k, answer: kk })">
+            {{ option }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="done" v-if="!done && user.started.includes('chapter8')">
+      <button class="contrast" @click="user.setDone('chapter8')">
+        Klik hier als je klaar bent!
+      </button>
     </div>
   </div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import questions from '@/content/questions.yml'
+const user = useUserStore();
+const input = ref("");
+const error = ref("");
+const loading = ref(false);
+const all = ref([]);
+const done = computed(() => { return user.done.includes('chapter8') })
+</script>
 <style lang="less" scoped>
-.deelnemer-8 {
-  padding: 4em 1em;
-  max-width: 24rem;
-  margin: 0 auto;
+.user-chapter-8 {
+  background: var(--testbg);
+  min-height: 100vh;
 }
-h3 {
-  font-size: 1.5em;
-  width: 10em;
-  margin: 0 auto 2em;
-  line-height: 1.2em;
-  font-weight: 500;
+
+.question {
+  padding: 3rem 1rem;
+
+  h1 {
+    font-size: 1.25rem;
+    line-height: 1.4em;
+    margin-bottom: 3rem;
+  }
 }
-p {
-  margin-bottom: 1em;
+
+.options {
   text-align: left;
-  a {
-    font-weight: 500;
+
+  .option {
+    margin-bottom: 1rem;
+    background: var(--bg);
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    font-weight: normal;
+    line-height: 1.2em;
+    cursor: pointer;
+
+    &.active {
+      background: var(--bluebg);
+      color: var(--bluefg);
+    }
   }
 }
 </style>

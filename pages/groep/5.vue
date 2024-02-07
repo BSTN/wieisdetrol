@@ -2,99 +2,36 @@
   <div class="group-chapter-5" v-if="!group.loading">
     <chapterlogo class="chapterlogo"></chapterlogo>
     <h1>Ben je bot?</h1>
-    <div
-      class="chapter-toelichting"
-      v-if="group.showResults.includes('chapter5')"
-    >
+    <div class="chapter-toelichting">
       Waar zitten de grootste verschillen tussen het klassengemiddelde en de
       bot? Ben jij het eens met de criteria die de bot lijkt te gebruiken? Tip:
       de bot lijkt een voorkeur te hebben voor lange reacties. Ook lijkt hij te
       selecteren op bepaalde woorden die voorkomen in de reactie.
-      <div class="subtoelichting" style="font-size: 0.8rem; margin-top: 2rem">
-        * Stippellijntje is de grens van 80%. Advies met deze waarde (of meer)
-        zullen de moderatoren overwegen om de reactie vast te pinnen.
+      <div class="subtoelichting" v-if="group.showResults.includes('chapter5')"
+        style="font-size: 1rem; font-weight: 600; line-height: 1.4em; margin-top: 2rem">
+        Als de aangegeven constructiviteitsscore hoger is dan 0.8, dan is het advies aan de moderatoren om de reactie vast
+        te pinnen.
       </div>
     </div>
-    <ChapterProgress
-      chapter="chapter5"
-      v-if="!group.showResults.includes('chapter5')"
-    ></ChapterProgress>
-    <videoPlayer
-      file="/videos/5.mp4"
-      :class="{ started }"
-      @next="group.startChapter('chapter5')"
-      @restart="group.unStartChapter('chapter5')"
-    ></videoPlayer>
-    <button
-      @click="group.setShowResults('chapter5')"
-      v-if="!group.showResults.includes('chapter5')"
-    >
+    <ChapterProgress chapter="chapter5" v-if="!group.showResults.includes('chapter5')"></ChapterProgress>
+    <videoPlayer file="/videos/5.mp4" :class="{ started }" @next="group.startChapter('chapter5')"
+      @restart="group.unStartChapter('chapter5')"></videoPlayer>
+    <button @click="group.setShowResults('chapter5')" v-if="!group.showResults.includes('chapter5')">
       vergelijk resultaten
     </button>
     <div class="results" v-if="group.showResults.includes('chapter5')">
       <div class="comments" v-if="list">
-        <div class="q commentsplit" v-for="(q, k) in list">
-          <div class="left">
-            <div class="commentbox">{{ q.text }}</div>
+        <div class="q" v-for="(q, k) in list" @click="open(k)">
+          <div class="commentbox">{{ q.text }}</div>
+          <div class="pincontainer" :class="{ pin: q.botresult >= 0.8 }">
+            <icon icon="pin" v-if="q.botresult >= 0.8"></icon>
+            <div>Score van de bot: <b>{{ q.botresult }}</b></div>
           </div>
-          <div class="right">
-            <div class="user bot">
-              <!-- <div class="userdetails">🤖</div> -->
-              <label
-                ><b
-                  >Dit denkt de bot ({{ q.botresult * 100 }}% constructief):</b
-                ></label
-              >
-              <!-- <div class="labels">
-                <label><icon icon="prev"></icon> niet-constructief</label>
-                <label>constructief <icon icon="next"></icon></label>
-              </div> -->
-              <div class="slid">
-                <div class="mark"></div>
-                <div class="mark"></div>
-                <div class="mark"></div>
-                <div class="mark"></div>
-                <div class="threshold"></div>
-                <!-- <div
-                  class="userline"
-                  v-for="user in q.users"
-                  :style="{ left: user.answers['chapter5'][k] * 100 + '%' }"
-                ></div> -->
-                <div
-                  class="bar"
-                  :style="{ width: Math.round(q.botresult * 100) + '%' }"
-                ></div>
-              </div>
-              <!-- Bot: <b>{{ q.botresult * 100 }}%</b> ({{
-                q.botresult < 0.8 ? "niet" : ""
-              }}
-              constructief)<br /> -->
-              <!-- Eens met de bot:
-            <span>{{ q.matching ? q.matching.length : 0 }}</span
-            >, Oneens:
-            <span>{{ q.other ? q.other.length : 0 }}</span> -->
-              <!-- <div class="user" v-for="user in group.users">
-            <div class="userdetails"><UserIcon :user="user" class="small" /> {{ user.name }}:</div>
-            <div class="slid" v-if="user.answers['chapter5'] && !isNaN(user.answers['chapter5'][k])">
-              <div class="bar" :style="{width: Math.round(user.answers['chapter5'] && user.answers['chapter5'][k] ? user.answers['chapter5'][k] * 100 : 0) + '%'}"></div>
-            {{ user.answers["chapter5"] ? Math.round(user.answers["chapter5"][k] * 100) + '%' : '-' }}
-            </div>
-          </div> -->
-              <label><b>Dit denken jullie:</b></label>
-              <div class="slid">
-                <div class="mark"></div>
-                <div class="mark"></div>
-                <div class="mark"></div>
-                <div class="mark"></div>
-                <div class="threshold"></div>
-                <div
-                  class="userline"
-                  v-for="user in q.users"
-                  :style="{ left: user.answers['chapter5'][k] * 100 + '%' }"
-                ></div>
-              </div>
-            </div>
+          <div class="pincontainer klas" :class="{ pin: q.pinned / q.total >= 0.5 }">
+            <icon icon="pin" v-if="(q.pinned / q.total) >= 0.5"></icon>
+            <b>{{ Math.round((q.pinned / q.total) * 1000) / 10 }}%</b> van de klas zal dit bericht vastpinnen
           </div>
+          <label>Klik op het bericht om in te zoomen.</label>
         </div>
       </div>
       <div class="next">
@@ -103,141 +40,214 @@
         </button>
       </div>
     </div>
+    <div class="active" v-if="active !== false">
+      <button class="close" @click="active = false">
+        <icon icon="cross"></icon>
+      </button>
+      <div class="active-frame">
+        <div class="commentbox">{{ activeContent.text }}</div>
+        <div class="bot">
+          <div class="iconwrap">
+            <div class="boticon">🤖</div>
+          </div>
+          <div class="name">Bot</div>
+          <div class="score">{{ activeContent.botresult }}</div>
+        </div>
+        <div class="users">
+          <div class="user" v-for="user in activeContent.users">
+            <div class="iconwrap">
+              <UserIcon :user="user"></UserIcon>
+            </div>
+            <div class='name'>{{ user.name }}</div>
+            <div class="score">{{ user.answers?.chapter5[active] }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
+import { onKeyStroke } from "@vueuse/core";
 import chapterlogo from "@/assets/chapters/5.svg?component";
 import questions from "@/content/questions.yml";
 const group = useGroupStore();
 const results = ref(false);
 const started = computed(() => group.started.includes("chapter5"));
-const precision = 0.2;
+const total = ref([])
 const list = computed(() => {
-  const qs = questions.chapter5.map((x, k) => {
-    x.matching = [];
-    x.other = [];
+  return questions.chapter5.map((x, k) => {
+    total.value[k] = 0
     x.users = [];
+    x.total = 0
+    x.pinned = 0
     for (let i in group.users) {
       const user = group.users[i];
       const answers = user.answers.chapter5 || false;
       if (answers && !isNaN(answers[k])) {
         x.users.push(user);
-        if (
-          answers[k] > x.botresult - precision / 2 &&
-          answers[k] < x.botresult + precision / 2
-        ) {
-          x.matching.push(user);
-        } else {
-          x.other.push(user);
+        if (!isNaN(answers[k])) {
+          x.total++
+          if (answers[k] >= 0.8) {
+            x.pinned++
+          }
         }
       }
     }
     return x;
   });
-  return qs;
 });
+
+const active = ref<number | false>(false)
+const activeContent = computed(() => {
+  if (active.value === false || !list.value[active.value]) return
+  list.value[active.value].users.sort((a, b) => {
+    if (active.value === false || !a.answers.chapter5[active.value]) return -1
+    return a.answers.chapter5[active.value] - b.answers.chapter5[active.value]
+  })
+  return list.value[active.value]
+})
+function open(k) {
+  active.value = k
+}
+onKeyStroke('Escape', () => {
+  active.value = false
+})
 </script>
 <style lang="less" scoped>
 .group-chapter-5 {
   padding-bottom: 4rem;
 }
-.comments {
-  width: 60rem;
-  max-width: 100%;
-  margin: 2rem auto;
-  text-align: left;
-  padding: 0rem 4rem;
-  span {
-    font-weight: 500;
+
+.pincontainer {
+  font-size: 1rem;
+  background: var(--bc);
+  color: var(--bg);
+  line-height: 1;
+  padding: .75rem;
+  border-radius: .5rem;
+  margin-bottom: .5rem;
+  line-height: 1.2em;
+
+
+  .icon {
+    display: block;
+    border-radius: 100%;
+    float: right;
   }
-}
-.results {
-  padding: 1rem 0;
-  .user {
-    margin-bottom: 0.5em;
-    align-items: center;
-    label {
-      margin-top: 1em;
-    }
-    .userline {
-      position: Absolute;
-      left: 0;
-      top: 0%;
-      height: 100%;
-      border-left: 3px solid var(--bluebg);
-    }
-    .userdetails {
-      // flex: 1;
-      font-size: 4rem;
-      height: 4rem;
-      line-height: 3rem;
-      text-align: center;
-    }
-    .slid {
-      flex: 1;
-      width: 100%;
-      height: 1.5em;
-      position: relative;
-      background: var(--bg);
-      border-radius: 0.25em;
-      overflow: visible;
-      margin-bottom: 0.5em;
-      .mark {
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        border-left: 1px solid var(--bg2);
-        opacity: 0.75;
-        z-index: 9;
-        &:nth-child(1) {
-          left: 20%;
-        }
-        &:nth-child(2) {
-          left: 40%;
-        }
-        &:nth-child(3) {
-          left: 60%;
-        }
-        &:nth-child(4) {
-          left: 80%;
-        }
-      }
-      .bar {
-        position: absolute;
-        left: 0;
-        background: var(--bluebg);
-        background: transparent;
-        height: 100%;
-        border-right: 8px solid var(--bluebg);
-      }
-      .irrelevant {
-      }
-      .threshold {
-        position: absolute;
-        left: 80%;
-        height: 140%;
-        top: -20%;
-        border-left: 2px dotted var(--fg2);
-        z-index: 9;
-      }
+
+  &.klas {
+    // background: var(--fg);
+  }
+
+  &.pin {
+    background: var(--gbg);
+
+    &.klas {
+      background: var(--bluebg);
     }
   }
 }
 
-.labels {
-  display: flex;
-  > label {
-    flex: 1;
-    opacity: 0.75;
-    font-size: 0.6rem;
-    padding: 0;
-    &:nth-child(2) {
-      text-align: right;
+.comments {
+  // width: 60rem;
+  max-width: 100%;
+  margin: 2rem auto;
+  text-align: left;
+  padding: 0rem 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4rem;
+
+  @media (max-width: 80rem) {
+    grid-template-columns: 1fr 1fr;
+
+  }
+
+  @media (max-width: 50rem) {
+    grid-template-columns: 1fr;
+
+  }
+
+  span {
+    font-weight: 500;
+  }
+
+  label {
+    text-align: center;
+  }
+
+  .q {
+    cursor: pointer;
+    transition: all 0.5s @easeInOutExpo;
+
+    &:hover {
+      transform: scale(1.05);
     }
-    .icon {
-      display: inline-block;
-      transform: translateY(0.125em);
+  }
+}
+
+.results {
+  padding: 1rem 0;
+
+}
+
+.active {
+  position: fixed;
+  z-index: 9999;
+  background: var(--testbg);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-top: 4rem;
+  overflow: auto;
+
+  .fadein(0.2s);
+
+  button.close {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 1rem;
+
+    @media (min-width: 90rem) {
+      margin: 2rem;
+    }
+  }
+
+  .active-frame {
+    .commentbox {
+      width: 50rem;
+      max-width: calc(100% - 4rem);
+      margin: 0 auto 2rem;
+      font-size: 1.5rem;
+      box-shadow: 0 0 1rem var(--fg2);
+      text-align: left;
+    }
+  }
+
+  .user,
+  .bot {
+    display: flex;
+    width: 14em;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    border-bottom: 1px solid var(--fg2);
+    padding: 0.5em 0;
+    align-items: center;
+    gap: 0.5em;
+
+    .iconwrap {
+      width: 2em;
+
+      :deep(.user-icon) {
+        transform: none;
+      }
+    }
+
+    .name {
+      flex: 1;
+      text-align: left;
     }
   }
 }

@@ -1,16 +1,12 @@
 chapter1:
   - "Klimaat Hoax. Nederland is nooit zo koud geweest. Antarctica groeit als kool. De wereld verandert altijd. Paniek om niets"
-  - "links groen propaganda platform!"
-  - "Gelukkig voor al die klimaatgekkies leven wij niet in de oertijd want toen was het nog een stukje warmer op veel plaatsen, en dat zonder inmenging van de  mens hoe vreemd."
   - "Ik vraag me af wat het nut is van dit artikel. Ik heb sterk de indruk dat omdat het weer in Europa deze zomer tegenvalt dat ze dit soort dingen gaan   publiceren om vooral de aandacht te houden bij de global warming."
   - "jammer dat mensen als jij mogen stemmen, kerel ga eerst lezen voor je je mond op trekt"
-  - "Kunnen jullie eens stoppen met het verspreiden van leugens?"
   - "De enige manier waarop we, in ons huidige systeem, ooit minder zullen gaan uitstoten, is als men dáár goed geld mee verdienen kan. Zonder verdienmodel is het alleen politiek gezwets. Onze maatschappij draait om geld, als milieu geld kóst blijven we het op de tweede plaats zetten."
   - "En zo kan ik als jongvolwassen, redelijk machteloos, toekijken hoe de wereld langzaamaan vergaat. Hopelijk kan het nog worden omgedraaid. Ik mag na gaan denken of ik uberhaupt nog kinderen kan nemen, als ik dat graag wil."
   - "Lekker man. Als je gelukt hebt, dobber jij later lekker op een luchtbedje boven je eigen huis van het weer te genieten ;)"
   - "Klimaatverandering is van allertijden. Veel mensen halen milieu en klimaat door elkaar. Dat de mens invloed heeft op het klimaat is klinkklare onzin. Laten we met zijn allen het milieu aanpakken maar hou aub. op met die klimaat poppenkast."
-  - "Zie hier de tragedie van de nieuwe tijd: De werkelijkheid, onderzocht en op papier gezet door wetenschappers, gebaseerd op honderden jaren natuurwetenschappelijke kennis, wordt door een niemand zonder papieren op een forum zonder enige onderbouwing verworpen. De menselijke invloed op klimaatverandering is dusdanig bewezen, dat er maar een kans van 1/3.500.000 bestaat dat de huidige opwarming niet door de mens komt."
-  - "Klimaatwetenschap is het nazisme van deze tijd… Ze leggen hun regeltjes op om de gewone burger te controleren…. Bedankt redactie voor deze propaganda"
+  - "Klimaatwetenschap is het nazisme van deze tijd… Ze leggen hun regeltjes op om de gewone burger te controleren…. Bedankt redactie voor deze propaganda. links groen propaganda platform!"
 chapter2:
   - name: TheRealTruth
     comments:
@@ -44,45 +40,29 @@ chapter3:
     label: nieuwsgierig
   - text: Ja, we weten het nu wel. Record dit,record dat, als het maar in het straatje past van de klimatologen die opwarming van de aarde verheerlijken. En eerlijk is eerlijk, het wordt ook warmer. Maar houdt eens op met dat vergelijken. Er zijn echt wel meer hete zomers geweest.
     label: boos
-  - text: De enige manier waarop we, in ons huidige systeem, ooit minder zullen gaan uitstoten, is als men dáár goed geld mee verdienen kan. Zonder verdienmodel is het alleen politiek gezwets. Onze maatschappij draait om geld, als milieu geld kóst blijven we het op de tweede plaats zetten.
-    label: oplossingsgericht
   - text: Ik denk dat er ondertussen genoeg gepraat en onderwezen is door wetenschappers. Het is duidelijk, wij zijn de oorzaak van de opwarming. Maar helaas is de toekomst van deze planeet en onze gezondheid in handen van politici die geen grote stappen willen maken. Ja het kost allemaal geld. Onzin.
     label: boos
   - text: En zo kan ik als jongvolwassen, redelijk machteloos, toekijken hoe de wereld langzaamaan vergaat. Hopelijk kan het nog worden omgedraaid. Ik mag na gaan denken of ik uberhaupt nog kinderen kan nemen, als ik dat graag wil.
     label: persoonlijk
   - text: Er moeten regels komen die een maximaal aantal vliegkometers per persoon stellen per jaar. Ook een maximale vleesafname per persoon per jaar. Vrijwillig gaat niemand zijn levensstandaard verlagen
     label: oplossingsgericht
-  - text: Climate change waaaaa!!! Allemaal even bang worden
+  - text: Climate change waaaaa!!! Allemaal even bang worden... Als je gelukt hebt, dobber jij later lekker op een luchtbedje boven je eigen huis van het weer te genieten ;)
     label: grappig
-  - text: Lekker man. Als je gelukt hebt, dobber jij later lekker op een luchtbedje boven je eigen huis van het weer te genieten ;)
-    label: grappig
-  - text: Ooit GEMETEN. En sinds wanneer wordt er gemeten? Precies, niet sinds heel lang. Dus hoe het daarvoor was is niet precies bekend.
-    label: misleidend
   - text: Gelukkig voor al die klimaatgekkies leven wij niet in de oertijd want toen was het nog een stukje warmer op veel plaatsen, en dat zonder inmenging van de mens hoe vreemd.
     label: misleidend
-  - text: Stel dat iedereen dan ook een elektrische auto heeft, of zelfs 2, die allemaal opgeladen moeten worden, dus iedereen heeft 1 of twee oplaadpunten bij zijn huis, hoe worden die dan geladen? Waarschijnlijk zullen dan overal heel dikke kabels in de grond moeten. 
-    label: nieuwsgierig
-  - text: Haha een race to zero. Om tegen 2050 geen fossiele CO2 meer in de lucht te pompen moeten we vanaf morgen elke dag tot die tijd een kern centrale in bedrijf nemen. Op naar 1 kerncentrale elke dag tot 2050 jongens! Wanneer beginnen we te bouwen?
-    label: grappig
 chapter4:
   Welke van de vorige berichten zou jij uitlichten? Je mag er 1 kiezen.
 chapter5:
-  - text: Ik vind de conclusie van dit stuk wel goed. Het moet een en en en verhaal worden. Zonen energie, kernenergie, wind energie en waterstof. Dan hoef je niet het hele land vol te pompen met zonneparken en windmolens, maar heb je niet op iedere straathoek een kerncentrale of kernafval opslag. Kost een hoop, zeker weten. Maar dan ben je wel van gas, kolen en biomassa af.
-    botresult: 0.94
   - text: Ik wil best met de trein op vakantie ipv het vliegtuig, maar laat de overheid en de Europese Unie er dan ook voor zorgen dat, dat aantrekkelijk is voor mensen. Het 4/5x zo duur en duurt 4/5x zo lang, waarom zou ik dan in godsnaam met de trein gaan.
     botresult: 0.86
   - text: Consumentengedrag aanpassen is zeker niet de enige weg. Veel belangrijker is dat de groei van de wereldbevolking gaat afnemen. Meer mensen betekent meer auto's, vliegtuigen, huizen, wegen fabrieken, enz. Rajiv uit India wil graag ook een auto en een koelkast. Wie zijn wij om hem dit de verbieden?
     botresult: 0.75
-  - text: Interessant onderzoek en theorie. De aarde blijft wel bestaan, maar de mensheid loopt ook een risico op hele grote problemen. Klimaatverandering, biodiversiteit holt achteruit, ecosystemen verdwijnen, grondstoffen putten uit. En een toenemende wereldbevolking.
-    botresult: 0.73
   - text: Kunnen we nu eindelijk aan de ijstijd beginnen? We hebben het nu al wel lang genoeg uitgesteld en het begint mij een beetje te heet onder de voeten te worden.
     botresult: 0.65
   - text: Weinig verrassend dat er wordt gesjoemeld met data en interpretatie van feitelijke gegevens. Wat mij wel verbaast is hoe makkelijk mensen zich in de maling laten nemen. Wetenschappers zijn gewoon net echte mensen met een mening en een politieke dan wel confessionele voorkeur dus de mening kan gekleurd zijn. Wiens brood men eet wiens woord men spreekt.
     botresult: 0.67
-  - text: Veel succes als Nederland klein landje wat maar een druppel op een gigantische gloeiende plaat bij draagt. Denk je nu echt dat dit nog tegen te houden is? Koop vast een huisje aan de zee. Kan je dr nog even een paar jaar van genieten.
-    botresult: 0.91
-  - text: Vind dit weer echt vreselijk. Van mij hoeft het niet warmer dan 20 graden te worden. Maar ben bang dat dit helemaal de verkeerde kant op gaat. De winters zijn we al vergeten. Dat bestaat al niet meer. Dit is gewoon een natuur ramp!
-    botresult: 0.87
+  - text: Ik vind de conclusie van dit stuk wel goed. Het moet een en en en verhaal worden. Zonen energie, kernenergie, wind energie en waterstof. Dan hoef je niet het hele land vol te pompen met zonneparken en windmolens, maar heb je niet op iedere straathoek een kerncentrale of kernafval opslag. Kost een hoop, zeker weten. Maar dan ben je wel van gas, kolen en biomassa af.
+    botresult: 0.94
   - text: Onderhand neem ik liever dat risico dan dat we de aarde zover opstoken dat er over de hele blauwe knikker niet of nauwelijks plekken voor mensen zijn om een beetje fatsoenlijk te kunnen overleven.
     botresult: 0.11
   - text: De wetenschap ziet het probleem. Nu nog de meerderheid van het 'volk'. En aan de reacties te zien blijkt dat het grootste probleem.
@@ -106,3 +86,14 @@ chapter6:
     - Ik trek het niet altijd om al die informatie door te moeten ploegen om te zien wat nu de beste optie is voor onze lieve moeder aarde. Laat maar lekker zitten dan.
     answer: 0
     reason: Deze reactie zal een bot eruit filteren vanwege het woord nazi.
+chapter8:
+  - question: "1. Hoe zie jij de rol van AI bij online discussies in de toekomst?"
+    options: 
+      - A. AI kan in de toekomst online discussies modereren zonder hulp van menselijke moderatoren. De fouten die AI nu maakt zullen in de toekomst verholpen zijn.
+      - B. Moderatie van online discussies zal altijd een samenwerking moeten zijn tussen AI en de mens. Het is gevaarlijk om moderatie helemaal aan AI over te laten.
+      - C. Moderatie van online discussies kan in de toekomst beter aan mensen overgelaten worden. Voor computers is deze taak te complex.
+  - question: "2. Ben jij na het spelen van de game anders gaan denken over AI?"
+    options:
+      - A. Ik vind dat AI nog te veel fouten maakt bij het modereren van online discussies; ik denk dat de voordelen niet opwegen tegen de nadelen.
+      - B. Ik vind dat AI een goede bijdrage kan leveren aan het modereren en verbeteren van online discussies; ik denk dat de voordelen opwegen tegen de nadelen.
+      - C. Ik zie zowel voor- als nadelen van AI in de rol als moderator van online discussies; ik weet niet of AI een zinvolle bijdrage kan leveren.

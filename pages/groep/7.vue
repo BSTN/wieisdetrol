@@ -7,18 +7,18 @@
       een beter inzicht in de manier waarop de bot een construciviteitsscore
       berekent?
     </div>
-    <videoPlayer
-      file="/videos/7.mp4"
-      :class="{ started }"
-      @next="group.startChapter('chapter7')"
-      @restart="group.unStartChapter('chapter7')"
-    ></videoPlayer>
+    <videoPlayer file="/videos/7.mp4" :class="{ started }" @next="group.startChapter('chapter7')"
+      @restart="group.unStartChapter('chapter7')"></videoPlayer>
     <div class="scorebord">
       <label>Scorebord</label>
       <div class="bg"></div>
+      <div class="waiting" v-if="highscore.length === 0">
+        We wachten op de eerste resultaten...
+      </div>
       <div class="frame">
-        <div class="user" v-for="user in highscore">
+        <div class="user" v-for="(user, k) in highscore">
           <div class="topbar">
+            <div class="nr">{{ k + 1 }}</div>
             <div class="iconframe">
               <userIcon :user="user"></userIcon>
             </div>
@@ -26,17 +26,13 @@
             <div class="result">
               {{
                 user.answers && user.answers.chapter7
-                  ? Math.round(user.answers.chapter7[0].score * 100)
-                  : 0
-              }}%
+                ? Math.round(user.answers.chapter7[0].score * 100) / 100
+                : 0
+              }}
             </div>
           </div>
-          <div
-            class="text"
-            v-if="
-              user.answers && user.answers.chapter7 && user.answers.chapter7[0]
-            "
-          >
+          <div class="text" v-if="user.answers && user.answers.chapter7 && user.answers.chapter7[0]
+              ">
             <div class="commentbox">
               {{ user.answers.chapter7[0].text }}
             </div>
@@ -45,17 +41,21 @@
       </div>
     </div>
     <div class="next">
-      <button @click="group.next()">Afronden <icon icon="next"></icon></button>
+      <button @click="group.next()">Volgende hoofdstuk <icon icon="next"></icon></button>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import chapterlogo from "@/assets/chapters/6.svg?component";
+import chapterlogo from "@/assets/chapters/7.svg?component";
 const group = useGroupStore();
 const results = ref(false);
 const started = computed(() => group.started.includes("chapter7"));
 const highscore = computed(() => {
-  const users = JSON.parse(JSON.stringify(group.users));
+  let users = JSON.parse(JSON.stringify(group.users));
+  users = users.filter(x => {
+    if (!x.answers?.chapter7 || !x.answers?.chapter7[0].score) return false
+    return true
+  })
   users.sort((a, b) => {
     if (
       !a.answers ||
@@ -72,6 +72,7 @@ const highscore = computed(() => {
 </script>
 <style lang="less" scoped>
 .group-chapter-7 {
+  padding-bottom: 12rem;
 }
 
 .scorebord {
@@ -81,10 +82,11 @@ const highscore = computed(() => {
   margin: 0 auto;
   border-radius: 0.5em;
   overflow: hidden;
-  background: var(--testbg);
-  box-shadow: inset 0 0 1rem var(--bg3);
+  // background: var(--testbg);
+  // box-shadow: inset 0 0 1rem var(--bg3);
   box-shadow: 0 0 1rem var(--bg3);
   padding-bottom: 4rem;
+
   label {
     position: relative;
     z-index: 2;
@@ -97,6 +99,7 @@ const highscore = computed(() => {
     letter-spacing: 0.05em;
     font-weight: 500;
   }
+
   .bg {
     // background: url("/motherboard.jpg");
 
@@ -119,6 +122,7 @@ const highscore = computed(() => {
     //   opacity: 0.7;
     // }
   }
+
   .frame {
     position: relative;
     z-index: 2;
@@ -128,21 +132,37 @@ const highscore = computed(() => {
 .user {
   width: 30rem;
   margin: 0 auto;
+
   .topbar {
     display: flex;
     background: var(--bg);
-    padding: 0.5em 1em;
+    padding: 0.5em .5em;
     border-radius: 0.25em;
     align-items: center;
+
+    .nr {
+      font-weight: bold;
+      background: var(--bluebg);
+      color: var(--bluefg);
+      width: 2rem;
+      height: 2rem;
+      border-radius: 100%;
+      text-align: center;
+      line-height: 2rem;
+      margin-right: 0.5rem;
+    }
+
     .iconframe {
       width: 2rem;
       height: 2rem;
     }
+
     .user-icon {
       width: 2rem;
       height: 2rem;
       padding: 0;
     }
+
     :deep(.icon) {
       background: var(--bg1);
       width: 2rem;
@@ -150,17 +170,20 @@ const highscore = computed(() => {
       padding: 0;
       margin: 0;
     }
+
     .name {
       padding-left: 0.75rem;
       font-weight: 500;
       flex: 1;
       text-align: left;
     }
+
     .result {
       padding-right: 0.5rem;
       font-weight: 500;
     }
   }
+
   .text {
     padding: 0.5em 0 2em 4em;
     text-align: left;

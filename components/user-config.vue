@@ -12,7 +12,7 @@
       <div class="qr">
         <div class="context">
           Gebruik onderstaande QR-code om iemand uit te nodigen mee te doen aan
-          deze game van Wie is de trol?:
+          deze groep:
         </div>
         <img :src="qrcodeimg" v-if="qrcodeimg !== ''" /><br />
         <span style="display: none">{{ url }}</span>
@@ -97,6 +97,7 @@ const url = computed(() => {
   z-index: 9;
   border-bottom: 1px solid var(--bg2);
 }
+
 .topbar {
   // border-bottom: 1px solid var(--fg);
   display: flex;
@@ -106,18 +107,22 @@ const url = computed(() => {
   background: var(--bg);
   cursor: pointer;
   align-items: center;
-  > * {
+
+  >* {
     // outline: 1px solid #ccc;
     border-radius: 0;
   }
-  > .flex {
+
+  >.flex {
     padding: 0.75em 0.25em 0.5em 0.25em;
     font-size: 0.8em;
     font-weight: 500;
   }
-  > .burger {
+
+  >.burger {
     margin-right: 0.5rem;
   }
+
   .flex {
     flex: 1;
   }
@@ -136,6 +141,7 @@ const url = computed(() => {
     margin: 1em auto 1em;
   }
 }
+
 .menu {
   // position: fixed;
   position: relative;
@@ -148,6 +154,7 @@ const url = computed(() => {
   background: var(--bg);
   padding: 2rem;
 }
+
 .status,
 button.reset {
   padding: 0em 0.5em;
@@ -159,10 +166,12 @@ button.reset {
   display: inline-block;
   width: auto;
   margin: 0em auto 2em;
+
   .connected & {
     background: var(--gbg);
     color: var(--gfg);
   }
+
   .disconnected & {
     background: #d85434;
   }
@@ -172,16 +181,20 @@ button.reset {
   background: var(--rbg) !important;
   color: var(--rfg);
 }
+
 .order {
   padding: 0em 1.5em;
   text-align: left;
-  > div {
+
+  >div {
     border-top: 1px solid var(--bg2);
     padding: 0.75em 0;
     color: var(--fg2);
+
     &:last-child {
       border-bottom: 1px solid var(--bg2);
     }
+
     &.active {
       color: var(--fg);
     }
@@ -203,10 +216,12 @@ button.reset {
   transform: none !important;
   padding: 0 !important;
   border-radius: 100% !important;
+
   .icon {
     background: var(--bg1);
     border: 5px solid var(--bg1);
   }
+
   .name {
     display: none;
   }
@@ -214,8 +229,9 @@ button.reset {
 
 .bottom {
   padding: 1rem;
-  .state {
-  }
+
+  .state {}
+
   .leave {
     button {
       padding: 1.25em 2em;

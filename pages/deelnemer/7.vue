@@ -1,15 +1,12 @@
 <template>
   <div class="user-chapter-7">
-    <user-pause
-      v-if="
-        user.finished.includes('chapter7') ||
-        (!user.showResults.includes('chapter7') &&
-          !user.started.includes('chapter7'))
-      "
-    ></user-pause>
+    <user-pause v-if="user.finished.includes('chapter7') ||
+      (!user.showResults.includes('chapter7') &&
+        !user.started.includes('chapter7'))
+      "></user-pause>
     <div class="try" v-if="user.started.includes('chapter7')">
       <div class="question">
-        Kan jij de bot verslaan? Je mag zovaak proberen als je wilt, de beste
+        Kan jij de bot verslaan? Je mag zo vaak proberen als je wilt, de beste
         reactie wordt automatisch jouw reactie en daarmee je score op het
         scorebord!
       </div>
@@ -21,9 +18,7 @@
       <div class="buttons">
         <button @click="send()">verstuur</button>
       </div>
-      <label v-if="options.length > 0"
-        >Al je reacties (gesorteerd op hoogste score):</label
-      >
+      <label v-if="options.length > 0"><b>Hieronder zie je al je reacties (gesorteerd op hoogste score):</b></label>
       <div class="options" v-for="item in options">
         <div class="commentbox">
           <div class="score">
@@ -84,11 +79,13 @@ async function send() {
   background: var(--testbg);
   min-height: 100vh;
 }
+
 .input {
   display: block;
   padding: 1rem;
   position: relative;
   margin-bottom: 1rem;
+
   .hidden,
   textarea {
     font-family: inherit;
@@ -97,10 +94,12 @@ async function send() {
     min-height: 10em;
     box-shadow: inset 0 0.125rem 0.25rem #00000055;
     border: 1px solid var(--bg2);
+
     &:focus {
       border: 1px solid var(--bluebg);
     }
   }
+
   textarea {
     position: absolute;
     top: 0;
@@ -118,6 +117,7 @@ async function send() {
 .buttons {
   margin-bottom: 2rem;
 }
+
 .options {
   padding: 1em;
 }

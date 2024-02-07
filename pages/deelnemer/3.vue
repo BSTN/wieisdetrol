@@ -1,15 +1,10 @@
 <template>
   <div class="user-chapter-3">
     <!-- PAUSE -->
-    <userPause
-      v-if="!started || (done && !user.showResults.includes('chapter3'))"
-    ></userPause>
+    <userPause v-if="!started || (done && !user.showResults.includes('chapter3'))"></userPause>
 
     <!-- VRAGEN -->
-    <div
-      class="questions"
-      v-if="started && (!done || user.showResults.includes('chapter3'))"
-    >
+    <div class="questions" v-if="started && (!done || user.showResults.includes('chapter3'))">
       <div class="question">
         Welk label vind je het beste van toepassing bij de volgende reacties?
       </div>
@@ -18,21 +13,16 @@
           {{ q.text }}
         </div>
         <div class="options" v-if="!done">
-          <button
-            v-for="label in questions['chapter3-labels']"
-            @click="user.setAnswer({ chapter: 'chapter3', k, answer: label })"
-            :class="{
+          <button v-for="label in questions['chapter3-labels']"
+            @click="user.setAnswer({ chapter: 'chapter3', k, answer: label })" :class="{
               active: getAnswer({ chapter: 'chapter3', k }) === label,
-            }"
-          >
+            }">
             {{ label }}
           </button>
         </div>
         <div class="allanswers" v-if="done">
-          <button
-            v-for="label in questions['chapter3-labels']"
-            :class="{ active: getAnswer({ chapter: 'chapter3', k }) === label }"
-          >
+          <button v-for="label in questions['chapter3-labels']"
+            :class="{ active: getAnswer({ chapter: 'chapter3', k }) === label }">
             <span>{{ count(label, k) }}</span> {{ label }}
           </button>
         </div>
@@ -89,6 +79,7 @@ function count(label: string, k: number) {
 .options {
   text-align: right;
   font-size: 0.8rem;
+
   button {
     display: inline-block;
     // width: 100%;
@@ -96,27 +87,33 @@ function count(label: string, k: number) {
     color: var(--fg2);
     background: var(--bg);
     border-color: var(--bg2);
+
     &:hover {
       color: var(--fg);
     }
   }
 }
+
 button.active {
   background: var(--bluebg);
   color: var(--bluefg);
   border-color: var(--bluebg);
+
   &:hover {
     color: var(--bg);
   }
 }
+
 .allanswers {
   button {
     display: block;
     font-size: 0.8rem;
+
     &:hover {
       // background: var(--bg);
       // color: var(--fg2);
     }
+
     span {
       // opacity: 0.5;
       font-weight: bold;

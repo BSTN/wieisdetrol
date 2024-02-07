@@ -30,7 +30,11 @@
   ref: chapter7
   group: 7
   user: 7
-- name: "Lees meer"
+- name: "8. Wat denk jij?"
   ref: chapter8
   group: 8
   user: 8
+- name: "Lees meer"
+  ref: chapter9
+  group: 9
+  user: 9
