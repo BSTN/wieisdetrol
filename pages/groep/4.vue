@@ -3,7 +3,7 @@
     <chapterlogo class="chapterlogo"></chapterlogo>
     <h1>Een ‘goede’ discussie.</h1>
     <div class="chapter-toelichting">
-      Welke reacties hebben een hoge score en welke reacties een lage scoren?
+      Welke reacties hebben een hoge score en welke reacties een lage score?
       Horen daarin ook boze en grappige reacties thuis in een goeie discussie?
       Zo ja, waarom wel of waarom niet?
     </div>
