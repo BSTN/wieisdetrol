@@ -3,7 +3,8 @@
     <chapterlogo class="chapterlogo"></chapterlogo>
     <h1>Wat denk jij?</h1>
     <div class="chapter-toelichting" v-if="!group.showResults.includes('chapter8')">
-      Hoe ziet de toekomst van AI eruit in relatie tot online reageren?
+      Ten slotte hebben we nog twee vragen over hoe je door het spelen van deze game bent gaan denken over AI. Hoe ziet de
+      toekomst van AI eruit in relatie tot online reageren?
     </div>
     <ChapterProgress chapter="chapter8" v-if="!group.showResults.includes('chapter8')"></ChapterProgress>
     <button @click="group.setShowResults('chapter8')" v-if="!group.showResults.includes('chapter8')">
