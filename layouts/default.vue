@@ -17,6 +17,7 @@ const isUser = computed(() => {
 const isGroup = computed(() => {
   return path.startsWith("/groep") || path === "/";
 });
+
 </script>
 <style lang="less" scoped>
 .default {

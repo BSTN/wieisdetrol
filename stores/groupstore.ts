@@ -11,6 +11,7 @@ let SOCK: Socket<ServerToClientEvents, ClientToServerEvents> = io('/' ,{autoConn
 export const useGroupStore = defineStore('groupStore', {
   state: (): GroupState => ({
     loading: true,
+    version: '',
     connected: false,
     groupid: '[undefined]',
     position: 0,
@@ -43,7 +44,7 @@ export const useGroupStore = defineStore('groupStore', {
           // start over
           this.position = 0;
           this.users = []
-          this.finished = {}
+          this.finished = []
           this.started = []
           // create group id
           this.groupid = uuid();
@@ -61,7 +62,7 @@ export const useGroupStore = defineStore('groupStore', {
       // }
 
       const config = useRuntimeConfig()
-      SOCK = io(config.public.URL + config.public.BASE, {transports: ['polling']})
+      SOCK = io(config.public.URL + config.public.BASE, {transports: ['webSocket']})
 
       // connection status
       SOCK.on('connect', function () { 
@@ -72,6 +73,8 @@ export const useGroupStore = defineStore('groupStore', {
         SOCK.emit('getAllUserData', { groupid: self.groupid })
         // retrieve all user data
         SOCK.emit('getGroupData', { groupid: self.groupid })
+        // store version
+        self.storeVersion()
       });
       // notifications:
       SOCK.on('error', function () {
@@ -167,6 +170,11 @@ export const useGroupStore = defineStore('groupStore', {
 
       this.saveToLocalStorage()
       
+    },
+    storeVersion() {
+      const config = useRuntimeConfig();
+      console.log('storeVersion', { groupid: this.groupid, version: config.public.VERSION })
+      SOCK.emit('storeVersion', { groupid: this.groupid, version: config.public.VERSION })
     },
     startChapter (name: string) {
       SOCK.emit('startChapter', {groupid: this.groupid, chapter: name})

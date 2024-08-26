@@ -11,13 +11,13 @@
         </div>
       </div>
     </div>
-    <div class="" v-if="!user.userid" @click="generate()">
-      <div class="avatar">
+    <div class="" v-if="!user.userid">
+      <div class="avatar" @click="generate()">
         <div class="icon" v-html="icon"></div>
         <div class="naam">{{ naam }}</div>
       </div>
       <div>
-        <button class="big" @click="user.createUser({ name: naam, userid })">
+        <button class="big" @click="createUser()">
           Start
         </button>
       </div>
@@ -48,6 +48,11 @@ watch(
   }
 );
 
+async function createUser() {
+  console.log('create user');
+  user.createUser({ name: naam.value, userid: userid.value }).catch(console.warn)
+}
+
 onMounted(() => {
   if (nameinput.value) {
     nameinput.value.focus();
@@ -64,24 +69,30 @@ onMounted(() => {
   margin: 0 auto;
   user-select: none;
   cursor: pointer;
+
   :deep(.mainuser.user-avatar .icon) {
     animation: heartbeat 0.8s linear 0.5s infinite forwards;
+
     // animation: rotate 2s linear 0.5s infinite forwards;
     @keyframes heartbeat {
       0% {
         transform: scale(1);
       }
+
       40% {
         transform: scale(1.05);
       }
+
       70% {
         transform: scale(1);
       }
     }
+
     @keyframes rotate {
       0% {
         transform: rotateZ(0deg);
       }
+
       100% {
         transform: rotateZ(360deg);
       }
@@ -101,6 +112,7 @@ onMounted(() => {
   margin-bottom: 2em;
   padding: 0em 0 1em;
   text-align: center;
+
   .icon {
     width: 8rem;
     height: 8rem;
@@ -108,10 +120,12 @@ onMounted(() => {
     background: var(--bg);
     font-size: 0;
     border-radius: 1rem;
+
     :deep(svg) {
       margin: 0;
     }
   }
+
   .naam {
     font-size: 1em;
     font-weight: 500;

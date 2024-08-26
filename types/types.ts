@@ -1,6 +1,7 @@
 // INTERFACES
 
 export interface GROUP {
+  version: string,
   groupid: string,
   position: number,
   started: Array<string>,
@@ -26,6 +27,7 @@ export type Answer = any
 // STATES
 
 export interface GroupState {
+  version: string,
   mounted: boolean,
   loading: boolean,
   groupid: string,
@@ -87,7 +89,9 @@ export interface ClientToServerEvents {
   joinRoom: (Object: { groupid: string, userid?: string}) => void;
   getAllUserData: (Object: { groupid: string}) => void;
   getGroupData: (Object: { groupid: string }) => void;
-  getUserData: (Object: {userid: string, groupid: string, name: string}, cb?: (user?:USER) => void) => void;
+  getUserData: (Object: { userid: string, groupid: string, name: string }, cb?: (user?: USER) => void) => void;
+  storeVersion: ({ groupid, version }: { groupid: string, version: string }) => void;
+  getSomeUserData: (Object: { groupid: string }) => void;
   // continue
   next: (Object: {groupid: string, position?: number}, cb?: () => void) => void;
   prev: (Object: {groupid: string},  cb?: () => void) => void;
