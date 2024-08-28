@@ -62,7 +62,7 @@ export const useGroupStore = defineStore('groupStore', {
       // }
 
       const config = useRuntimeConfig()
-      SOCK = io(config.public.URL + config.public.BASE, {transports: ['polling']})
+      SOCK = io(config.public.URL + config.public.BASE, {transports: ['websocket']})
 
       // connection status
       SOCK.on('connect', function () { 
@@ -77,8 +77,8 @@ export const useGroupStore = defineStore('groupStore', {
         self.storeVersion()
       });
       // notifications:
-      SOCK.on('error', function () {
-        console.warn('ERROR!')
+      SOCK.on('error', function (err) {
+        console.warn('ERROR!', err)
       })
       SOCK.on('ping', function () {
         console.warn('ping!')
