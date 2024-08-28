@@ -62,7 +62,7 @@ export const useGroupStore = defineStore('groupStore', {
       // }
 
       const config = useRuntimeConfig()
-      SOCK = io(config.public.URL + config.public.BASE, {transports: ['webSocket']})
+      SOCK = io(config.public.URL + config.public.BASE, {transports: ['websocket']})
 
       // connection status
       SOCK.on('connect', function () { 
