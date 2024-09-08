@@ -1,46 +1,43 @@
 <template>
   <div class="group-chapter-3" v-if="!group.loading">
-    <!-- TITLES -->
     <chapterlogo class="chapterlogo"></chapterlogo>
-    <h1>Motivaties</h1>
-    <!-- <div class="subtitlequestion">
-      Deelnemers aan online platforms hebben verschillende intenties. Kun jij
-      per reactie aangeven wat je denkt dat de bedoeling is van de schrijver?
-    </div> -->
-
+    <h1>Verbeter de discussie</h1>
     <div class="chapter-toelichting">
-      Welk label vind je het beste van toepassing bij de volgende reacties?
+      Welke reacties hebben een hoge score en welke reacties een lage score? Horen er ook boze en grappige reacties
+      thuis in een goeie discussie? Zo ja, waarom wel of waarom niet?
     </div>
-
-    <!-- VIDEO -->
-    <videoPlayer file="/videos/3.mp4" :class="{ started }" @next="group.startChapter('chapter3')"
-      @restart="group.unStartChapter('chapter3')"></videoPlayer>
-
-    <!-- PROGRESS -->
+    <!-- <div class="subtitlequestion">
+      Gesorteerd op meest geselecteerd:
+    </div> -->
     <ChapterProgress chapter="chapter3" v-if="!group.showResults.includes('chapter3')"></ChapterProgress>
-
-    <!-- VERGELIJK DE RESULTATEN -->
+    <videoPlayer file="/videos/3—4.mp4" :class="{ started }" @next="group.startChapter('chapter3')"
+      @restart="group.unStartChapter('chapter3')"></videoPlayer>
     <button @click="group.setShowResults('chapter3')" v-if="!group.showResults.includes('chapter3')">
       vergelijk resultaten
     </button>
-
-    <!-- RESULTATEN -->
     <div class="results" v-if="group.showResults.includes('chapter3')">
-      <div class="q" v-for="(q, k) in questions['chapter3']">
-        <div class="commentbox">
-          {{ q.text }}
-        </div>
-        <div class="answers">
-          <div v-for="(users, label) in labelCountPerComment[k]" v-show="users.length > 0" class="label">
-            {{ label }} <sup>{{ users.length }}</sup>
+      <div class="comments">
+        <div class="q" v-for="(q, k) in list">
+          <div class="commentbox">
+            <span>reactie #{{ q.key + 1 }}</span>{{ q.text }}
           </div>
+          <basicBar :count="q.votes" :total="total">
+            <b>{{ q.votes }}x</b> geselecteerd
+          </basicBar>
+          <!-- <label>Labels uit vorig hoofdstuk:</label>
+          <div class="answers labels">
+            <div v-for="(users, label) in labelCountPerComment[k]" v-show="users.length > 0" class="label">
+              {{ label }} <sup>{{ users.length }}</sup>
+            </div>
+          </div> -->
+          <!-- <div class="result">{{ q.votes }}x geselecteerd</div> -->
         </div>
       </div>
-    </div>
-    <div class="next" v-if="group.showResults.includes('chapter3')">
-      <button @click="group.next()">
-        volgend hoofdstuk <icon icon="next"></icon>
-      </button>
+      <div class="next">
+        <button @click="group.next()">
+          volgend hoofdstuk <icon icon="next"></icon>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -50,6 +47,31 @@ import questions from "@/content/questions.yml";
 const group = useGroupStore();
 const results = ref(false);
 const started = computed(() => group.started.includes("chapter3"));
+
+const total = computed(() => {
+  return group.users.length > 0
+    ? group.users.filter(
+      (x) => x.answers["chapter3"] && !isNaN(x.answers["chapter3"][0])
+    ).length
+    : 0;
+});
+
+const list = computed(() => {
+  const qs = questions.chapter3.map((x, k) => {
+    return {
+      text: x.text,
+      key: k,
+      votes: group.users.filter((x) =>
+        x.answers["chapter3"] ? x.answers["chapter3"][0] === k : false
+      ).length,
+      users: group.users.filter((x) =>
+        x.answers["chapter3"] ? x.answers["chapter3"][0] === k : false
+      ),
+    };
+  });
+  // qs.sort((a,b) => a.votes - b.votes).reverse()
+  return qs;
+});
 
 const labelCountPerComment = computed(() => {
   return questions["chapter3"].map((x, k) => {
@@ -74,68 +96,47 @@ const labelCountPerComment = computed(() => {
 });
 </script>
 <style lang="less" scoped>
-.group-chapter-3 {}
+.group-chapter-3 {
+  padding: 0 0 2em;
+}
 
 .results {
-  // width: 20rem;
   margin: 0 auto;
+  width: 100%;
+  padding: 0;
+}
+
+.comments {
+  max-width: 100%;
+  margin: 2rem auto;
+  text-align: left;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 2rem;
-  padding: 2rem;
+  gap: 4rem;
+  padding: 4rem;
 
-  @media (max-width: 80rem) {
-    grid-template-columns: 1fr 1fr;
+  .q.commentsplit {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .result {
+    text-align: right;
   }
 }
 
-.q {
-  // display: flex;
-  margin: 0 auto 1em;
-  width: 100%;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  text-align: left;
-
-  .name {
-    flex: 1;
-    text-align: left;
-  }
+label {
+  padding: 0;
 }
 
-.answers {
+.labels {
   .label {
+    font-size: 0.8rem;
     background: var(--bluebg);
     color: var(--bluefg);
     display: inline-block;
-    padding: 0 0.5em 0.25em 0.5em;
+    padding: 0 1em;
     border-radius: 0.25em;
-    margin: 0 0.5em 0.5em 0;
   }
-}
-
-sup {
-  vertical-align: super;
-  font-size: 0.7rem;
-}
-
-.circle {
-  padding: 0;
-  line-height: 1.5rem;
-  border-radius: 100%;
-  width: 1.5rem;
-  height: 1.5rem;
-  background: var(--gbg);
-  color: var(--gfg);
-
-  .geentrol & {
-    background: var(--rbg);
-    color: var(--rfg);
-  }
-}
-
-.trol,
-.geentrol {
-  padding: 0 0 0 0.5em;
 }
 </style>

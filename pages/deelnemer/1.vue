@@ -24,21 +24,21 @@
           :class="user.getAnswer({ chapter: 'chapter1', k }) === true ? 'toestaan' : 'verwijderen'"
           v-if="user.showResults.includes('chapter1')">Jouw keuze was:
           <b>{{
-            user.getAnswer({ chapter: "chapter1", k }) === true
-            ? "toestaan"
-            : "verwijderen"
-          }}</b></label>
+    user.getAnswer({ chapter: "chapter1", k }) === true
+      ? "toestaan"
+      : "verwijderen"
+  }}</b></label>
         <div class="buttons" v-if="!user.showResults.includes('chapter1')">
           <button @click="user.setAnswer({ chapter: 'chapter1', k, answer: true })" :class="{
-            active: getAnswer({ chapter: 'chapter1', k }) === true,
-            disabled: user.showResults.includes('chapter1'),
-          }">
+    active: getAnswer({ chapter: 'chapter1', k }) === true,
+    disabled: user.showResults.includes('chapter1'),
+  }">
             Toestaan
           </button>
           <button @click="user.setAnswer({ chapter: 'chapter1', k, answer: false })" :class="{
-            active: getAnswer({ chapter: 'chapter1', k }) === false,
-            disabled: user.showResults.includes('chapter1'),
-          }">
+    active: getAnswer({ chapter: 'chapter1', k }) === false,
+    disabled: user.showResults.includes('chapter1'),
+  }">
             Verwijderen
           </button>
         </div>

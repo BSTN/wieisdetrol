@@ -28,13 +28,6 @@ chapter2:
       - "Zie hier de tragedie van de nieuwe tijd: De werkelijkheid, onderzocht en op papier gezet door wetenschappers, gebaseerd op honderden jaren natuurwetenschappelijke kennis, wordt door een niemand zonder papieren op een forum zonder enige onderbouwing verworpen. De menselijke invloed op klimaatverandering is dusdanig bewezen, dat er maar een kans van 1/3.500.000 bestaat dat de huidige opwarming niet door de mens komt."
       - "De enige manier waarop we, in ons huidige systeem, ooit minder zullen gaan uitstoten, is als men dáár goed geld mee verdienen kan. Zonder verdienmodel is het alleen politiek gezwets. Onze maatschappij draait om geld, als milieu geld kóst blijven we het op de tweede plaats zetten."
       - "Er moeten regels komen die een maximaal aantal vliegkometers per persoon stellen per jaar. Ook een maximale vleesafname per persoon per jaar. Vrijwillig gaat niemand zijn levensstandaard verlagen"
-chapter3-labels:
-  - Nieuwsgierig
-  - Persoonlijk
-  - Grappig 
-  - Oplossingsgericht
-  - Boos
-  - Misleidend
 chapter3:
   - text: Het zou interessant zijn om een artikel te lezen over wat hier nu concreet de gevolgen van zijn? Los van dat we natuurlijk extremer weer zien. Wat heeft dit voor een impact op de bewoners van Nederland? Wanneer gaan we hier écht 'rampzalige' gevolgen van voelen?
     label: nieuwsgierig
@@ -51,8 +44,6 @@ chapter3:
   - text: Gelukkig voor al die klimaatgekkies leven wij niet in de oertijd want toen was het nog een stukje warmer op veel plaatsen, en dat zonder inmenging van de mens hoe vreemd.
     label: misleidend
 chapter4:
-  Welke van de vorige berichten zou jij uitlichten? Je mag er 1 kiezen.
-chapter5:
   - text: Ik wil best met de trein op vakantie ipv het vliegtuig, maar laat de overheid en de Europese Unie er dan ook voor zorgen dat, dat aantrekkelijk is voor mensen. Het 4/5x zo duur en duurt 4/5x zo lang, waarom zou ik dan in godsnaam met de trein gaan.
     botresult: 0.86
   - text: Consumentengedrag aanpassen is zeker niet de enige weg. Veel belangrijker is dat de groei van de wereldbevolking gaat afnemen. Meer mensen betekent meer auto's, vliegtuigen, huizen, wegen fabrieken, enz. Rajiv uit India wil graag ook een auto en een koelkast. Wie zijn wij om hem dit de verbieden?

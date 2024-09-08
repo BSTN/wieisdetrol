@@ -6,24 +6,13 @@
       Welke accounts vertonen volgens jou trolgedrag?
     </div> -->
     <div class="chapter-toelichting">
-      Hoe bepaal jij wat een trolaccount is? Speelt de naam van het account een
-      rol? Zijn er bepaalde woorden in de reacties die meespelen in jouw keuze?
-      In hoeverre speelt de argumentatie een rol?
+      Hoe bepaal jij wat een trol is? Speelt de naam van het profiel een rol? Zijn er bepaalde woorden in de reacties
+      die meespelen in jouw keuze? Welke rol spelen de gebruikte argumenten?
     </div>
-    <videoPlayer
-      file="/videos/2.mp4"
-      :class="{ started }"
-      @next="group.startChapter('chapter2')"
-      @restart="group.unStartChapter('chapter2')"
-    ></videoPlayer>
-    <ChapterProgress
-      chapter="chapter2"
-      v-if="!group.showResults.includes('chapter2')"
-    ></ChapterProgress>
-    <button
-      @click="group.setShowResults('chapter2')"
-      v-if="!group.showResults.includes('chapter2')"
-    >
+    <videoPlayer file="/videos/2—3.mp4" :class="{ started }" @next="group.startChapter('chapter2')"
+      @restart="group.unStartChapter('chapter2')"></videoPlayer>
+    <ChapterProgress chapter="chapter2" v-if="!group.showResults.includes('chapter2')"></ChapterProgress>
+    <button @click="group.setShowResults('chapter2')" v-if="!group.showResults.includes('chapter2')">
       vergelijk resultaten
     </button>
     <div class="results" v-if="group.showResults.includes('chapter2')">
@@ -35,11 +24,8 @@
           <div class="name">{{ item.name }}</div>
         </div>
         <div class="bars">
-          <BasicBar
-            :count="item.trol.length"
-            :total="item.trol.length + item.geentrol.length"
-            >{{ item.trol.length }}x trol</BasicBar
-          >
+          <BasicBar :count="item.trol.length" :total="item.trol.length + item.geentrol.length">{{ item.trol.length }}x
+            trol</BasicBar>
           <!-- <div class="trol">
             😈 <span>{{ item.trol.length }}</span>
           </div>
@@ -107,10 +93,12 @@ const list = computed(() => {
   padding: 2rem;
   display: flex;
   gap: 2rem;
-  > div {
+
+  >div {
     flex: 1;
   }
 }
+
 .q .user {
   margin: 0 auto 1em;
   width: 100%;
@@ -118,6 +106,7 @@ const list = computed(() => {
   padding: 3em 1em;
   border-radius: 0.25em;
   align-items: center;
+
   .icon {
     background: var(--bg1);
     border-radius: 100%;
@@ -126,6 +115,7 @@ const list = computed(() => {
     text-align: center;
     display: inline-block;
     margin-bottom: 1rem;
+
     :deep(.icon) {
       width: 3rem;
       height: 3rem;
@@ -133,16 +123,19 @@ const list = computed(() => {
       margin-top: 1.3rem;
     }
   }
+
   .name {
     flex: 1;
     text-align: center;
     padding-left: 0.75em;
     font-weight: 500;
   }
+
   .trol,
   .geentrol {
     width: 4em;
     font-weight: 500;
+
     span {
       margin-left: 0.5em;
     }

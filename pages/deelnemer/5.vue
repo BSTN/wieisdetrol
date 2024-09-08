@@ -1,170 +1,43 @@
 <template>
-  <div class="user-chapter-5">
-    <userPause
-      v-if="!started || (done && !user.showResults.includes('chapter5'))"
-    ></userPause>
-    <div
-      class="questions"
-      v-if="started && (!done || user.showResults.includes('chapter5'))"
-    >
-      <div class="question">
-        In hoeverre vind je de volgende reacties een constructieve bijdrage
-        leveren?
-      </div>
-      <div
-        class="q"
-        v-for="(q, k) in questions.chapter5"
-        :class="{
-          active:
-            k === 0 || !isNaN(getAnswer({ chapter: 'chapter5', k: k - 1 })),
-        }"
-      >
-        <div class="commentbox">{{ q.text }}</div>
-        <botSlider
-          :number="k"
-          chapter="chapter5"
-          @change="update"
-          v-if="!done"
-        ></botSlider>
-        <div class="result" v-if="user.showResults.includes('chapter5')">
-          <label>Jouw antwoord:</label>
-          <div class="labels">
-            <label><icon icon="prev"></icon> niet-constructief</label>
-            <label>constructief <icon icon="next"></icon></label>
-          </div>
-          <div class="slid user">
-            <div class="mark"></div>
-            <div class="mark"></div>
-            <div class="mark"></div>
-            <div class="mark"></div>
-            <div
-              class="bar"
-              :style="{
-                width:
-                  Math.round(
-                    user.answers['chapter5'][k]
-                      ? user.answers['chapter5'][k] * 100
-                      : 0
-                  ) + '%',
-              }"
-            ></div>
-          </div>
-          <label>De bot:</label>
-          <div class="labels">
-            <label><icon icon="prev"></icon> niet-constructief</label>
-            <label>constructief <icon icon="next"></icon></label>
-          </div>
-          <div class="slid bot">
-            <div class="mark"></div>
-            <div class="mark"></div>
-            <div class="mark"></div>
-            <div class="mark"></div>
-            <div
-              class="bar"
-              :style="{ width: Math.round(q.botresult * 100) + '%' }"
-            ></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="done" v-if="!done">
-      <button class="contrast" @click="user.setDone('chapter5')">
-        Klik hier als je klaar bent!
-      </button>
+  <div class="deelnemer-5">
+    <div class="text">
+      <h3>Bedankt voor het meedoen met <i>Wie is de trol?</i>!</h3>
+      <p>
+        Je hebt nu zelf kunnen ervaren hoe ingewikkeld het werk van een moderator is. In werkelijkheid is het nog een
+        tandje moeilijker: bij de nieuwswebsite nu.nl komen dagelijks zo'n 33 duizend reacties binnen, die verwerkt
+        worden door momenteel 3 moderatoren. Je kunt je dus wel voorstellen dat ze a.i. hard nodig hebben.
+      </p>
+      <p>
+        Wil je meer lezen?
+      </p>
+      <p>
+        <a href="https://www.wie-is-de-trol.nl/lees-meer">https://wie-is-de-trol.nl/lees-meer</a>
+      </p>
     </div>
   </div>
 </template>
-<script lang="ts" setup>
-import { storeToRefs } from "pinia";
-import questions from "@/content/questions.yml";
-const user = useUserStore();
-const value = 0;
-const { getAnswer } = storeToRefs(user);
-
-function update({ data, k }: { data: any; k: number }) {
-  user.setAnswer({ chapter: "chapter5", k, answer: data });
-}
-const started = computed(() =>
-  user.started ? user.started.includes("chapter5") : false
-);
-const done = computed(() =>
-  user.done ? user.done.includes("chapter5") : false
-);
-</script>
+<script lang="ts" setup></script>
 <style lang="less" scoped>
-.user-chapter-5 {
-  background: var(--testbg);
-}
-
-.labels {
-  display: flex;
-  > label {
-    flex: 1;
-    opacity: 0.75;
-    font-size: 0.6rem;
-    padding: 0;
-    &:nth-child(2) {
-      text-align: right;
-    }
-    .icon {
-      display: inline-block;
-      transform: translateY(0.125em);
-    }
-  }
-}
-.questions {
-  width: 40rem;
-  max-width: 100%;
+.deelnemer-5 {
+  padding: 4em 1em;
+  max-width: 24rem;
   margin: 0 auto;
-  padding: 1rem;
-  text-align: left;
-  .q {
-    margin-bottom: 5rem;
-    opacity: 0.25;
-    pointer-events: none;
-    &.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-  }
 }
 
-.slid {
-  flex: 1;
-  width: 100%;
-  height: 0.5em;
-  position: relative;
-  background: var(--bg);
-  border-radius: 0.25em;
-  overflow: hidden;
-  margin-bottom: 1rem;
-  .mark {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    border-left: 1px solid var(--bg2);
-    opacity: 0.75;
-    z-index: 9;
-    &:nth-child(1) {
-      left: 20%;
-    }
-    &:nth-child(2) {
-      left: 40%;
-    }
-    &:nth-child(3) {
-      left: 60%;
-    }
-    &:nth-child(4) {
-      left: 80%;
-    }
-  }
-  .bar {
-    position: absolute;
-    left: 0;
-    background: var(--bluebg);
-    height: 100%;
-    border-right: 2px solid var(--bg);
+h3 {
+  font-size: 1.5em;
+  width: 10em;
+  margin: 0 auto 2em;
+  line-height: 1.2em;
+  font-weight: 500;
+}
+
+p {
+  margin-bottom: 1em;
+  text-align: left;
+
+  a {
+    font-weight: 500;
   }
 }
 </style>

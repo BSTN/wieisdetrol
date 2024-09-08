@@ -5,14 +5,14 @@
     <h1>Goed en Kwaad</h1>
 
     <div class="chapter-toelichting">
-      Moderatoren zijn getraind om toxische berichten te verwijderen. Het gaat
-      dan bijvoorbeeld om berichten waarin mensen beledigd of gediscrimineerd
-      worden. Wat verstaan jullie onder toxiciteit? Zijn er misschien bepaalde
-      woorden in de berichten die bepalen of je een bericht toelaatbaar vindt?
+      Moderatoren zijn getraind om vervelende berichten te verwijderen. We noemen dat soort ondermijnende berichten ook
+      wel “toxisch”. Het gaat dan bijvoorbeeld om berichten waarin mensen beledigd of gediscrimineerd worden. Welke
+      berichten vind jij toxisch? Zijn er misschien bepaalde woorden in de berichten die bepalen of je een bericht
+      toelaatbaar vindt?
     </div>
 
     <!-- VIDEO -->
-    <videoPlayer file="/videos/1.mp4" :class="{ started }" @next="group.startChapter('chapter1')"
+    <videoPlayer file="/videos/2—2.mp4" :class="{ started }" @next="group.startChapter('chapter1')"
       @restart="group.unStartChapter('chapter1')"></videoPlayer>
 
     <!-- PROGRESS -->
