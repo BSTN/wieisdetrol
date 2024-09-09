@@ -2,7 +2,10 @@
   <div class="group-chapter-3" v-if="!group.loading">
     <chapterlogo class="chapterlogo"></chapterlogo>
     <h1>Verbeter de discussie</h1>
-    <div class="chapter-toelichting">
+    <div class="chapter-toelichting" v-if="!group.showResults.includes('chapter3')">
+      Welke van de volgende reacties is volgens jou het meest constructief?
+    </div>
+    <div class="chapter-toelichting" v-if="group.showResults.includes('chapter3')">
       Welke reacties hebben een hoge score en welke reacties een lage score? Horen er ook boze en grappige reacties
       thuis in een goeie discussie? Zo ja, waarom wel of waarom niet?
     </div>
@@ -10,7 +13,7 @@
       Gesorteerd op meest geselecteerd:
     </div> -->
     <ChapterProgress chapter="chapter3" v-if="!group.showResults.includes('chapter3')"></ChapterProgress>
-    <videoPlayer file="/videos/3—4.mp4" :class="{ started }" @next="group.startChapter('chapter3')"
+    <videoPlayer file="/videos/2—4.mp4" :class="{ started }" @next="group.startChapter('chapter3')"
       @restart="group.unStartChapter('chapter3')"></videoPlayer>
     <button @click="group.setShowResults('chapter3')" v-if="!group.showResults.includes('chapter3')">
       vergelijk resultaten

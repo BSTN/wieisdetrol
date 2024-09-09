@@ -3,8 +3,7 @@
     <userPause v-if="!started || (done && !user.showResults.includes('chapter3'))"></userPause>
     <div class="questions" v-if="started && (!done || user.showResults.includes('chapter3'))">
       <div class="question">
-        Welke reacties hebben een hoge score en welke reacties een lage score? Horen er ook boze en grappige reacties
-        thuis in een goeie discussie? Zo ja, waarom wel of waarom niet?
+        Welke van de volgende reacties is volgens jou het meest constructief?
       </div>
       <div v-for="(q, k) in questions.chapter3" class="commentscontainer"
         :class="{ active: getAnswer({ chapter: 'chapter3', k: 0 }) === k }">

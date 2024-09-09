@@ -29,7 +29,7 @@
           </div>
           <div class="pincontainer klas" :class="{ pin: q.pinned / q.total >= 0.5 }">
             <icon icon="pin" v-if="(q.pinned / q.total) >= 0.5"></icon>
-            <b>{{ Math.round((q.pinned / q.total) * 1000) / 10 }}%</b> van de klas zal dit bericht vastpinnen
+            <b>{{ Math.round((q.pinned / q.total) * 1000) / 10 }}%</b> van de deelnemers zal dit bericht vastpinnen
           </div>
           <label>Klik op het bericht om in te zoomen.</label>
         </div>

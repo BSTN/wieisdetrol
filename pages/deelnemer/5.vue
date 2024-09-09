@@ -3,9 +3,11 @@
     <div class="text">
       <h3>Bedankt voor het meedoen met <i>Wie is de trol?</i>!</h3>
       <p>
-        Je hebt nu zelf kunnen ervaren hoe ingewikkeld het werk van een moderator is. In werkelijkheid is het nog een
-        tandje moeilijker: bij de nieuwswebsite nu.nl komen dagelijks zo'n 33 duizend reacties binnen, die verwerkt
-        worden door momenteel 3 moderatoren. Je kunt je dus wel voorstellen dat ze a.i. hard nodig hebben.
+        Je hebt nu zelf kunnen ervaren hoe complex het werk van een moderator
+        is. In werkelijkheid is het nog een tandje moeilijker: bij nu.nl komen
+        dagelijks zo'n 33 duizend reacties binnen, die verwerkt worden door
+        momenteel 3 moderatoren. Je kunt je dus wel voorstellen dat ze AI hard
+        nodig hebben.
       </p>
       <p>
         Wil je meer lezen?

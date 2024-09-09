@@ -1,6 +1,9 @@
 <template>
   <div class="percentage">
-    <div class="circle" :style="{ transform: `scale(${size})` }">{{ percentage }}%</div>
+    <div class="circle"
+      :style="{ transform: `scale(${size})`, background: `color-mix(in srgb, var(--rbg) ${percentage}%, var(--gbg))` }">
+      {{
+        percentage }}%</div>
     <div class='text'>
       <slot></slot>
     </div>

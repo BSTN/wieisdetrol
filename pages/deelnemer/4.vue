@@ -11,7 +11,6 @@
         k === 0 || !isNaN(getAnswer({ chapter: 'chapter4', k: k - 1 })),
     }">
         <div class="commentbox">{{ q.text }}</div>
-        {{ !!done }}
         <botSlider :number="k" chapter="chapter4" @change="update" v-if="!done"></botSlider>
         <div class="result" v-if="user.showResults.includes('chapter4')">
           <label>Jouw antwoord:</label>
