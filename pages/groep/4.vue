@@ -27,9 +27,9 @@
             <icon icon="pin" v-if="q.botresult >= 0.8"></icon>
             <div>Score van de bot: <b>{{ q.botresult }}</b></div>
           </div>
-          <div class="pincontainer klas" :class="{ pin: q.pinned / q.total >= 0.5 }">
-            <icon icon="pin" v-if="(q.pinned / q.total) >= 0.5"></icon>
-            <b>{{ Math.round((q.pinned / q.total) * 1000) / 10 }}%</b> van de deelnemers zal dit bericht vastpinnen
+          <div class="pincontainer klas" :class="{ pin: isPinned(q) }">
+            <icon icon="pin" v-if="isPinned(q)"></icon>
+            <b>{{ percentageVastpinnen(q) }}</b> van de deelnemers zal dit bericht vastpinnen
           </div>
           <label>Klik op het bericht om in te zoomen.</label>
         </div>
@@ -73,10 +73,8 @@ import questions from "@/content/questions.yml";
 const group = useGroupStore();
 const results = ref(false);
 const started = computed(() => group.started.includes("chapter4"));
-const total = ref([])
 const list = computed(() => {
   return questions.chapter4.map((x, k) => {
-    total.value[k] = 0
     x.users = [];
     x.total = 0
     x.pinned = 0
@@ -85,9 +83,9 @@ const list = computed(() => {
       const answers = user.answers.chapter4 || false;
       if (answers && !isNaN(answers[k])) {
         x.users.push(user);
-        if (!isNaN(answers[k])) {
+        if (!isNaN(parseFloat(answers[k]))) {
           x.total++
-          if (answers[k] >= 0.8) {
+          if (parseFloat(answers[k]) >= 0.8) {
             x.pinned++
           }
         }
@@ -109,6 +107,18 @@ const activeContent = computed(() => {
 function open(k) {
   active.value = k
 }
+
+function percentageVastpinnen(q) {
+  if (q.pinned === 0) return 'Geen'
+  if (q.total === 0) return 'Geen'
+  return Math.round((q.pinned / q.total) * 1000) / 10 + '%'
+}
+
+function isPinned(q) {
+  if (q.pinned === 0 || q.total === 0) return false
+  return q.pinned / q.total >= 0.5
+}
+
 onKeyStroke('Escape', () => {
   active.value = false
 })
