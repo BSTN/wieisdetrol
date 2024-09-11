@@ -112,7 +112,9 @@ export const useGroupStore = defineStore('groupStore', {
       SOCK.on('groupUserData', (data) => {
         const self = this
         data = data.filter(x => x.groupid === self.groupid)
-        this.users = data
+        if (data.length > 0) {
+          this.users = data
+        }
       })
       SOCK.on('loadGroupData', (data) => {
         this.position = data.position
