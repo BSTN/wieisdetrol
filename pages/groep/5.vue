@@ -18,6 +18,9 @@
 </template>
 <script lang="ts" setup>
 const group = useGroupStore();
+onMounted(() => {
+  group.storeVersion()
+})
 </script>
 <style lang="less" scoped>
 .group-chapter-9 {

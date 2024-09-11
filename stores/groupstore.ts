@@ -110,6 +110,8 @@ export const useGroupStore = defineStore('groupStore', {
         this.users.push({userid, groupid, name, answers: {}, done: []})
       })
       SOCK.on('groupUserData', (data) => {
+        const self = this
+        data = data.filter(x => x.groupid === self.groupid)
         this.users = data
       })
       SOCK.on('loadGroupData', (data) => {
