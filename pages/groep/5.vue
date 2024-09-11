@@ -9,7 +9,8 @@
       selecteren op bepaalde woorden die voorkomen in de reactie.
       <div class="subtoelichting" v-if="group.showResults.includes('chapter5')"
         style="font-size: 1rem; font-weight: 600; line-height: 1.4em; margin-top: 2rem">
-        Als de aangegeven constructiviteitsscore hoger is dan 0.8, dan is het advies aan de moderatoren om de reactie vast
+        Als de aangegeven constructiviteitsscore hoger is dan 0.8, dan is het advies aan de moderatoren om de reactie
+        vast
         te pinnen.
       </div>
     </div>
@@ -27,9 +28,9 @@
             <icon icon="pin" v-if="q.botresult >= 0.8"></icon>
             <div>Score van de bot: <b>{{ q.botresult }}</b></div>
           </div>
-          <div class="pincontainer klas" :class="{ pin: q.pinned / q.total >= 0.5 }">
-            <icon icon="pin" v-if="(q.pinned / q.total) >= 0.5"></icon>
-            <b>{{ Math.round((q.pinned / q.total) * 1000) / 10 }}%</b> van de klas zal dit bericht vastpinnen
+          <div class="pincontainer klas" :class="{ pin: isPinned(q) }">
+            <icon icon="pin" v-if="isPinned(q)"></icon>
+            <b>{{ percentageVastpinnen(q) }}</b> van de klas zal dit bericht vastpinnen
           </div>
           <label>Klik op het bericht om in te zoomen.</label>
         </div>
@@ -73,10 +74,8 @@ import questions from "@/content/questions.yml";
 const group = useGroupStore();
 const results = ref(false);
 const started = computed(() => group.started.includes("chapter5"));
-const total = ref([])
 const list = computed(() => {
   return questions.chapter5.map((x, k) => {
-    total.value[k] = 0
     x.users = [];
     x.total = 0
     x.pinned = 0
@@ -108,6 +107,17 @@ const activeContent = computed(() => {
 })
 function open(k) {
   active.value = k
+}
+
+function percentageVastpinnen(q) {
+  if (q.pinned === 0) return 'Geen'
+  if (q.total === 0) return 'Geen'
+  return Math.round((q.pinned / q.total) * 1000) / 10 + '%'
+}
+
+function isPinned(q) {
+  if (q.pinned === 0 || q.total === 0) return false
+  return q.pinned / q.total >= 0.5
 }
 onKeyStroke('Escape', () => {
   active.value = false
