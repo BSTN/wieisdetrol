@@ -177,6 +177,7 @@ export const useGroupStore = defineStore('groupStore', {
     storeVersion() {
       const config = useRuntimeConfig();
       console.log('storeVersion', { groupid: this.groupid, version: config.public.VERSION })
+      this.version = config.public.VERSION 
       SOCK.emit('storeVersion', { groupid: this.groupid, version: config.public.VERSION })
     },
     startChapter (name: string) {
