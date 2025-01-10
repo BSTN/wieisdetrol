@@ -1,1 +1,1 @@
-# Wie is de trol — game frontend
+# Wie is de trol — game frontend k8s
