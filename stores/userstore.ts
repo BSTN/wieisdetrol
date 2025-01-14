@@ -92,7 +92,9 @@ export const useUserStore = defineStore("userStore", {
       // init socket
       const config = useRuntimeConfig();
       console.log(config.public.URL, config.public.BASE)
-      SOCK = io(config.public.URL + config.public.BASE);
+      SOCK = io(config.public.URL + config.public.BASE, {
+        transports: ['websocket']
+      });
 
       // connection status
       SOCK.on("connect", async function () {
