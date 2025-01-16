@@ -4,8 +4,8 @@ import ViteYaml from '@modyfi/vite-plugin-yaml';
 import ViteMarkdown from 'vite-plugin-markdown';
 import svgLoader from 'vite-svg-loader'
 
-console.log(process.env.BASE)
-console.log(process.env.URL)
+console.log('BASE:',process.env.BASE)
+console.log('URL:', process.env.URL)
 
 export default defineNuxtConfig({
   css: [
