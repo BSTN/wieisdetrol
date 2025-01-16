@@ -21,8 +21,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      URL: process.env.URL,
-      BASE: process.env.BASE,
+      URL: `${process.env.URL}`,
+      BASE: `${process.env.BASE}`,
       VERSION: process.env.VERCEL_GIT_COMMIT_REF + '—' + process.env.VERCEL_GIT_COMMIT_SHA
     }
   },
