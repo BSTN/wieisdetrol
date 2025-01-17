@@ -3,6 +3,9 @@
 import ViteYaml from '@modyfi/vite-plugin-yaml';
 import ViteMarkdown from 'vite-plugin-markdown';
 import svgLoader from 'vite-svg-loader'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 // ssr: true
 console.log('BASE:',process.env.BASE)
