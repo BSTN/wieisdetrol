@@ -6,13 +6,7 @@ import type { ServerToClientEvents, ClientToServerEvents } from "types/types";
 
 import order from '~/content/order.yml'
 
-let SOCK: Socket<ServerToClientEvents, ClientToServerEvents> = io('/', { autoConnect: false })
-
-const config = useRuntimeConfig()
-const PUBLIC_URL = config.public.URL
-const BASE = config.public.BASE
-console.log({PUBLIC_URL, BASE})
-
+let SOCK: Socket<ServerToClientEvents, ClientToServerEvents> = io('/' ,{autoConnect: false})
 
 export const useGroupStore = defineStore('groupStore', {
   state: (): GroupState => ({
@@ -67,10 +61,9 @@ export const useGroupStore = defineStore('groupStore', {
       //   this.groupid = uuid();
       // }
 
-      // const config = useRuntimeConfig()
-      // console.log(config.public.URL, config.public.BASE)
-      console.log({PUBLIC_URL, BASE})
-      SOCK = io(PUBLIC_URL + BASE)
+      const config = useRuntimeConfig()
+      console.log(config.public.URL, config.public.BASE)
+      SOCK = io(config.public.URL + config.public.BASE)
 
       // connection status
       SOCK.on('connect', function () { 
