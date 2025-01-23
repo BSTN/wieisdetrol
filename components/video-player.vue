@@ -13,7 +13,7 @@
         </button>
         <video noloop ref="video">
           <source
-            :src="'https://api.wie-is-de-trol.nl' + file"
+            :src="`https://${URL.replace(/^https\:\/\//,'')}${file}'`"
             type="video/mp4"
           />
         </video>
@@ -70,7 +70,7 @@ import Slider from "@vueform/slider";
 // for loading
 const started = ref(true);
 const spinner = ref(false);
-
+const URL = useRuntimeConfig().public.URL
 const group = useGroupStore();
 const { file, initStarted } = defineProps({
   file: { type: String, default: () => "videos/test.mp4" },
