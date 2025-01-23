@@ -10,15 +10,31 @@
   ref: chapter2
   group: 2
   user: 2
-- name: "3. Verbeter de discussie"
+- name: "3. Motivaties"
   ref: chapter3
   group: 3
   user: 3
-- name: "4. Hulp van de bot?"
+- name: "4. Verbeter de discussie"
   ref: chapter4
   group: 4
   user: 4
-- name: "Lees meer"
-  ref: chapter9
+- name: "5. Ben je bot?"
+  ref: chapter5
   group: 5
   user: 5
+- name: "6. De gevaren van AI"
+  ref: chapter6
+  group: 6
+  user: 6
+- name: "7. Beat the bot!"
+  ref: chapter7
+  group: 7
+  user: 7
+- name: "8. Wat denk jij?"
+  ref: chapter8
+  group: 8
+  user: 8
+- name: "Lees meer"
+  ref: chapter9
+  group: 9
+  user: 9
