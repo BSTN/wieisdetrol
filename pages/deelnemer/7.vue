@@ -41,6 +41,7 @@ const options = computed(() => {
   alltxt.sort((a, b) => b.score - a.score);
   return alltxt;
 });
+const URL = useRuntimeConfig().public.URL
 async function send() {
   error.value = "";
   loading.value = true;
@@ -48,7 +49,7 @@ async function send() {
   //   window && window.location.href.match("localhost")
   //     ? "http://localhost/beatthebot"
   //     : "https://api.wie-is-de-trol.nl/beatthebot";
-  const url = "https://api.wie-is-de-trol.nl/beatthebot";
+  const url = `${URL}/beatthebot`
   const data = await $fetch(url, {
     method: "POST",
     body: { text: input.value, userid: user.userid, groupid: user.groupid },
