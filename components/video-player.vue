@@ -13,7 +13,7 @@
         </button>
         <video noloop ref="video">
           <source
-            :src="`${URL}${file}`"
+            :src="`https://${URL.replace(/^https\:\/\//,'')}${file}`"
             type="video/mp4"
           />
         </video>

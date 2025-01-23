@@ -49,7 +49,7 @@ async function send() {
   //   window && window.location.href.match("localhost")
   //     ? "http://localhost/beatthebot"
   //     : "https://api.wie-is-de-trol.nl/beatthebot";
-  const url = `${URL}/beatthebot`
+  const url = `https://${URL.replace(/^https\:\/\//,'')}/beatthebot`
   const data = await $fetch(url, {
     method: "POST",
     body: { text: input.value, userid: user.userid, groupid: user.groupid },
