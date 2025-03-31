@@ -7,11 +7,13 @@
       <group-create></group-create>
       <div class="instructions">
         <p>
-          Doe mee door de camera van je telefoon op het plaatje te richten en
-          klik vervolgens op de link op je scherm.
+          Doe mee met deze QR-code via je telefoon of kopieer de onderstaande link en deel deze via e-mail of een chatapp. 
         </p>
         <p>
-          Tip: Je kan de link ook direct delen via bijvoorbeeld een groepsapp.
+          <b>Let op:</b> Iedereen met de onderstaande link kan deelnemen aan deze groep.
+        </p>
+        <p>
+          <NuxtLink :to="url">{{ url }}</NuxtLink>
         </p>
       </div>
     </div>
@@ -26,6 +28,12 @@ import logo from "@/assets/logo/logo-diamond.svg?component";
 const group = useGroupStore();
 const config = useRuntimeConfig();
 const started = ref(false);
+const url = computed(() => {
+  const str = window.location.href;
+  return (str.endsWith("/") ? str.slice(0, -1) : str) +
+    "/deelnemer/start?id=" +
+    group.groupid;
+});
 </script>
 <style lang="less" scoped>
 .group-start {
